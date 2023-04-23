@@ -1,0 +1,28 @@
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.form label{
+  font-weight: bold;
+}
+.form input{
+  padding: .2rem .5rem;
+  height: 30px;
+  font-size: 1rem;
+}
+.form button{
+  background: lightskyblue;
+  padding: .5rem;
+  border: none;
+  border-radius: 25px;
+}
+
+.data div{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.data input[type='radio']{
+  margin: 0;
+}
