@@ -1,23 +1,26 @@
-import { TranscodeEncoding } from 'buffer';
-import { ObjectType } from 'typescript';
-
-
 interface trein {
-  exigido: string,
-  recomendado: string
+  exigido: string;
+  recomendado: string;
 }
 
-interface numero{
+interface numero {
   numero: string;
-  treinameto: trein
+  treinamento: trein;
 }
 
 interface brig {
-  "A-1": string;
-  "A-2": numero
+  'A-1': string;
+  'A-2': numero;
+  'A-3': {};
 }
 
-const brigada = {
+type numeros = {
+  'A-1': string;
+  'A-2': numero;
+  'A-3': {};
+};
+
+const brigada: numeros = {
   'A-1': 'Isento',
   'A-2': {
     numero:
@@ -30,15 +33,20 @@ const brigada = {
   'A-3': {},
 };
 
-const Brigada= ({ index }: keyof brig | any) => {
+const Brigada = ({ index }: string | any) => {
   const ocup = index;
-  // const valor = brigada[index];
+  const valor = brigada[index as keyof brig];
+  const A2 = brigada['A-2'];
+  const numero = A2.numero;
+  const treinamentoe = A2.treinamento.exigido;
+  const treinamentor = A2.treinamento.recomendado;
+
   return (
     <div>
-      {/* <h1>Brigada de incêndio</h1>
-      <p>{valor.numero}</p>
-      <p>Nível de Treinamento exigido: {valor.treinamento.exigido}</p>
-      <p>Nível de Treinamento recomendado: {valor.treinamento.recomendado}</p> */}
+      <h1>Brigada de incêndio</h1>
+      <p>{numero}</p>
+      <p>Nível de Treinamento exigido: {treinamentoe}</p>
+      <p>Nível de Treinamento recomendado: {treinamentor}</p>
     </div>
   );
 };
