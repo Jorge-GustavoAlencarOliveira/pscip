@@ -1,8 +1,19 @@
-import React from 'react'
-
 const Ocupacoes = () => {
-  const ocup = ['A-1', 'A-2', 'A-3', 'B-1', 'B-2', 'B-3']
+  const ocup = [
+    'Residencial',
+    'Serviço de Hospedagem',
+    'Comercial',
+    'Serviço profissional',
+    'Educacional e cultura física',
+    'Reunião de público',
+    'Serviço automotivo e assemelhados',
+    'Serviço de saúde e institucional',
+    'Industrial',
+    'Depósitos',
+    'Explosivos',
+    'Especial'
+  ];
   return ocup;
-}
+};
 
-export default Ocupacoes
+export default Ocupacoes;

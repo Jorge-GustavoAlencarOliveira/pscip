@@ -1,17 +1,34 @@
 import React from 'react';
 import Head from 'next/head';
 import Ocupacoes from '../../Bases/ocupacao';
+import Divisao from '../../Bases/divisao';
 import styles from './home.module.css';
 import { useRouter } from 'next/router';
+import Descricao from '../../Bases/descricao';
+
+interface finalProps{
+  divisao: string,
+  descricao: string,
+  cargaincendio: number
+}
 
 export default function Home() {
   const router = useRouter();
   const ocupacoes = Ocupacoes();
-  const [select, setSelect] = React.useState<number | any>('');
+  const {divisao} = Divisao();
+  const {descricao} = Descricao();
+  const [select, setSelect] = React.useState<number | any>(0);
+  const [div, setDiv] = React.useState<number | any>(0)
+  const [desc, setDesc] = React.useState<number | any>(0);
+  const [final, setFinal] = React.useState<finalProps>(descricao[select][div][desc])
   const [alt, setAlt] = React.useState('');
   const [area, setArea] = React.useState('');
   const [tipo, setTipo] = React.useState<string>('existente');
-  const ocup = ocupacoes[select]
+  const ocup = final
+  console.log(ocup)
+  React.useEffect(() =>{
+    setFinal(descricao[select][div][desc]) 
+  },[div, select, desc])
 
   return (
     <>
@@ -29,6 +46,24 @@ export default function Home() {
             );
           })}
         </select>
+        <label>Divisão</label>
+        <select onChange={({ target }) => setDiv(target.value)}>
+          {divisao[select]?.map((item, index) => {
+            return (
+              <option key={index} value={index}>
+                {item}
+              </option>
+            );
+          })}
+        </select>
+        <label>Descrição</label>
+        <select onChange={({ target }) => setDesc(target.value)}>
+          {descricao[select][div].map((item, index)=>{
+            return(
+              <option key={index} value={index}>{item.descricao}</option>
+            )
+          })}
+        </select>
         <label>Altura</label>
         <input
           type="text"
@@ -44,7 +79,7 @@ export default function Home() {
           onChange={({ target }) => setArea(target.value)}
         />
         <div className={styles.data}>
-          <h2>Data de construção</h2>
+          <h3>Data de construção</h3>
           <div>
             <input
               type="radio"
@@ -88,7 +123,7 @@ export default function Home() {
         </div>
         <button
           onClick={() =>
-            router.push(`/result?index=${ocup}&alt=${alt}&area=${area}&data=${tipo}`)
+            router.push(`/result?index=${ocup.divisao}&alt=${alt}&area=${area}&data=${tipo}`)
           }
         >
           Próximo
