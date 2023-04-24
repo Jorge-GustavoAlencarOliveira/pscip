@@ -11,7 +11,7 @@ const Cargaincendio = ({ index }: indexProps) => {
     'A-2': 300,
     'A-3': 300,
   };
-  const carga = cargaincendio[ocup];
+  const carga = cargaincendio[ocup as keyof typeof cargaincendio];
 
   return (
     <div>

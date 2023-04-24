@@ -6,7 +6,7 @@ const Extintor = ({ index }: string | any) => {
     'A-2': 300,
     'A-3': 300,
   };
-  const carga = cargaincendio[ocup];
+  const carga = cargaincendio[ocup as keyof typeof cargaincendio];
 
   if (carga) {
     if (carga <= 300) {
