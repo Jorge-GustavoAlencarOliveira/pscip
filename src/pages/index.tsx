@@ -5,31 +5,75 @@ import Divisao from '../../Bases/divisao';
 import styles from './home.module.css';
 import { useRouter } from 'next/router';
 import Descricao from '../../Bases/descricao';
+import { DataStorage } from '../../dataContext';
 
-interface finalProps{
-  divisao: string,
-  descricao: string,
-  cargaincendio: number
+interface finalProps {
+  divisao: string;
+  descricao: string;
+  cargaincendio: number;
 }
 
 export default function Home() {
+ 
+ 
+
+  const { baseData } = React.useContext(DataStorage);
   const router = useRouter();
   const ocupacoes = Ocupacoes();
-  const {divisao} = Divisao();
-  const {descricao} = Descricao();
-  const [select, setSelect] = React.useState<number | any>(0);
-  const [div, setDiv] = React.useState<number | any>(0)
-  const [desc, setDesc] = React.useState<number | any>(0);
-  const [final, setFinal] = React.useState<finalProps>(descricao[select][div][desc])
+  const { divisao } = Divisao();
+  const { descricao } = Descricao();
+  const [select, setSelect] = React.useState<number | any | string>(0);
+  const [div, setDiv] = React.useState<number | any | string>(0);
+  const [desc, setDesc] = React.useState<number | any | string>(0);
+  const [final, setFinal] = React.useState<finalProps>(
+    descricao[select][div][desc],
+  );
   const [alt, setAlt] = React.useState('');
   const [area, setArea] = React.useState('');
   const [tipo, setTipo] = React.useState<string>('existente');
-  const ocup = final
-  console.log(ocup)
-  React.useEffect(() =>{
-    setFinal(descricao[select][div][desc]) 
-  },[div, select, desc])
+  const ocup = final;
 
+ 
+  React.useEffect(() => {
+    const local = localStorage.getItem('data');
+    if(local){
+      const dados = JSON.parse(local);
+      const divi = divisao[select].map((item, index) => index)
+      const desc = descricao[select][div].map((item, index) => index)    
+      setSelect(dados.select)
+      setDiv(divi[dados.div])
+      setDesc(0)
+      setAlt(dados.alt)
+      setArea(dados.area)
+      setTipo(dados.tipo)
+
+      
+    }
+  }, []);
+
+  React.useEffect(() => {
+    setFinal(descricao[select][div][desc]);
+  }, [div, select, desc]);
+
+  function handleNext() {
+    baseData({
+      ocupacao: ocup.divisao,
+      altura: alt,
+      area: area,
+      dataconstrucao: tipo,
+      cargaincendio: ocup.cargaincendio,
+    });
+    const dados = {
+      select,
+      div,
+      desc,
+      alt,
+      area,
+      tipo,
+    };
+    localStorage.setItem('data', JSON.stringify(dados));
+    router.push('/result');
+  }
   return (
     <>
       <Head>
@@ -37,7 +81,7 @@ export default function Home() {
       </Head>
       <div className={styles.form}>
         <label>Ocupação</label>
-        <select onChange={({ target }) => setSelect(target.value)}>
+        <select value={select} onChange={({ target }) => setSelect(target.value)}>
           {ocupacoes?.map((item, index) => {
             return (
               <option key={index} value={index}>
@@ -47,7 +91,7 @@ export default function Home() {
           })}
         </select>
         <label>Divisão</label>
-        <select onChange={({ target }) => setDiv(target.value)}>
+        <select value={div} onChange={({ target }) => setDiv(target.value)}>
           {divisao[select]?.map((item, index) => {
             return (
               <option key={index} value={index}>
@@ -57,11 +101,13 @@ export default function Home() {
           })}
         </select>
         <label>Descrição</label>
-        <select onChange={({ target }) => setDesc(target.value)}>
-          {descricao[select][div].map((item, index)=>{
-            return(
-              <option key={index} value={index}>{item.descricao}</option>
-            )
+        <select value={desc} onChange={({ target }) => setDesc(target.value)}>
+          {descricao[select][div].map((item, index) => {
+            return (
+              <option key={index} value={index}>
+                {item.descricao}
+              </option>
+            );
           })}
         </select>
         <label>Altura</label>
@@ -121,13 +167,7 @@ export default function Home() {
             </label>
           </div>
         </div>
-        <button
-          onClick={() =>
-            router.push(`/result?index=${ocup.divisao}&alt=${alt}&area=${area}&data=${tipo}`)
-          }
-        >
-          Próximo
-        </button>
+        <button onClick={handleNext}>Próximo</button>
       </div>
     </>
   );

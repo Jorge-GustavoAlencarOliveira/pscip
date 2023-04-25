@@ -95,13 +95,13 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'baixo' && valorArea === 'pts' && salao === 'sim') {
+    if (valorAltura === 'baixo' && valorArea === 'pts' && salao === 'sim' && cond === 'nao') {
       const medFinal = [
         'Saídas de Emergência',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
-        'Controle de Materiais de Acabamento e de Revestimento',
+        'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
       setMediaFinal(medFinal);
     }
