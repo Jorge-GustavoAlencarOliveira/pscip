@@ -6,9 +6,9 @@ import { DataStorage } from '../../dataContext'
 
 const Result = () => {
   const router = useRouter()
-  const {data} = React.useContext(DataStorage);
-  if(data){
-    const {ocupacao, altura, area, dataconstrucao, cargaincendio} = data
+  const dados = React.useContext(DataStorage);
+  if(dados){
+    const {ocupacao, altura, area, dataConstrucao, cargaIncendio} = dados
     if (ocupacao === 'A-2'){
       return(
         <div>
@@ -16,12 +16,12 @@ const Result = () => {
             <title>Medidas de Segurança</title>
           </Head>
           <A1 index={ocupacao} area={Number(area)} altura={Number(altura)}/>
-          <button onClick={() => router.push('/')}>Voltar</button>
+          <button onClick={() => router.back()}>Voltar</button>
+          
         </div>
       )
     } 
   }
-   console.log(data) 
   return null
 }
 

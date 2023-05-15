@@ -1,53 +1,190 @@
-interface trein {
-  exigido: string;
-  recomendado: string;
-}
+import React, { Dispatch, SetStateAction } from 'react';
+import styles from '../src/pages/home.module.css';
+const divisao = [
+  'A-1',
+  'A-2',
+  'A-3',
+  'B-1',
+  'B-2',
+  'C-1',
+  'C-2',
+  'C-3',
+  'D-1',
+  'D-2',
+  'D-3',
+  'D-4',
+  'E-1',
+  'E-2',
+  'E-3',
+  'E-4',
+  'E-5',
+  'F-1',
+  'F-2',
+  'F-3',
+  'F-4',
+  'F-5',
+  'F-6',
+  'F-7',
+  'F-8',
+  'F-9',
+  'F-11',
+];
 
-interface numero {
-  numero: string;
-  treinamento: trein;
-}
-
-interface brig {
-  'A-1': string;
-  'A-2': numero;
-  'A-3': {};
-}
-
-type numeros = {
-  'A-1': string;
-  'A-2': numero;
-  'A-3': {};
-};
-
-const brigada: numeros = {
-  'A-1': 'Isento',
-  'A-2': {
-    numero:
-      'Todos os empregados da edificação deverão compor a brigada de incêndio e, caso não haja empregados, recomenda-se que haja treinamento da população para evacuação e utilização dos equipamentos e medidas preventivas da edificação.',
-    treinamento: {
-      exigido: 'Básico',
-      recomendado: 'Básico',
-    },
+const tabelaBrigada = [
+  {
+    ate10: 0,
+    acima10: 0,
+    exigido: 'Isento',
+    recomendado: 'Isento',
   },
-  'A-3': {},
-};
+  {
+    ate10: 0,
+    acima10: 0,
+    exigido: 'Básico',
+    recomendado: 'Básico',
+  },
+  {
+    ate10: 0.5,
+    acima10: 0.1,
+    exigido: 'Básico',
+    recomendado: 'Básico',
+  },
+  {
+    ate10: 0.5,
+    acima10: 0.1,
+    exigido: 'Básico',
+    recomendado: 'intermediário',
+  },
+  {
+    ate10: 0.5,
+    acima10: 0.1,
+    exigido: 'Básico',
+    recomendado: 'Básico',
+  },
+  {
+    ate10: 0.4,
+    acima10: 0.05,
+    exigido: 'Básico',
+    recomendado: 'Básico',
+  },
+  {
+    ate10: 0.4,
+    acima10: 0.05,
+    exigido: 'Básico',
+    recomendado: 'Intermediário',
+  },
+  {
+    ate10: 0.5,
+    acima10: 0.2,
+    exigido: 'Básico',
+    recomendado: 'Intermediário',
+  },
+  {
+    ate10: 0.3,
+    acima10: 0.1,
+    exigido: 'Básico',
+    recomendado: 'Intermediário',
+  },
+  {
+    ate10: 0.4,
+    acima10: 0.1,
+    exigido: 'Básico',
+    recomendado: 'Básico',
+  },
+];
 
-const Brigada = ({ index }: string | any) => {
-  const ocup = index;
-  const valor = brigada[index as keyof brig];
-  const A2 = brigada['A-2'];
-  const numero = A2.numero;
-  const treinamentoe = A2.treinamento.exigido;
-  const treinamentor = A2.treinamento.recomendado;
+interface pavimentoProps {
+  ocupacao: any;
+  numeroPavimento: any;
+  numeroBrigada: number[];
+  numeroPav: number[];
+  setNumeroPav: Dispatch<SetStateAction<number[]>>;
+}
+
+const Pavimento = ({
+  ocupacao,
+  numeroPavimento,
+  numeroBrigada,
+  setNumeroPav,
+  numeroPav,
+}: pavimentoProps) => {
+  let brigada = divisao.indexOf(ocupacao);
+  let referencia = tabelaBrigada[brigada];
+  const [pop, setPop] = React.useState('');
+  const [valorPav, setValorPav] = React.useState(0);
+  const [somatorio, setSomatorio] = React.useState(0);
+  const [nomePavimento, setNomePavimento] = React.useState('')
+  function deletePav() {
+    setNumeroPav(numeroPav.filter((item, index) => index !== numeroPavimento));
+    numeroBrigada[numeroPavimento] = 0;
+  }
+
+  function calcularPop() {
+    const valor = Number(pop);
+    if (valor <= 10) {
+      const brigadaPav = referencia.ate10 * valor;
+      setValorPav(brigadaPav);
+      numeroBrigada[numeroPavimento] = Math.ceil(brigadaPav);
+    } else {
+      const brigadaPav = referencia.ate10 * 10;
+      const acima10 = (valor - 10) * referencia.acima10;
+      setValorPav(brigadaPav + acima10);
+      numeroBrigada[numeroPavimento] = Math.ceil(brigadaPav) + Math.ceil(acima10);
+    }
+  }
+  // setSomatorio(numeroBrigada?.reduce((a, b) => a + b));
 
   return (
-    <div>
-      <h1>Brigada de incêndio</h1>
-      <p>{numero}</p>
-      <p>Nível de Treinamento exigido: {treinamentoe}</p>
-      <p>Nível de Treinamento recomendado: {treinamentor}</p>
+    <div className={styles.proba}>
+      <input type="text"
+      value={nomePavimento}
+      onChange={({target}) => setNomePavimento(target.value)}
+      placeholder='Nome do pavimento'
+      />
+      <span>Pavimento {nomePavimento}</span>
+      <button onClick={deletePav}>Apagar</button>
+      <label>População fixa</label>
+      <input
+        type="text"
+        placeholder="Quantidade de pessoas"
+        value={pop}
+        onChange={({ target }) => setPop(target.value)}
+      />
+      <button onClick={calcularPop}>Calcular</button>
+      {valorPav !== 0 && <span>Brigadistas: {Math.ceil(valorPav)}</span>}
+      {somatorio !== 0 && <span>Total de brigadistas: {somatorio}</span>}
     </div>
   );
 };
+
+const Brigada = ({ ocupacao }: any) => {
+  const [numeroPav, setNumeroPav] = React.useState<Array<number>>([0]);
+  const [numeroBrigada, setNumeroBrigada] = React.useState(
+    new Array(numeroPav.length).fill(0),
+  );
+  function AddPav() {
+    let i = 1;
+    setNumeroPav((item) => [...item, i]);
+  }
+  console.log(numeroBrigada)
+  return (
+    <div>
+      <h1>Brigada de incêndio</h1>
+      <button onClick={AddPav}>Adicionar</button>
+      {numeroPav.map((item, index) => {
+        return (
+          <Pavimento
+            key={index}
+            numeroPavimento={index}
+            ocupacao={ocupacao}
+            numeroBrigada={numeroBrigada}
+            setNumeroPav={setNumeroPav}
+            numeroPav={numeroPav}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 export default Brigada;

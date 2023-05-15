@@ -56,7 +56,7 @@ const Divisao = () => {
     [
       'I-1 Indústria com carga de incêndio até 300MJ/m²',
       'I-2 Indústria com carga de incêndio entre de 301 e 1.200MJ/m²',
-      'I-3 Indústria com carga de incêndio superior a 1.200MJ/m2,',
+      'I-3 Indústria com carga de incêndio superior a 1.200MJ/m2',
     ],
     [
       'J-1 Depósitos de material incombustível',

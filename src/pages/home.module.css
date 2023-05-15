@@ -23,6 +23,36 @@
   align-items: center;
   gap: .5rem;
 }
+
 .data input[type='radio']{
   margin: 0;
+}
+.radio{
+  display: flex;
+  gap: 1rem;
+}
+.radio input[type='radio']{
+  margin: 0;
+}
+.radio div{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.proba{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.proba button{
+  max-width: 120px;
+  float: right;
+}
+.modulo{
+  background: gray;
+  padding: 1rem;
+}
+.modulo input, .modulo select{
+  height: 40px;
 }
