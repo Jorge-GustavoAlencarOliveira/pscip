@@ -34,7 +34,7 @@ const Modulo = ({ numero, modulo, setModulo, modulos }: moduloProps) => {
     <>
       <div className={styles.modulo}>
         <span>Modulo {numero + 1} </span>
-        <button onClick={() => handleDelete(numero)}>Apagar</button>
+        {numero !== 0 && <button onClick={() => handleDelete(numero)}>Apagar</button>}
         <div className={styles.proba}>
           <span>Material:</span>
           <select onChange={({ target }) => setMat(target.value)}>
@@ -62,6 +62,7 @@ const Modulo = ({ numero, modulo, setModulo, modulos }: moduloProps) => {
 };
 
 const Probabilistico = () => {
+  const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(
     new Array(modulo.length).fill(0),
@@ -70,7 +71,8 @@ const Probabilistico = () => {
 
   let i = 1;
   function handleAdicionar() {
-    setModulo((item) => [...item, i++]);
+    setCount(item => item + 1)
+    setModulo((item) => [...item, count]);
   }
 
   function handleCargaFinal() {
@@ -86,7 +88,7 @@ const Probabilistico = () => {
       {modulo.map((item, index) => {
         return (
           <Modulo
-            key={index}
+            key={item}
             numero={Number(index)}
             modulo={modulo}
             setModulo={setModulo}

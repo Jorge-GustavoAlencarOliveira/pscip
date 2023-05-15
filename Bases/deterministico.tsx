@@ -28,11 +28,14 @@ const Modulo = ({
   const [valor, setValor] = React.useState<number>(0);
 
   function handleDelete(numero: number) {
-    modulos[numero] = 0
+    console.log(numero)
     setModulo(modulo.filter((item, index) => index !== numero));
+    setModulos(modulos.filter(item => item !== modulos[numero]))
     media(0);
     final(0);
   }
+  console.log(modulos)
+  console.log(modulo)
   function handleCalcular(numero: number) {
     if (area === '' || massa === '') {
       return;
@@ -80,15 +83,17 @@ const Modulo = ({
 };
 
 const Deterministico = () => {
+  const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(
     new Array(modulo.length).fill(0),
   );
   const [final, setFinal] = React.useState<number>(0);
   const [mediaf, setMediaf] = React.useState<number>(0);
-  let i = 1;
+
   function handleAdicionar() {
-    setModulo((item) => [...item, i++]);
+    setCount(item => item + 1)
+    setModulo((item) => [...item, count]);
   }
   function handleCargaFinal() {
     function sortFunction(a:any,b:any){
@@ -110,7 +115,7 @@ const Deterministico = () => {
       {modulo.map((item, index) => {
         return (
           <Modulo
-            key={index}
+            key={item}
             numero={Number(index)}
             modulo={modulo}
             setModulo={setModulo}
