@@ -1,12 +1,9 @@
+import React from "react";
+import { DataStorage } from "../dataContext";
 
-const Extintor = ({ index }: string | any) => {
-  const ocup = index;
-  const cargaincendio = {
-    'A-1': 300,
-    'A-2': 300,
-    'A-3': 300,
-  };
-  const carga = cargaincendio[ocup as keyof typeof cargaincendio];
+const Extintor = () => {
+  const {cargaIncendio} = React.useContext(DataStorage)
+  const carga = cargaIncendio;
 
   if (carga) {
     if (carga <= 300) {

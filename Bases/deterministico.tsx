@@ -28,14 +28,11 @@ const Modulo = ({
   const [valor, setValor] = React.useState<number>(0);
 
   function handleDelete(numero: number) {
-    console.log(numero)
     setModulo(modulo.filter((item, index) => index !== numero));
     setModulos(modulos.filter(item => item !== modulos[numero]))
     media(0);
     final(0);
   }
-  console.log(modulos)
-  console.log(modulo)
   function handleCalcular(numero: number) {
     if (area === '' || massa === '') {
       return;

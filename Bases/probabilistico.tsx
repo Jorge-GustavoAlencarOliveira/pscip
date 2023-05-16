@@ -6,19 +6,20 @@ interface moduloProps {
   numero: number;
   modulo: number[];
   setModulo: Dispatch<SetStateAction<number[]>>;
+  setFinal: Dispatch<SetStateAction<number>>;
   modulos: number[];
 }
 
-const Modulo = ({ numero, modulo, setModulo, modulos }: moduloProps) => {
+const Modulo = ({ numero, modulo, setModulo, modulos, setFinal }: moduloProps) => {
   const { tabela1, tabela2 } = ProbabilisticoTabela();
   const [mat, setMat] = React.useState<number | string>(0);
   const [altura, setAltura] = React.useState('');
   const [valor, setValor] = React.useState<number>(0);
-  const [final, setFinal] = React.useState<number>(0);
 
   function handleDelete(numero: number) {
     setModulo(modulo.filter((item, index) => index !== numero));
     modulos[numero] = 0;
+    setFinal(0)
   }
 
   function handleCalcular(numero: number) {
@@ -93,6 +94,7 @@ const Probabilistico = () => {
             modulo={modulo}
             setModulo={setModulo}
             modulos={modulos}
+            setFinal={setFinal}
           />
         );
       })}

@@ -1,41 +1,8 @@
 import React from 'react';
-import Altura from '../Bases/altura';
-import Area from '../Bases/area';
-import Cargaincendio from '../Bases/cargaincendio';
 import ReservaTecnica from '../Bases/reserva';
 import Extintor from '../Bases/extintor';
-import Brigada from '../Bases/brigada';
-
-interface a1Props {
-  index: string;
-  area: number;
-  altura: number;
-}
-
-function numeroSaidas(index: string, altura: number) {
-  if (index === 'A-2') {
-    if (altura <= 12) {
-      return 'Número de saídas: 1, Tipo de Escada: NE';
-    }
-    if (altura > 12 && altura <= 30) {
-      return 'Número de saídas: 1, Tipo de Escada: EP';
-    }
-    if (altura > 30) {
-      return 'Número de saídas: 1, Tipo de Escada: PF';
-    }
-  }
-  if (index === 'A-3') {
-    if (altura <= 12) {
-      return 'Número de saídas: 1, Tipo de Escada: NE';
-    }
-    if (altura > 12 && altura <= 30) {
-      return 'Número de saídas: 1, Tipo de Escada: EP';
-    }
-    if (altura > 30) {
-      return 'Número de saídas: 2, Tipo de Escada: PF';
-    }
-  }
-}
+import { DataStorage } from '../dataContext';
+import Numerodesaidas from '../Bases/numerodesaidas';
 
 const medidas = [
   'Acesso de viaturas',
@@ -51,32 +18,38 @@ const medidas = [
   'Controle de Materiais de Acabamento e de Revestimento',
 ];
 
-const A1 = ({ index, area, altura }: a1Props) => {
-  const valorAltura = Altura(altura);
-  const valorArea = Area(index, area);
+const A1 = () => {
+  const { altura, area, ocupacao } = React.useContext(DataStorage);
+  const userAltura = Number(altura);
+  const userArea = Number(area);
   const [medFinal, setMediaFinal] = React.useState<string[]>([]);
   const [cond, setCond] = React.useState<string>('');
   const [salao, setSalao] = React.useState<string>('');
   const [enable, setEnable] = React.useState<boolean>(true);
-  const [saidas, setSaidas] = React.useState<string | undefined>('');
 
   React.useEffect(() => {
-    if (area > 1200 || altura > 12) {
+    if (userAltura > 12) {
       setEnable(false);
     }
   }, []);
 
   React.useEffect(() => {
-    if (cond !== '' || salao != '') {
-      setEnable(false);
+    if(userAltura <= 12 && userArea <= 1200){
+      if (cond !== '' && salao != '') {
+        setEnable(false);
+      }
+    }
+    if(userAltura <= 12){
+      if (salao !== '') {
+        setEnable(false);
+      }
     }
   }, [cond, salao]);
 
   function showMedidas() {
-    const saida = numeroSaidas(index, altura);
-    setSaidas(saida);
+    
 
-    if (valorAltura === 'baixo' && valorArea === 'pts') {
+    if (userAltura <= 12 && userArea <= 1200) {
       const medFinal = [
         'Saídas de Emergência',
         'Iluminação de Emergência',
@@ -85,7 +58,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'baixo' && valorArea === 'pts' && cond === 'sim') {
+    if (userAltura <= 12 && userArea <= 1200 && cond === 'sim') {
       const medFinal = [
         'Acesso de viaturas',
         'Saídas de Emergência',
@@ -95,7 +68,12 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'baixo' && valorArea === 'pts' && salao === 'sim' && cond === 'nao') {
+    if (
+      userAltura <= 12 &&
+      userArea <= 1200 &&
+      salao === 'sim' &&
+      cond === 'nao'
+    ) {
       const medFinal = [
         'Saídas de Emergência',
         'Iluminação de Emergência',
@@ -106,8 +84,8 @@ const A1 = ({ index, area, altura }: a1Props) => {
       setMediaFinal(medFinal);
     }
     if (
-      valorAltura === 'baixo' &&
-      valorArea === 'pts' &&
+      userAltura <= 12 &&
+      userArea <= 1200 &&
       salao === 'sim' &&
       cond === 'sim'
     ) {
@@ -121,7 +99,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'baixo' && valorArea === 'pt') {
+    if (userAltura <= 12 && userArea > 1200) {
       const medFinal = [
         'Acesso de viaturas',
         'Saídas de Emergência',
@@ -132,7 +110,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'baixo' && valorArea === 'pt' && salao === 'sim') {
+    if (userAltura <= 12 && userArea > 1200 && salao === 'sim') {
       const medFinal = [
         'Acesso de viaturas',
         'Saídas de Emergência',
@@ -144,7 +122,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'media') {
+    if (userAltura > 12 && userAltura <= 30) {
       const medFinal = [
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
@@ -157,7 +135,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'alta') {
+    if (userAltura > 30 && userAltura <= 54) {
       const medFinal = [
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
@@ -172,7 +150,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
       ];
       setMediaFinal(medFinal);
     }
-    if (valorAltura === 'muito') {
+    if (userAltura > 54) {
       const medFinal = [
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
@@ -192,7 +170,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
 
   return (
     <div>
-      {altura <= 12 && area <= 1200 && (
+      {userAltura <= 12 && userArea <= 1200 && (
         <div>
           <span>Trata-se de condomínio com arruamento interno?</span>
           <input
@@ -216,7 +194,7 @@ const A1 = ({ index, area, altura }: a1Props) => {
           <label htmlFor="naoPossui">Não</label>
         </div>
       )}
-      {altura <= 12 && (
+      {userAltura <= 12 && (
         <div>
           <span>
             Possui salões de festas e auditórios com previsão de população
@@ -253,14 +231,24 @@ const A1 = ({ index, area, altura }: a1Props) => {
               return <li key={item}>{item}</li>;
             })}
           </ul>
-          <h1>Número de saídas</h1>
-          <p>{saidas}</p>
-          <Cargaincendio index={index} />
-          <Extintor index={index} />
-          {altura > 12 || area > 1200 ? (
-            <ReservaTecnica index={index} area={area} />
+          <Numerodesaidas/>
+          <Extintor />
+          {userAltura > 12 || (userArea > 1200 && ocupacao) ? (
+            <ReservaTecnica />
           ) : null}
-          {altura > 54 && <Brigada index={index} />}
+          {userAltura > 54 && (
+            <div>
+              <h1>Brigada de incêndio</h1>
+              <h3>
+                Para a divisão A-2, todos os empregados da edificação deverão
+                compor a brigada de incêndio e, caso não haja empregados,
+                recomenda-se que haja treinamento da população para evacuação e
+                utilização dos equipamentos e medidas preventivas da edificação.
+              </h3>
+              <p>Nível de Treinamento Exigido: Básico</p>
+              <p>Nível de Treinamento Recomendado: Básico</p>
+            </div>
+          )}
         </div>
       )}
     </div>

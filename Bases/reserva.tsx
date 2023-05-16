@@ -1,3 +1,7 @@
+import React from 'react';
+import { DataStorage } from '../dataContext';
+
+
 const ocup1 = {
   ocupações: [
     'A-2',
@@ -47,20 +51,18 @@ const ocup2 = {
 };
 const grupo = [ocup1, ocup2];
 
-interface ReservaProps {
-  index: string;
-  area: number;
-}
-const ReservaTecnica = ({ index, area }: ReservaProps) => {
+
+const ReservaTecnica = () => {
+  const {area, cargaIncendio, ocupacao} = React.useContext(DataStorage) 
   const reservas = grupo.map((item) => {
-    return item.ocupações.includes(index);
+    if(ocupacao) return item.ocupações.includes(ocupacao);
   });
   const ri = reservas.findIndex((item) => item === true);
   return (
     <div>
       <h1>Reserva Técnica</h1>
       <ul>
-        {grupo[ri].area(area)?.map((item) => {
+        {grupo[ri].area(Number(area))?.map((item) => {
           return <li key={item}>{item}</li>;
         })}
       </ul>

@@ -5,7 +5,6 @@ import { DataStorage } from '../../../dataContext';
 import styles from '../home.module.css';
 import Divisao from '../../../Bases/divisao';
 import Descricao from '../../../Bases/descricao';
-import Ocupacoes from '../../../Bases/ocupacao';
 
 const PageDivisao = () => {
   const router = useRouter();
@@ -14,10 +13,9 @@ const PageDivisao = () => {
   const [sele, setSele] = React.useState<number>(d)
   const {divisao} = Divisao();
   const {descricao} = Descricao();
-  const { SetOcupacao } = React.useContext(DataStorage);
+  const { allStates, area, altura, dataConstrucao } = React.useContext(DataStorage);
   const [div, setDiv] = React.useState<number | any | string>(0);
   const [desc, setDesc] = React.useState<number | any | string>(0);
-
   React.useEffect(() =>{
     const { ocupacao } = router.query;
     const d = Number(ocupacao)
@@ -25,7 +23,7 @@ const PageDivisao = () => {
   },[])
 
   function handleNext(){
-    SetOcupacao(descricao[d][div][desc].divisao);
+    allStates({ocupacao: descricao[d][div][desc].divisao, cargaIncendio: descricao[d][div][desc].cargaincendio})
     router.push('/result')
   }
   return (

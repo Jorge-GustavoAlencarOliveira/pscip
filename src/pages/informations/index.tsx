@@ -5,14 +5,13 @@ import styles from '../home.module.css'
 import { useRouter } from 'next/router'
 const index = () => {
   const router = useRouter();
-  const {SetAltura, SetArea, SetDataConstrucao} = React.useContext(DataStorage)
+  const {allStates} = React.useContext(DataStorage)
   const [alt, setAlt] = React.useState<string>('');
   const [area, setarea] = React.useState<string>('');
   const [tipo, setTipo] = React.useState<string>('existente');
+
   function handleNext(){
-    SetAltura(alt)
-    SetArea(area)
-    SetDataConstrucao(tipo)
+    allStates({altura: alt, area: area, dataConstrucao: tipo})
     router.push('/informations/ocupacao')
   }
   return (

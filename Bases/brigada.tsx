@@ -99,6 +99,7 @@ interface pavimentoProps {
   numeroBrigada: number[];
   numeroPav: number[];
   setNumeroPav: Dispatch<SetStateAction<number[]>>;
+  setNumeroBrigada: Dispatch<SetStateAction<number[]>>
 }
 
 const Pavimento = ({
@@ -107,6 +108,7 @@ const Pavimento = ({
   numeroBrigada,
   setNumeroPav,
   numeroPav,
+  setNumeroBrigada
 }: pavimentoProps) => {
   let brigada = divisao.indexOf(ocupacao);
   let referencia = tabelaBrigada[brigada];
@@ -116,7 +118,7 @@ const Pavimento = ({
   const [nomePavimento, setNomePavimento] = React.useState('')
   function deletePav() {
     setNumeroPav(numeroPav.filter((item, index) => index !== numeroPavimento));
-    numeroBrigada[numeroPavimento] = 0;
+    setNumeroBrigada(numeroBrigada.filter(item => item !== numeroBrigada[numeroPavimento]))
   }
 
   function calcularPop() {
@@ -159,26 +161,27 @@ const Pavimento = ({
 
 const Brigada = ({ ocupacao }: any) => {
   const [numeroPav, setNumeroPav] = React.useState<Array<number>>([0]);
+  const [count, setCount] = React.useState<number>(0)
   const [numeroBrigada, setNumeroBrigada] = React.useState(
     new Array(numeroPav.length).fill(0),
   );
   function AddPav() {
-    let i = 1;
-    setNumeroPav((item) => [...item, i]);
+    setCount(item => item + 1)
+    setNumeroPav((item) => [...item, count]);
   }
-  console.log(numeroBrigada)
   return (
     <div>
       <h1>Brigada de incêndio</h1>
-      <button onClick={AddPav}>Adicionar</button>
+      <button onClick={AddPav}>Adicionar Pavimento</button>
       {numeroPav.map((item, index) => {
         return (
           <Pavimento
-            key={index}
+            key={item}
             numeroPavimento={index}
             ocupacao={ocupacao}
             numeroBrigada={numeroBrigada}
             setNumeroPav={setNumeroPav}
+            setNumeroBrigada={setNumeroBrigada}
             numeroPav={numeroPav}
           />
         );
