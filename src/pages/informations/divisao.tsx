@@ -19,8 +19,10 @@ const PageDivisao = () => {
 
   React.useEffect(() => {
     const { ocupacao } = router.query;
-    const d = Number(ocupacao);
-    setSele(d);
+    if(ocupacao){
+      const d = Number(ocupacao);
+      setSele(d);
+    }
   }, []);
 
   function handleNext() {
