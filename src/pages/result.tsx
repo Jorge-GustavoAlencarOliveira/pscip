@@ -1,8 +1,11 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import A1 from '../../Ocupacoes/A1';
+import A1 from '../../Ocupacoes/A2';
 import Head from 'next/head';
 import { DataStorage } from '../../dataContext';
+import ReservaTecnica from '../../Bases/reserva';
+import Numerodesaidas from '../../Bases/numerodesaidas';
+import Brigada from '../../Bases/brigada';
 
 const Result = () => {
   const router = useRouter();
@@ -18,7 +21,13 @@ const Result = () => {
       </div>
     );
   }
-  return null;
+  return (
+    <>
+    <ReservaTecnica/>
+    <Numerodesaidas/>
+    <Brigada/>
+    </>
+  );
 };
 
 export default Result;

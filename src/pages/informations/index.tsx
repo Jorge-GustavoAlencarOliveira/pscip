@@ -11,7 +11,7 @@ const index = () => {
   const [tipo, setTipo] = React.useState<string>('existente');
 
   function handleNext(){
-    allStates({altura: alt, area: area, dataConstrucao: tipo})
+    allStates({altura: Number(alt), area: Number(area), dataConstrucao: tipo})
     router.push('/informations/ocupacao')
   }
   return (

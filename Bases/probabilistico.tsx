@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import ProbabilisticoTabela from './probabilisticoTabela';
+import ProbabilisticoTabela from '../Tabelas/probabilisticoTabela';
 import styles from '../src/pages/home.module.css';
 
 interface moduloProps {

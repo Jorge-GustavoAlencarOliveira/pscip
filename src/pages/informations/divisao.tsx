@@ -3,28 +3,32 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { DataStorage } from '../../../dataContext';
 import styles from '../home.module.css';
-import Divisao from '../../../Bases/divisao';
-import Descricao from '../../../Bases/descricao';
+import Divisao from '../../../Tabelas/divisao';
+import Descricao from '../../../Tabelas/descricao';
 
 const PageDivisao = () => {
   const router = useRouter();
   const { ocupacao } = router.query;
-  const d = Number(ocupacao)
-  const [sele, setSele] = React.useState<number>(d)
-  const {divisao} = Divisao();
-  const {descricao} = Descricao();
-  const { allStates, area, altura, dataConstrucao } = React.useContext(DataStorage);
+  const d = Number(ocupacao);
+  const [sele, setSele] = React.useState<number>(d);
+  const { divisao } = Divisao();
+  const { descricao } = Descricao();
+  const { allStates } = React.useContext(DataStorage);
   const [div, setDiv] = React.useState<number | any | string>(0);
   const [desc, setDesc] = React.useState<number | any | string>(0);
-  React.useEffect(() =>{
-    const { ocupacao } = router.query;
-    const d = Number(ocupacao)
-    setSele(d)
-  },[])
 
-  function handleNext(){
-    allStates({ocupacao: descricao[d][div][desc].divisao, cargaIncendio: descricao[d][div][desc].cargaincendio})
-    router.push('/result')
+  React.useEffect(() => {
+    const { ocupacao } = router.query;
+    const d = Number(ocupacao);
+    setSele(d);
+  }, []);
+
+  function handleNext() {
+    allStates({
+      ocupacao: descricao[d][div][desc].divisao,
+      cargaIncendio: descricao[d][div][desc].cargaincendio,
+    });
+    router.push('/result');
   }
   return (
     <>

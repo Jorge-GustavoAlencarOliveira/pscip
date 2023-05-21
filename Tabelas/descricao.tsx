@@ -1415,6 +1415,13 @@ const descricao = [
         cargaincendio: 300,
       },
     ],
+    [
+      {
+        divisao: 'G-5',
+        descricao: 'Abrigo para aeronaves com ou sem abastecimento',
+        cargaincendio: 300,
+      },
+    ]
   ],
   [
     [

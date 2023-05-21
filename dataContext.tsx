@@ -2,8 +2,8 @@ import React from 'react';
 import { ReactNode } from 'react';
 
 type ContextData = {
-  altura?: string;
-  area?: string;
+  altura?: number;
+  area?: number;
   dataConstrucao?: string;
   cargaIncendio?: number;
   ocupacao?: string;
@@ -11,8 +11,8 @@ type ContextData = {
 };
 
 type StateProps = {
-  altura?: string;
-  area?: string;
+  altura?: number;
+  area?: number;
   dataConstrucao?: string;
   cargaIncendio?: number;
   ocupacao?: string;
@@ -24,8 +24,8 @@ type ProviderProps = {
 export const DataStorage = React.createContext({} as ContextData);
 
 const DataContext = ({ children }: ProviderProps) => {
-  const [altura, setAltura] = React.useState<string>();
-  const [area, setArea] = React.useState<string>();
+  const [altura, setAltura] = React.useState<number>();
+  const [area, setArea] = React.useState<number>();
   const [dataConstrucao, setDataConstrucao] = React.useState<string>();
   const [cargaIncendio, setCargaIncendio] = React.useState<number>();
   const [ocupacao, setOcupacao] = React.useState<string>();

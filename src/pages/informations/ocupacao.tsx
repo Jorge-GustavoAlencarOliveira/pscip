@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { DataStorage } from '../../../dataContext';
 import styles from '../home.module.css';
-import Ocupacoes from '../../../Bases/ocupacao';
+import Ocupacoes from '../../../Tabelas/ocupacao';
 import { useRouter } from 'next/router';
 import Probabilistico from '../../../Bases/probabilistico';
 import Deterministico from '../../../Bases/deterministico';
@@ -15,11 +15,7 @@ const Ocupacao = () => {
   const [metodo, setMetodo] = React.useState<string>('');
 
   function handleNext() {
-    if (select === '9') {
-      router.push('/informations/cargaincendio');
-    } else {
-      router.push(`/informations/divisao?ocupacao=${select}`);
-    }
+    router.push(`/informations/divisao?ocupacao=${select}`);
   }
 
   function handleMetodo(event: string) {
@@ -113,9 +109,7 @@ const Ocupacao = () => {
             <Probabilistico />
           </div>
         )}
-        {metodo === 'deterministico' && (
-          <Deterministico/>
-        )}
+        {metodo === 'deterministico' && <Deterministico />}
 
         <button onClick={handleNext}>Próximo</button>
         <button onClick={() => router.back()}>Voltar</button>
@@ -125,41 +119,3 @@ const Ocupacao = () => {
 };
 
 export default Ocupacao;
-
-// import React from 'react';
-// import { ReactNode } from 'react';
-
-// type ContextData = {
-//   altura: string | undefined;
-//   setAltura: (Credentials: string | undefined) => void;
-//   area: string | undefined;
-//   setArea: (Credentials: string | undefined) => void;
-//   dataConstrucao: string | undefined;
-//   setDataConstrucao: (Credentials: string | undefined) => void;
-//   cargaIncendio: number | undefined;
-//   setCargaIncendio: (Credentials: number | undefined) => void;
-//   ocupacao: string | undefined;
-//   setOcupacao: (Credentials: string | undefined) => void;
-
-// };
-
-// type ProviderProps = {
-//   children: ReactNode;
-// };
-// export const DataStorage = React.createContext({} as ContextData);
-
-// const DataContext = ({ children }: ProviderProps) => {
-//   const [altura, setAltura,] = React.useState<string | undefined>();
-//   const [area,setArea,] = React.useState<string | undefined>();
-//   const [dataConstrucao, setDataConstrucao] = React.useState<string | undefined>();
-//   const [cargaIncendio, setCargaIncendio] = React.useState<number | undefined>();
-//   const [ocupacao, setOcupacao] = React.useState<string | undefined>()
-
-//   return (
-//     <DataStorage.Provider value={{ altura, setAltura, area, setArea, dataConstrucao, setDataConstrucao, cargaIncendio, setCargaIncendio, ocupacao, setOcupacao}}>
-//       {children}
-//     </DataStorage.Provider>
-//   );
-// };
-
-// export default DataContext;

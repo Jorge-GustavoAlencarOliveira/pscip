@@ -19,7 +19,7 @@ const medidas = [
 ];
 
 const A1 = () => {
-  const { altura, area, ocupacao } = React.useContext(DataStorage);
+  const { altura, area } = React.useContext(DataStorage);
   const userAltura = Number(altura);
   const userArea = Number(area);
   const [medFinal, setMediaFinal] = React.useState<string[]>([]);
@@ -233,7 +233,7 @@ const A1 = () => {
           </ul>
           <Numerodesaidas/>
           <Extintor />
-          {userAltura > 12 || (userArea > 1200 && ocupacao) ? (
+          {(userAltura > 12) || (userArea > 1200) ? (
             <ReservaTecnica />
           ) : null}
           {userAltura > 54 && (

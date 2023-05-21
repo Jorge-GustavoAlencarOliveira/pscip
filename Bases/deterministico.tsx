@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import DeterministicoTabela from './deterministicoTabela';
+import DeterministicoTabela from '../Tabelas/deterministicoTabela';
 import styles from '../src/pages/home.module.css';
 
 interface moduloProps {

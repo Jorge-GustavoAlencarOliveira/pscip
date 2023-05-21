@@ -1,5 +1,4 @@
 import React from 'react'
-import { ChangeEvent } from 'react'
 
 const Construcao = () => {
   const [tipo, setTipo] = React.useState<string>('construida')
