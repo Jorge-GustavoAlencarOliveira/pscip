@@ -100,7 +100,6 @@ const ReservaTecnica = () => {
           return <li key={item}>{item}</li>;
         })}
       </ul>
-      <span>executou</span>
     </div>
   );
 };
