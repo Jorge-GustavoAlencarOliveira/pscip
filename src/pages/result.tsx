@@ -9,7 +9,7 @@ import Brigada from '../../Bases/brigada';
 
 const Result = () => {
   const router = useRouter();
-  const {ocupacao} = React.useContext(DataStorage);
+  const { ocupacao, cargaIncendio } = React.useContext(DataStorage);
   if (ocupacao === 'A-2') {
     return (
       <div>
@@ -23,9 +23,9 @@ const Result = () => {
   }
   return (
     <>
-    <ReservaTecnica/>
-    <Numerodesaidas/>
-    <Brigada/>
+      <ReservaTecnica />
+      <Numerodesaidas />
+      <Brigada />
     </>
   );
 };

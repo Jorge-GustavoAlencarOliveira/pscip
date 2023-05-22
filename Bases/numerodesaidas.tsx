@@ -7,6 +7,7 @@ const Numerodesaidas = () => {
   const { ocupacao, altura } = React.useContext(DataStorage);
   if (ocupacao) {
     const div = divisao.indexOf(ocupacao);
+    console.log(div);
     if (div !== -1) {
       if (Number(altura) <= 12) {
         return (
@@ -24,7 +25,7 @@ const Numerodesaidas = () => {
           </div>
         );
       }
-      if (Number(altura) < 30 && Number(altura) <= 54) {
+      if (Number(altura) > 30 && Number(altura) <= 54) {
         return (
           <div>
             <h1>Número de saídas</h1>
@@ -42,7 +43,6 @@ const Numerodesaidas = () => {
       }
     }
   }
-
   return null;
 };
 

@@ -26,14 +26,14 @@ const ReservaTecnica = () => {
   if (
     metodo === 4 &&
     Number(cargaIncendio) <= 300 &&
-    (ocupacao === 'D-1' ||
-      'D-3' ||
-      'D-4' ||
-      'F-1' ||
-      'F-10' ||
-      'F-11 ' ||
-      'G-4' ||
-      'M-3')
+    ocupacao === 'D-1' || 
+    ocupacao === 'D-3' || 
+    ocupacao === 'D-4' ||
+    ocupacao === 'F-1' ||
+    ocupacao ===  'F-10' ||
+    ocupacao ===  'F-11 ' ||
+    ocupacao ===  'G-4' ||
+    ocupacao ===  'M-3'
   )
     return (
       <div>
@@ -46,26 +46,14 @@ const ReservaTecnica = () => {
       </div>
     );
   if (
-    metodo === 4 &&
-    (ocupacao === 'D-1' || 'D-3' || 'D-4' || 'F-11' || 'G-4') &&
-    Number(cargaIncendio) > 300
-  )
-    return (
-      <div>
-        <h1>Reserva Técnica</h1>
-        <ul>
-          {metodos[1]?.area(Number(area))?.map((item) => {
-            return <li key={item}>{item}</li>;
-          })}
-        </ul>
-      </div>
-    );
-  if (
-    metodo === 4 &&
-    (ocupacao === 'C-2' || 'F-10' || 'I-2' || 'J-3' || 'M-3') &&
+    metodo === 4 && 
     Number(cargaIncendio) > 300 &&
-    Number(cargaIncendio) <= 800
-  )
+    ocupacao === 'D-1' ||
+    ocupacao === 'D-3' ||
+    ocupacao === 'D-4' ||
+    ocupacao === 'F-11' ||
+    ocupacao === 'G-4' 
+  ) {
     return (
       <div>
         <h1>Reserva Técnica</h1>
@@ -76,10 +64,15 @@ const ReservaTecnica = () => {
         </ul>
       </div>
     );
+  }
   if (
-    metodo === 4 &&
-    (ocupacao === 'C-2' || 'F-10' || 'I-2' || 'J-3' || 'M-3') &&
-    Number(cargaIncendio) > 800
+    metodo === 4 && 
+    Number(cargaIncendio) > 800 && 
+    ocupacao === 'C-2' ||
+    ocupacao === 'F-10' ||
+    ocupacao === 'I-2' ||
+    ocupacao === 'J-3' ||
+    ocupacao === 'M-3' 
   )
     return (
       <div>
@@ -91,7 +84,26 @@ const ReservaTecnica = () => {
         </ul>
       </div>
     );
-
+  if (
+    metodo === 4 && 
+    Number(cargaIncendio) > 300 &&
+    Number(cargaIncendio) <= 800 &&
+    ocupacao === 'C-2' ||
+    ocupacao === 'F-10' ||
+    ocupacao === 'I-2' ||
+    ocupacao === 'J-3' ||
+    ocupacao === 'M-3' 
+  )
+    return (
+      <div>
+        <h1>Reserva Técnica</h1>
+        <ul>
+          {metodos[1]?.area(Number(area))?.map((item) => {
+            return <li key={item}>{item}</li>;
+          })}
+        </ul>
+      </div>
+    );
   return (
     <div>
       <h1>Reserva Técnica</h1>

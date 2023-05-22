@@ -1,4 +1,3 @@
-import Extintor from './extintor';
 
 interface indexProps {
   index: string;

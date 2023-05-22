@@ -1421,7 +1421,7 @@ const descricao = [
         descricao: 'Abrigo para aeronaves com ou sem abastecimento',
         cargaincendio: 300,
       },
-    ]
+    ],
   ],
   [
     [

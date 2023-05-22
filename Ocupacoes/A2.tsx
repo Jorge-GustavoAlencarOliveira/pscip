@@ -3,7 +3,7 @@ import ReservaTecnica from '../Bases/reserva';
 import Extintor from '../Bases/extintor';
 import { DataStorage } from '../dataContext';
 import Numerodesaidas from '../Bases/numerodesaidas';
-
+import Link from 'next/link';
 const medidas = [
   'Acesso de viaturas',
   'Segurança Estrutural contra Incêndio',
@@ -228,7 +228,7 @@ const A1 = () => {
           <h1>Medidas de Segurança</h1>
           <ul>
             {medFinal.map((item) => {
-              return <li key={item}>{item}</li>;
+              return <li key={item}><Link href={`/medidas/${item.replaceAll(' ', '').toLowerCase()}`}>{item}</Link></li>;
             })}
           </ul>
           <Numerodesaidas/>

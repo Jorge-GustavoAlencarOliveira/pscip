@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import DeterministicoTabela from '../Tabelas/deterministicoTabela';
 import styles from '../src/pages/home.module.css';
+import { DataStorage } from '../dataContext';
+import { useRouter } from 'next/router';
 
 interface moduloProps {
   numero: number;
@@ -29,7 +31,7 @@ const Modulo = ({
 
   function handleDelete(numero: number) {
     setModulo(modulo.filter((item, index) => index !== numero));
-    setModulos(modulos.filter(item => item !== modulos[numero]))
+    setModulos(modulos.filter((item) => item !== modulos[numero]));
     media(0);
     final(0);
   }
@@ -41,11 +43,14 @@ const Modulo = ({
     setValor(carga);
     modulos[numero] = carga;
   }
+
   return (
     <>
       <div className={styles.modulo}>
         <span>Modulo {numero + 1} </span>
-        {numero !== 0 && <button onClick={() => handleDelete(numero)}>Apagar</button>}
+        {numero !== 0 && (
+          <button onClick={() => handleDelete(numero)}>Apagar</button>
+        )}
         <div className={styles.proba}>
           <span>Material:</span>
           <select onChange={({ target }) => setMat(target.value)}>
@@ -80,6 +85,8 @@ const Modulo = ({
 };
 
 const Deterministico = () => {
+  const router = useRouter();
+  const { allStates } = React.useContext(DataStorage);
   const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(
@@ -87,21 +94,39 @@ const Deterministico = () => {
   );
   const [final, setFinal] = React.useState<number>(0);
   const [mediaf, setMediaf] = React.useState<number>(0);
+  const [valorFinal, setValorFinal] = React.useState<number>(0);
 
   function handleAdicionar() {
-    setCount(item => item + 1)
+    setCount((item) => item + 1);
     setModulo((item) => [...item, count]);
   }
+  function sortFunction(a: any, b: any) {
+    return a - b;
+  }
   function handleCargaFinal() {
-    function sortFunction(a:any,b:any){
-      return (a-b)
-    }
-    let modulosB = [...modulos]
+    let modulosB = [...modulos];
     let media = modulosB.sort(sortFunction).reverse();
     let mediafinal = (media[0] + media[1]) / 2;
     let cargafinal = Math.max(...modulos) * 0.85;
-    setFinal(cargafinal);
-    setMediaf(mediafinal);
+    setFinal(+cargafinal.toFixed(2));
+    setMediaf(+mediafinal.toFixed(2));
+  }
+
+  function handleFinalizar() {
+    let valoresFinais = [final, mediaf].sort(sortFunction).reverse();
+    let cargaIncendioFinal = valoresFinais[0];
+    if (cargaIncendioFinal <= 300) {
+      allStates({ ocupacao: 'J-2', cargaIncendio: cargaIncendioFinal });
+      setValorFinal(1);
+    }
+    if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
+      allStates({ ocupacao: 'J-3', cargaIncendio: cargaIncendioFinal });
+      setValorFinal(2);
+    }
+    if (cargaIncendioFinal > 1200) {
+      allStates({ ocupacao: 'J-4', cargaIncendio: cargaIncendioFinal });
+      setValorFinal(3);
+    }
   }
 
   return (
@@ -135,8 +160,37 @@ const Deterministico = () => {
       )}
       {mediaf !== 0 && (
         <h2>
-          Média das duas maiores carga incêndio encontradas: {mediaf.toFixed(2)} MJ/m²
+          Média das duas maiores carga incêndio encontradas: {mediaf.toFixed(2)}{' '}
+          MJ/m²
         </h2>
+      )}
+      <button onClick={handleFinalizar}>Finalizar Dimensionamento</button>
+      {valorFinal === 1 && (
+        <div>
+          <p>Divisão: J-2</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio baixa
+          </p>
+        </div>
+      )}
+      {valorFinal === 2 && (
+        <div>
+          <p>Divisão: J-3</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio média
+          </p>
+        </div>
+      )}
+      {valorFinal === 3 && (
+        <div>
+          <p>Divisão: J-4</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio alta
+          </p>
+        </div>
+      )}
+      {valorFinal !== 0 && (
+        <button onClick={() => router.push('/result')}>Proximo</button>
       )}
     </div>
   );

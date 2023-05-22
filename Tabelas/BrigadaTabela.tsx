@@ -65,7 +65,7 @@ interface brigadaProps {
   recomendado: string;
   descricao?: string[];
 }
-const tabelaBrigada: brigadaProps[] = [
+const tabelaBrigada: Array<brigadaProps> = [
   {
     ate10: 0,
     acima10: 0,
@@ -456,9 +456,8 @@ const tabelaBrigada: brigadaProps[] = [
   },
 ];
 
-
 const BrigadaTabela = () => {
-  return {divisao, tabelaBrigada}
-}
+  return { divisao, tabelaBrigada };
+};
 
-export default BrigadaTabela
+export default BrigadaTabela;
