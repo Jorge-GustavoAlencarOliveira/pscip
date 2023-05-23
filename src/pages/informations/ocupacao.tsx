@@ -2,11 +2,11 @@ import React, { ChangeEvent } from 'react';
 import Head from 'next/head';
 import { DataStorage } from '../../../dataContext';
 import styles from '../home.module.css';
-import Ocupacoes from '../../../Tabelas/OcupacaoTabela';
+import Ocupacoes from '../../../Tabelas/ocupacaotabela';
 import { useRouter } from 'next/router';
 import Probabilistico from '../../../Bases/probabilistico';
 import Deterministico from '../../../Bases/deterministico';
-import Divisao from '../../../Tabelas/DivisaoTabela';
+import Divisao from '../../../Tabelas/divisaotabela';
 import Descricao from '../../../Tabelas/DescricaoTabela';
 
 const Ocupacao = () => {

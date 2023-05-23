@@ -1,13 +1,12 @@
 import React from 'react';
 import { DataStorage } from '../dataContext';
-import NumeroSaidasTabela from '../Tabelas/NumeroSaidasTabela';
+import NumeroSaidasTabela from '../Tabelas/NumerosaidasTabela';
 
 const Numerodesaidas = () => {
   const { saidasEscadas, divisao } = NumeroSaidasTabela();
   const { ocupacao, altura } = React.useContext(DataStorage);
   if (ocupacao) {
     const div = divisao.indexOf(ocupacao);
-    console.log(div);
     if (div !== -1) {
       if (Number(altura) <= 12) {
         return (

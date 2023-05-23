@@ -8,7 +8,7 @@ const medidas = [
   'Acesso de viaturas',
   'Segurança Estrutural contra Incêndio',
   'Compartimentação Vertical',
-  'Saídas de Emergência',
+  'Saídas de Emergencia',
   'Brigada de Incêndio',
   'Iluminação de Emergência',
   'Alarme de Incêndio',
@@ -17,7 +17,7 @@ const medidas = [
   'Hidrantes e Mangotinhos',
   'Controle de Materiais de Acabamento e de Revestimento',
 ];
-
+console.log(medidas[5].replace('ç', 'c').replace('ã', 'a').replace('ê', 'e').replace('í', 'i'))
 const A1 = () => {
   const { altura, area } = React.useContext(DataStorage);
   const userAltura = Number(altura);
@@ -51,7 +51,7 @@ const A1 = () => {
 
     if (userAltura <= 12 && userArea <= 1200) {
       const medFinal = [
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -61,7 +61,7 @@ const A1 = () => {
     if (userAltura <= 12 && userArea <= 1200 && cond === 'sim') {
       const medFinal = [
         'Acesso de viaturas',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -75,7 +75,7 @@ const A1 = () => {
       cond === 'nao'
     ) {
       const medFinal = [
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -91,7 +91,7 @@ const A1 = () => {
     ) {
       const medFinal = [
         'Acesso de viaturas',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -102,7 +102,7 @@ const A1 = () => {
     if (userAltura <= 12 && userArea > 1200) {
       const medFinal = [
         'Acesso de viaturas',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -113,7 +113,7 @@ const A1 = () => {
     if (userAltura <= 12 && userArea > 1200 && salao === 'sim') {
       const medFinal = [
         'Acesso de viaturas',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -126,7 +126,7 @@ const A1 = () => {
       const medFinal = [
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
@@ -140,7 +140,7 @@ const A1 = () => {
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
         'Compartimentação Vertical',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Alarme de Incêndio',
         'Sinalização de Emergência',
@@ -155,7 +155,7 @@ const A1 = () => {
         'Acesso de viaturas',
         'Segurança Estrutural contra Incêndio',
         'Compartimentação Vertical',
-        'Saídas de Emergência',
+        'Saídas de Emergencia',
         'Brigada de Incêndio',
         'Iluminação de Emergência',
         'Alarme de Incêndio',
@@ -228,27 +228,9 @@ const A1 = () => {
           <h1>Medidas de Segurança</h1>
           <ul>
             {medFinal.map((item) => {
-              return <li key={item}><Link href={`/medidas/${item.replaceAll(' ', '').toLowerCase()}`}>{item}</Link></li>;
+              return <li key={item}><Link href={`/medidas/${item.replaceAll(' ', '').replace('ç', 'c').replace('ã', 'a').replace('ê', 'e').replace('í', 'i').toLowerCase()}`}>{item}</Link></li>;
             })}
           </ul>
-          <Numerodesaidas/>
-          <Extintor />
-          {(userAltura > 12) || (userArea > 1200) ? (
-            <ReservaTecnica />
-          ) : null}
-          {userAltura > 54 && (
-            <div>
-              <h1>Brigada de incêndio</h1>
-              <h3>
-                Para a divisão A-2, todos os empregados da edificação deverão
-                compor a brigada de incêndio e, caso não haja empregados,
-                recomenda-se que haja treinamento da população para evacuação e
-                utilização dos equipamentos e medidas preventivas da edificação.
-              </h3>
-              <p>Nível de Treinamento Exigido: Básico</p>
-              <p>Nível de Treinamento Recomendado: Básico</p>
-            </div>
-          )}
         </div>
       )}
     </div>

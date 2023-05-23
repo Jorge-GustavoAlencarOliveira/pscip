@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import DeterministicoTabela from '../Tabelas/deterministicoTabela';
+import DeterministicoTabela from '../Tabelas/deterministicotabela';
 import styles from '../src/pages/home.module.css';
 import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';

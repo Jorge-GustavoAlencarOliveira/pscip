@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import ProbabilisticoTabela from '../Tabelas/ProbabilisticoTabela';
+import ProbabilisticoTabela from '../Tabelas/probabilisticotabela';
 import styles from '../src/pages/home.module.css';
 
 interface moduloProps {
@@ -10,7 +10,13 @@ interface moduloProps {
   modulos: number[];
 }
 
-const Modulo = ({ numero, modulo, setModulo, modulos, setFinal }: moduloProps) => {
+const Modulo = ({
+  numero,
+  modulo,
+  setModulo,
+  modulos,
+  setFinal,
+}: moduloProps) => {
   const { tabela1, tabela2 } = ProbabilisticoTabela();
   const [mat, setMat] = React.useState<number | string>(0);
   const [altura, setAltura] = React.useState('');
@@ -19,7 +25,7 @@ const Modulo = ({ numero, modulo, setModulo, modulos, setFinal }: moduloProps) =
   function handleDelete(numero: number) {
     setModulo(modulo.filter((item, index) => index !== numero));
     modulos[numero] = 0;
-    setFinal(0)
+    setFinal(0);
   }
 
   function handleCalcular(numero: number) {
@@ -35,7 +41,9 @@ const Modulo = ({ numero, modulo, setModulo, modulos, setFinal }: moduloProps) =
     <>
       <div className={styles.modulo}>
         <span>Modulo {numero + 1} </span>
-        {numero !== 0 && <button onClick={() => handleDelete(numero)}>Apagar</button>}
+        {numero !== 0 && (
+          <button onClick={() => handleDelete(numero)}>Apagar</button>
+        )}
         <div className={styles.proba}>
           <span>Material:</span>
           <select onChange={({ target }) => setMat(target.value)}>
@@ -72,7 +80,7 @@ const Probabilistico = () => {
 
   let i = 1;
   function handleAdicionar() {
-    setCount(item => item + 1)
+    setCount((item) => item + 1);
     setModulo((item) => [...item, count]);
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataStorage } from '../dataContext';
-import ReservaTecnicaTabela from '../Tabelas/ReservaTecnicaTabela';
+import ReservaTecnicaTabela from '../Tabelas/reservatecnicatabela';
 
 const ReservaTecnica = () => {
   const { area, cargaIncendio, ocupacao } = React.useContext(DataStorage);
