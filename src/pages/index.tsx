@@ -4,7 +4,7 @@ export default function Home() {
   
   return (
     <>
-      Página Home
+      Página Home...
     </>
   );
 }
