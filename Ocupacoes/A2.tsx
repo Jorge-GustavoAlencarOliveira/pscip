@@ -14,7 +14,6 @@ const medidas = [
   'Hidrantes e Mangotinhos',
   'Controle de Materiais de Acabamento e de Revestimento',
 ];
-console.log(medidas[5].replace('ç', 'c').replace('ã', 'a').replace('ê', 'e').replace('í', 'i'))
 const A1 = () => {
   const { altura, area } = React.useContext(DataStorage);
   const userAltura = Number(altura);

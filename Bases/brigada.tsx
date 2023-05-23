@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styles from '../src/pages/home.module.css'
-import BrigadaTabela from '../Tabelas/brigadatabela';
+import BrigadaTabela from '../Tabelas/BrigadaTabela';
 
 interface pavimentoProps {
   numeroPavimento: any;
