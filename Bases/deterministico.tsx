@@ -12,6 +12,7 @@ interface moduloProps {
   setModulos: Dispatch<SetStateAction<number[]>>;
   final: Dispatch<SetStateAction<number>>;
   media: Dispatch<SetStateAction<number>>;
+  setValorFinal: Dispatch<SetStateAction<number>>
 }
 
 const Modulo = ({
@@ -22,6 +23,7 @@ const Modulo = ({
   modulos,
   final,
   media,
+  setValorFinal
 }: moduloProps) => {
   const { material, valores } = DeterministicoTabela();
   const [mat, setMat] = React.useState<number | string>(0);
@@ -34,6 +36,7 @@ const Modulo = ({
     setModulos(modulos.filter((item) => item !== modulos[numero]));
     media(0);
     final(0);
+    setValorFinal(0)
   }
   function handleCalcular(numero: number) {
     if (area === '' || massa === '') {
@@ -99,6 +102,7 @@ const Deterministico = () => {
   function handleAdicionar() {
     setCount((item) => item + 1);
     setModulo((item) => [...item, count]);
+    setValorFinal(0)
   }
   function sortFunction(a: any, b: any) {
     return a - b;
@@ -113,19 +117,33 @@ const Deterministico = () => {
   }
 
   function handleFinalizar() {
-    let valoresFinais = [final, mediaf].sort(sortFunction).reverse();
-    let cargaIncendioFinal = valoresFinais[0];
-    if (cargaIncendioFinal <= 300) {
-      allStates({ ocupacao: 'J-2', cargaIncendio: cargaIncendioFinal });
-      setValorFinal(1);
-    }
-    if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
-      allStates({ ocupacao: 'J-3', cargaIncendio: cargaIncendioFinal });
-      setValorFinal(2);
-    }
-    if (cargaIncendioFinal > 1200) {
-      allStates({ ocupacao: 'J-4', cargaIncendio: cargaIncendioFinal });
-      setValorFinal(3);
+    if(modulos.length === 1){
+      if (modulos[0] <= 300) {
+        allStates({ ocupacao: 'J-2', cargaIncendio: modulos[0] });
+        setValorFinal(1);
+      }
+      if (modulos[0] > 300 && modulos[0] <= 1200) {
+        allStates({ ocupacao: 'J-3', cargaIncendio: modulos[0] });
+        setValorFinal(2);
+      }
+      if (modulos[0] > 1200) {
+        allStates({ ocupacao: 'J-4', cargaIncendio: modulos[0] });
+        setValorFinal(3);
+      }
+    } else{
+      let cargaIncendioFinal = Math.max(final, mediaf);
+      if (cargaIncendioFinal <= 300) {
+        allStates({ ocupacao: 'J-2', cargaIncendio: cargaIncendioFinal });
+        setValorFinal(1);
+      }
+      if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
+        allStates({ ocupacao: 'J-3', cargaIncendio: cargaIncendioFinal });
+        setValorFinal(2);
+      }
+      if (cargaIncendioFinal > 1200) {
+        allStates({ ocupacao: 'J-4', cargaIncendio: cargaIncendioFinal });
+        setValorFinal(3);
+      }
     }
   }
 
@@ -145,6 +163,7 @@ const Deterministico = () => {
             final={setFinal}
             media={setMediaf}
             setModulos={setModulos}
+            setValorFinal={setValorFinal}
           />
         );
       })}

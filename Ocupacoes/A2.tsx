@@ -1,8 +1,5 @@
 import React from 'react';
-import ReservaTecnica from '../Bases/reserva';
-import Extintor from '../Bases/extintor';
 import { DataStorage } from '../dataContext';
-import Numerodesaidas from '../Bases/numerodesaidas';
 import Link from 'next/link';
 const medidas = [
   'Acesso de viaturas',
