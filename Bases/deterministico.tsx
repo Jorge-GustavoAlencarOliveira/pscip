@@ -211,8 +211,8 @@ const Modulo = ({
 };
 
 const Deterministico = () => {
+  const {setValoresOcupacao} = React.useContext(DataStorage)
   const router = useRouter();
-  const { allStates } = React.useContext(DataStorage);
   const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(
@@ -242,29 +242,24 @@ const Deterministico = () => {
   function handleFinalizar() {
     if(modulos.length === 1){
       if (modulos[0] <= 300) {
-        allStates({ ocupacao: 'J-2', cargaIncendio: modulos[0] });
+       
         setValorFinal(1);
       }
       if (modulos[0] > 300 && modulos[0] <= 1200) {
-        allStates({ ocupacao: 'J-3', cargaIncendio: modulos[0] });
         setValorFinal(2);
       }
       if (modulos[0] > 1200) {
-        allStates({ ocupacao: 'J-4', cargaIncendio: modulos[0] });
         setValorFinal(3);
       }
     } else{
       let cargaIncendioFinal = Math.max(final, mediaf);
       if (cargaIncendioFinal <= 300) {
-        allStates({ ocupacao: 'J-2', cargaIncendio: cargaIncendioFinal });
         setValorFinal(1);
       }
       if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
-        allStates({ ocupacao: 'J-3', cargaIncendio: cargaIncendioFinal });
         setValorFinal(2);
       }
       if (cargaIncendioFinal > 1200) {
-        allStates({ ocupacao: 'J-4', cargaIncendio: cargaIncendioFinal });
         setValorFinal(3);
       }
     }
@@ -330,9 +325,6 @@ const Deterministico = () => {
             Descrição: Depósitos e similares com carga de incêndio alta
           </p>
         </div>
-      )}
-      {valorFinal !== 0 && (
-        <button onClick={() => router.push('/result')}>Proximo</button>
       )}
     </div>
   );

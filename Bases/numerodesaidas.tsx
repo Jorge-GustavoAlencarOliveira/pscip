@@ -399,8 +399,13 @@ const saidasEscadas = [
   ],
 ];
 
-const Numerodesaidas = () => {
-  const { ocupacao, altura } = React.useContext(DataStorage);
+interface numerosaidasProps {
+  ocupacao: string,
+  altura: string
+}
+
+const Numerodesaidas = ({ocupacao, altura}:numerosaidasProps) => {
+  // const { ocupacao, altura } = React.useContext(DataStorage);
   if (ocupacao) {
     const div = divisao.indexOf(ocupacao);
     if (div !== -1) {

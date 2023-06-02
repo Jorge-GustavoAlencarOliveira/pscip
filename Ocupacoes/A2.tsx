@@ -14,8 +14,16 @@ const medidas = [
   'Hidrantes e Mangotinhos',
   'Controle de Materiais de Acabamento e de Revestimento',
 ];
-const A1 = () => {
-  const { altura, area } = React.useContext(DataStorage);
+
+interface a1Props {
+  altura: string;
+  area: string;
+  cargaIncendio: number;
+  isolamento: number;
+}
+
+const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
+  console.log(isolamento);
   const userAltura = Number(altura);
   const userArea = Number(area);
   const [medFinal, setMediaFinal] = React.useState<string[]>([]);
@@ -30,12 +38,12 @@ const A1 = () => {
   }, []);
 
   React.useEffect(() => {
-    if(userAltura <= 12 && userArea <= 1200){
+    if (userAltura <= 12 && userArea <= 1200) {
       if (cond !== '' && salao != '') {
         setEnable(false);
       }
     }
-    if(userAltura <= 12){
+    if (userAltura <= 12) {
       if (salao !== '') {
         setEnable(false);
       }
@@ -43,8 +51,6 @@ const A1 = () => {
   }, [cond, salao]);
 
   function showMedidas() {
-    
-
     if (userAltura <= 12 && userArea <= 1200) {
       const medFinal = [
         'Saídas de Emergencia',
@@ -221,11 +227,42 @@ const A1 = () => {
       </button>
       {medFinal.length != 0 && (
         <div>
-          <h1>Medidas de Segurança</h1>
+          <br />
           <ul>
             {medFinal.map((item) => {
-              return <li key={item}><Link href={`/medidas/${item.replaceAll(' ', '').replace('ç', 'c').replace('ã', 'a').replace('ê', 'e').replace('í', 'i').toLowerCase()}`}>{item}</Link></li>;
+              const link = item
+                .replaceAll(' ', '')
+                .replace('ç', 'c')
+                .replace('ã', 'a')
+                .replace('ê', 'e')
+                .replace('í', 'i')
+                .replace('(nos salões de festas e auditórios com previsão de população superior a 200 pessoas)', '')
+                .toLowerCase();
+              return (
+                <li key={item}>
+                  <Link
+                    href={{
+                      pathname: `/medidas/${link}`,
+                      query: {
+                        altura: altura,
+                        area: area,
+                        carga: cargaIncendio,
+                        ocupacao: 'A-2',
+                      },
+                    }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              );
             })}
+            {isolamento !== 0 && (
+              <li>
+                <Link href="medidas/isolamentoderisco">
+                  Isolamento de risco
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}

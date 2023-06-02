@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { ReactNode } from 'react';
 
+interface dadosProps {
+  areaConstruida: string;
+  areaAconstruir: string;
+  altura: string;
+  pavimentos: string;
+  areaTotal: number;
+  cargaIncendio: number[];
+  dataConstrucao: string;
+}
+
 type ContextData = {
-  altura?: number;
-  area?: number;
-  dataConstrucao?: string;
-  cargaIncendio?: number;
-  ocupacao?: string;
-  allStates: (Credential: StateProps) => void;
+  valoresOcupacao: Array<array>;
+  setValoresOcupacao: Dispatch<SetStateAction<Array<array>>>;
 };
 
-type StateProps = {
-  altura?: number;
-  area?: number;
-  dataConstrucao?: string;
-  cargaIncendio?: number;
-  ocupacao?: string;
-};
+
+type array = [dadosProps, number[][]];
 
 type ProviderProps = {
   children: ReactNode;
@@ -24,35 +25,26 @@ type ProviderProps = {
 export const DataStorage = React.createContext({} as ContextData);
 
 const DataContext = ({ children }: ProviderProps) => {
-  const [altura, setAltura] = React.useState<number>();
-  const [area, setArea] = React.useState<number>();
-  const [dataConstrucao, setDataConstrucao] = React.useState<string>();
-  const [cargaIncendio, setCargaIncendio] = React.useState<number>();
-  const [ocupacao, setOcupacao] = React.useState<string>();
-
-  function allStates({
-    altura,
-    area,
-    dataConstrucao,
-    cargaIncendio,
-    ocupacao,
-  }: StateProps) {
-    if (altura) setAltura(altura);
-    if (area) setArea(area);
-    if (ocupacao) setOcupacao(ocupacao);
-    if (dataConstrucao) setDataConstrucao(dataConstrucao);
-    if (cargaIncendio) setCargaIncendio(cargaIncendio);
-  }
+  const [valoresOcupacao, setValoresOcupacao] = React.useState<Array<array>>([
+    [
+      {
+        areaConstruida: '',
+        areaAconstruir: '',
+        altura: '',
+        pavimentos: '',
+        areaTotal: 0,
+        cargaIncendio: [],
+        dataConstrucao: '',
+      },
+      [],
+    ],
+  ]);
 
   return (
     <DataStorage.Provider
       value={{
-        altura,
-        area,
-        dataConstrucao,
-        cargaIncendio,
-        ocupacao,
-        allStates,
+        valoresOcupacao,
+        setValoresOcupacao,
       }}
     >
       {children}

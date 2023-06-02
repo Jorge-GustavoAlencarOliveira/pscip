@@ -93,9 +93,14 @@ const metodos = [
   },
 ];
 
+interface reservaProps {
+  area: string,
+  cargaIncendio: string,
+  ocupacao: string
+}
 
-const ReservaTecnica = () => {
-  const { area, cargaIncendio, ocupacao } = React.useContext(DataStorage);
+const ReservaTecnica = ({area, cargaIncendio, ocupacao}: reservaProps) => {
+  // const { area, cargaIncendio, ocupacao } = React.useContext(DataStorage);
   
   const valor = reservaTecnica.map((item) => {
     if (ocupacao) {
