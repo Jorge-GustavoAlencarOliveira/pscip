@@ -1,5 +1,6 @@
-import React from 'react';
-
+import React, {Dispatch, SetStateAction} from 'react';
+import { DataStorage } from '../dataContext';
+import TabelaDescricao from '../Tabelas/tabelaDescricao';
 const valorAlfa = [
   [
     0.4, 0.4, 0.44, 0.46, 0.48, 0.49, 0.5, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51,
@@ -65,14 +66,41 @@ const relacaoAlturaLargura = [
   1, 1.3, 1.6, 2.0, 2.5, 3.2, 4, 5, 6, 8, 10, 13, 16, 20, 25, 32, 40,
 ];
 
-const CalculoIsolamento = ({ cargaincendio }: any) => {
+interface isolamentoProps {
+  numero: number,
+  quantidadeIsolamento: number[], 
+  setQuantidadeIsolamento: Dispatch<SetStateAction<number[]>>
+
+}
+
+const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolamento }: isolamentoProps) => {
+  const { descricao } = TabelaDescricao();
+  const { valoresOcupacao } = React.useContext(DataStorage);
+  const cargas = valoresOcupacao.map((item, index) =>
+    item[1].map(
+      (item1) => descricao[item1[0]][item1[1]][item1[2]].cargaincendio,
+    ),
+  );
   const [dimensoes, setDimensoes] = React.useState({
     largura: '',
     altura: '',
     abertura: '',
     fatorSeguranca: 1.5 || 3,
+    cargaIncendio: 0,
   });
-  const [distanciaFinal, setDistanciaFinal] = React.useState(0);
+  const [dimensoes1, setDimensoes1] = React.useState({
+    largura: '',
+    altura: '',
+    abertura: '',
+    fatorSeguranca: 1.5 || 3,
+    cargaIncendio: 0,
+  });
+  const [distanciaFinal, setDistanciaFinal] = React.useState<number[]>([]);
+   
+  function handleDelete (){
+    setQuantidadeIsolamento(quantidadeIsolamento.filter(item => item !== quantidadeIsolamento[numero]))
+  }
+
   function severidade(cargaincendio: number) {
     if (cargaincendio <= 680) return 0;
     if (cargaincendio > 680 && cargaincendio <= 1460) return 1;
@@ -91,85 +119,171 @@ const CalculoIsolamento = ({ cargaincendio }: any) => {
     const y = (abertura / (altura * largura)) * 100;
     return { x, y, z };
   }
-  
+  console.log(distanciaFinal)
+
   function distanciaCalculo() {
-    if(dimensoes.altura !== '' && dimensoes.largura !== '' && dimensoes.abertura !== ''){
-      const { x, y, z } = valorXY(
-        Number(dimensoes.altura),
-        Number(dimensoes.largura),
-        Number(dimensoes.abertura),
-      );
-      const valorSeveridade = severidade(cargaincendio);
-      const abertura = classificaoSeveridade[valorSeveridade].findIndex((item) => item >= y);
-      const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
-      const alfa = valorAlfa[abertura][valorX];
-      const distancia = alfa * z + dimensoes.fatorSeguranca;
-      setDistanciaFinal(distancia);
-    } return null
+    if (
+      dimensoes.altura !== '' &&
+      dimensoes.largura !== '' &&
+      dimensoes.abertura !== ''
+    ) {
+      const dist1 = () => {
+        const { x, y, z } = valorXY(
+          Number(dimensoes.altura),
+          Number(dimensoes.largura),
+          Number(dimensoes.abertura),
+        );
+        const valorSeveridade = severidade(dimensoes.cargaIncendio);
+        const abertura = classificaoSeveridade[valorSeveridade].findIndex(
+          (item) => item >= y,
+        );
+        const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
+        const alfa = valorAlfa[abertura][valorX];
+        const distancia = alfa * z + dimensoes.fatorSeguranca;
+        setDistanciaFinal(item => [...item, distancia]);
+      }
+      const dist2 = () => {
+        const { x, y, z } = valorXY(
+          Number(dimensoes1.altura),
+          Number(dimensoes1.largura),
+          Number(dimensoes1.abertura),
+        );
+        const valorSeveridade = severidade(dimensoes1.cargaIncendio);
+        const abertura = classificaoSeveridade[valorSeveridade].findIndex(
+          (item) => item >= y,
+        );
+        const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
+        const alfa = valorAlfa[abertura][valorX];
+        const distancia = alfa * z + dimensoes.fatorSeguranca;
+        setDistanciaFinal(item => [...item, distancia]);
+      }
+      dist1();
+      dist2()
+    }
+    return null;
   }
   return (
     <>
-      <div>
-        <span>Largura: </span>
-        <input
-          type="text"
-          placeholder="m"
-          onChange={({ target }) =>
-            setDimensoes((item) => ({ ...item, largura: target.value }))
-          }
-        />
+      <div style={{marginTop: '2rem'}}>
+        <div>
+          {numero > 0 && (<button style={{float: 'right'}} onClick={handleDelete}>Excluir</button>)}
+          <div>
+            <select>
+              {cargas.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    Risco {index + 1}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div>
+            <span>Largura: </span>
+            <input
+              type="text"
+              placeholder="m"
+              onChange={({ target }) =>
+                setDimensoes((item) => ({ ...item, largura: target.value }))
+              }
+            />
+          </div>
+        </div>
+        <div>
+          <span>Altura: </span>
+          <input
+            type="text"
+            placeholder="m"
+            onChange={({ target }) =>
+              setDimensoes((item) => ({ ...item, altura: target.value }))
+            }
+          />
+        </div>
+        <div>
+          <span>Somatório das áreas das abertura: </span>
+          <input
+            type="text"
+            placeholder="m²"
+            onChange={({ target }) =>
+              setDimensoes((item) => ({ ...item, abertura: target.value }))
+            }
+          />
+        </div>
+        <div>
+          <span>Carga incêndio: </span>
+          <input
+            type="text"
+            placeholder="MJ/m²"
+            onChange={({ target }) =>
+              setDimensoes((item) => ({
+                ...item,
+                cargaIncendio: +target.value,
+              }))
+            }
+          />
+        </div>
       </div>
       <div>
-        <span>Altura: </span>
-        <input
-          type="text"
-          placeholder="m"
-          onChange={({ target }) =>
-            setDimensoes((item) => ({ ...item, altura: target.value }))
-          }
-        />
-      </div>
-      <div>
-        <span>Somatório das áreas das abertura: </span>
-        <input
-          type="text"
-          placeholder="m²"
-          onChange={({ target }) =>
-            setDimensoes((item) => ({ ...item, abertura: target.value }))
-          }
-        />
-      </div>
-      <div>
-        <span>
-          A cidade na qual está localizada as edificações possui Corpo de
-          Bombeiros com viaturas para combate a incêndio?
-        </span>
-        <input
-          type="radio"
-          id="bombeiroSim"
-          name="mista"
-          value={1.5}
-          onChange={({ target }) =>
-            setDimensoes((item) => ({ ...item, fatorSeguranca: +target.value }))
-          }
-          checked={dimensoes.fatorSeguranca === 1.5}
-        />
-        <label htmlFor="bombeiroSim">Sim</label>
-        <input
-          type="radio"
-          id="bombeiroNao"
-          name="mista"
-          value={3}
-          onChange={({ target }) =>
-            setDimensoes((item) => ({ ...item, fatorSeguranca: +target.value }))
-          }
-          checked={dimensoes.fatorSeguranca === 3}
-        />
-        <label htmlFor="bombeiroNao">Não</label>
+        <div>
+          <div>
+            <select>
+              {cargas.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    Risco {index + 1}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div>
+            <span>Largura: </span>
+            <input
+              type="text"
+              placeholder="m"
+              onChange={({ target }) =>
+                setDimensoes1((item) => ({ ...item, largura: target.value }))
+              }
+            />
+          </div>
+        </div>
+        <div>
+          <span>Altura: </span>
+          <input
+            type="text"
+            placeholder="m"
+            onChange={({ target }) =>
+              setDimensoes1((item) => ({ ...item, altura: target.value }))
+            }
+          />
+        </div>
+        <div>
+          <span>Somatório das áreas das abertura: </span>
+          <input
+            type="text"
+            placeholder="m²"
+            onChange={({ target }) =>
+              setDimensoes1((item) => ({ ...item, abertura: target.value }))
+            }
+          />
+        </div>
+        <div>
+          <span>Carga incêndio: </span>
+          <input
+            type="text"
+            placeholder="MJ/m²"
+            onChange={({ target }) =>
+              setDimensoes1((item) => ({
+                ...item,
+                cargaIncendio: +target.value,
+              }))
+            }
+          />
+        </div>
       </div>
       <button onClick={distanciaCalculo}>Calcular</button>
-      {distanciaFinal !== 0 && (
-        <h2>A distancia mínima é: {distanciaFinal.toFixed(2)} metros</h2>
+      {distanciaFinal.length > 0 && (
+        <h2>A distancia mínima é: {Math.max(...distanciaFinal).toFixed(2)} metros</h2>
       )}
     </>
   );
@@ -177,6 +291,13 @@ const CalculoIsolamento = ({ cargaincendio }: any) => {
 
 const Isolamento = () => {
   const [tipo, setTipo] = React.useState('');
+  const [quantidadeIsolamento, setQuantidadeIsolamento] = React.useState([0]);
+  const [count, setCount] = React.useState(1);
+
+  function handleAdd() {
+    setCount((item) => item + 1);
+    setQuantidadeIsolamento((item) => [...item, count]);
+  }
   return (
     <>
       <div>
@@ -201,7 +322,28 @@ const Isolamento = () => {
         />
         <label htmlFor="parede">Parede corta-fogo</label>
       </div>
-      {tipo === 'distancia' && <CalculoIsolamento cargaincendio={700} />}
+      {tipo === 'distancia' && (
+        <div>
+          <button
+            style={{ display: 'block', float: 'right' }}
+            onClick={handleAdd}
+          >
+            Adicionar
+          </button>
+          <div>
+            {quantidadeIsolamento.map((item, index) => {
+              return (
+                <CalculoIsolamento
+                  key={item}
+                  numero={index}
+                  quantidadeIsolamento={quantidadeIsolamento}
+                  setQuantidadeIsolamento={setQuantidadeIsolamento}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
     </>
   );
 };

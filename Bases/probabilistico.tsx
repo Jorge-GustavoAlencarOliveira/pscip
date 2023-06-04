@@ -244,15 +244,20 @@ const Modulo = ({
     </>
   );
 };
+interface ocupacaoProps {
+  numero: number;
+  valorOcupacao: number[][],
+  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+}
 
-const Probabilistico = () => {
+const Probabilistico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps) => {
   const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(
     new Array(modulo.length).fill(0),
   );
-  const [final, setFinal] = React.useState<number>(0);
-
+  const [valorFinal, setValorFinal] = React.useState<number>(0);
+  
   let i = 1;
   function handleAdicionar() {
     setCount((item) => item + 1);
@@ -260,9 +265,42 @@ const Probabilistico = () => {
   }
 
   function handleCargaFinal() {
-    let cargafinal = Math.max(...modulos);
-    setFinal(cargafinal);
-  }
+    if(modulos.length === 1){
+      if (modulos[0] <= 300) {
+        valorOcupacao[numero] = [9,1,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
+        setValorFinal(1);
+      }
+      if (modulos[0] > 300 && modulos[0] <= 1200) {
+        valorOcupacao[numero] = [9,2,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
+        setValorFinal(2);
+      }
+      if (modulos[0] > 1200) {
+        valorOcupacao[numero] = [9,3,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
+        setValorFinal(3);
+      }
+    } else {
+      let cargaIncendioFinal = Math.max(...modulos);
+      if (cargaIncendioFinal <= 300) {
+        setValorFinal(1);
+        valorOcupacao[numero] = [9,1,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
+      }
+      if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
+        setValorFinal(2);
+        valorOcupacao[numero] = [9,2,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
+      }
+      if (cargaIncendioFinal > 1200) {
+        setValorFinal(3);
+        valorOcupacao[numero] = [9,3,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
+      }
+    }
+    }
+
 
   return (
     <div className={styles.proba}>
@@ -277,16 +315,37 @@ const Probabilistico = () => {
             modulo={modulo}
             setModulo={setModulo}
             modulos={modulos}
-            setFinal={setFinal}
+            setFinal={setValorFinal}
           />
         );
       })}
-      {modulo.length > 1 && (
-        <button onClick={handleCargaFinal}>
+      <button onClick={handleCargaFinal}>
           Calcular carga incêndio total
-        </button>
+      </button>
+      {valorFinal === 1 && (
+        <div>
+          <p>Divisão: J-2</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio baixa
+          </p>
+        </div>
       )}
-      {final !== 0 && <h2>Carga incêndio Final: {final.toFixed(2)} MJ/m²</h2>}
+      {valorFinal === 2 && (
+        <div>
+          <p>Divisão: J-3</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio média
+          </p>
+        </div>
+      )}
+      {valorFinal === 3 && (
+        <div>
+          <p>Divisão: J-4</p>
+          <p>
+            Descrição: Depósitos e similares com carga de incêndio alta
+          </p>
+        </div>
+      )}
     </div>
   );
 };

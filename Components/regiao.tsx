@@ -9,7 +9,6 @@ interface dadosProps {
   altura: string;
   pavimentos: string;
   areaTotal: number;
-  cargaIncendio: number[];
   dataConstrucao: string;
 }
 type array = [dadosProps, number[][]]
@@ -22,7 +21,6 @@ const Regioes = () => {
   altura: '',
   pavimentos: '',
   areaTotal: 0,
-  cargaIncendio: [],
   dataConstrucao: ''
 },[]]]);
   const [count, setCount] = React.useState(1);

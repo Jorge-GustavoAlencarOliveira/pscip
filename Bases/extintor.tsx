@@ -1,12 +1,12 @@
 import React from "react";
-import { DataStorage } from "../dataContext";
 
-const Extintor = () => {
-  const {cargaIncendio} = React.useContext(DataStorage)
-  const carga = cargaIncendio;
+interface extintorProps {
+  cargaIncendio: string
+}
 
-  if (carga) {
-    if (carga <= 300) {
+const Extintor = ({cargaIncendio}:extintorProps) => {
+   
+    if (+cargaIncendio <= 300) {
       return (
         <div>
           <h1>Extintores</h1>
@@ -29,7 +29,7 @@ const Extintor = () => {
         </div>
       );
     }
-    if (carga > 300 && carga <= 1200) {
+    if (+cargaIncendio > 300 && +cargaIncendio <= 1200) {
       return (
         <div>
           <h1>Extintores</h1>
@@ -52,7 +52,7 @@ const Extintor = () => {
         </div>
       );
     }
-    if (carga > 1200) {
+    if (+cargaIncendio > 1200) {
       return (
         <div>
           <h1>Extintores</h1>
@@ -83,8 +83,7 @@ const Extintor = () => {
         </div>
       );
     }
-  }
-  return null
+    return null
 };
 
 export default Extintor;

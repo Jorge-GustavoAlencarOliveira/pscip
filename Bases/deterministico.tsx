@@ -210,7 +210,13 @@ const Modulo = ({
   );
 };
 
-const Deterministico = () => {
+interface ocupacaoProps {
+  numero: number;
+  valorOcupacao: number[][],
+  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+}
+
+const Deterministico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps) => {
   const {setValoresOcupacao} = React.useContext(DataStorage)
   const router = useRouter();
   const [count, setCount] = React.useState<number>(1);
@@ -242,29 +248,40 @@ const Deterministico = () => {
   function handleFinalizar() {
     if(modulos.length === 1){
       if (modulos[0] <= 300) {
-       
+        valorOcupacao[numero] = [9,1,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
         setValorFinal(1);
       }
       if (modulos[0] > 300 && modulos[0] <= 1200) {
+        valorOcupacao[numero] = [9,2,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
         setValorFinal(2);
       }
       if (modulos[0] > 1200) {
+        valorOcupacao[numero] = [9,3,0, +modulos[0].toFixed(2)]
+        setValorOcupacao(valorOcupacao)
         setValorFinal(3);
       }
     } else{
       let cargaIncendioFinal = Math.max(final, mediaf);
       if (cargaIncendioFinal <= 300) {
         setValorFinal(1);
+        valorOcupacao[numero] = [9,1,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
       }
       if (cargaIncendioFinal > 300 && cargaIncendioFinal <= 1200) {
         setValorFinal(2);
+        valorOcupacao[numero] = [9,2,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
       }
       if (cargaIncendioFinal > 1200) {
         setValorFinal(3);
+        valorOcupacao[numero] = [9,3,0, cargaIncendioFinal]
+        setValorOcupacao(valorOcupacao)
       }
     }
   }
-
+  console.log(valorOcupacao)
   return (
     <div className={styles.proba}>
       <div>

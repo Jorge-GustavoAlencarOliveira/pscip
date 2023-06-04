@@ -20,35 +20,31 @@ interface a1Props {
   area: string;
   cargaIncendio: number;
   isolamento: number;
+  construcao: string
 }
 
-const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
-  console.log(isolamento);
+const A1 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) => {
   const userAltura = Number(altura);
   const userArea = Number(area);
   const [medFinal, setMediaFinal] = React.useState<string[]>([]);
-  const [cond, setCond] = React.useState<string>('');
-  const [salao, setSalao] = React.useState<string>('');
-  const [enable, setEnable] = React.useState<boolean>(true);
+  const [cond, setCond] = React.useState<string>('nao');
+  const [salao, setSalao] = React.useState<string>('nao');
+
+  
 
   React.useEffect(() => {
-    if (userAltura > 12) {
-      setEnable(false);
-    }
-  }, []);
+    showMedidas()
+  }, [ ,cond, salao]);
 
-  React.useEffect(() => {
-    if (userAltura <= 12 && userArea <= 1200) {
-      if (cond !== '' && salao != '') {
-        setEnable(false);
-      }
-    }
-    if (userAltura <= 12) {
-      if (salao !== '') {
-        setEnable(false);
-      }
-    }
-  }, [cond, salao]);
+  function edificacaoExistente(medidas: string[]){
+    if(construcao === 'Existente'){
+      const final =  medidas.filter(item => item !== 'Acesso de viaturas' 
+      ).filter(item1 => item1 !== 'Segurança Estrutural contra Incêndio').filter(item2 => item2 !== 'Compartimentação Horizontal').filter(item3 => item3 !== 'Compartimentação Vertical').filter(item4 => item4 !== 'Chuveiros Automáticos').filter(item5 => item5 !== 'Controle de Fumaça')
+      return final
+    } 
+    return medidas
+  }
+ 
 
   function showMedidas() {
     if (userAltura <= 12 && userArea <= 1200) {
@@ -68,7 +64,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Sinalização de Emergência',
         'Extintores',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (
       userAltura <= 12 &&
@@ -99,7 +95,21 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Extintores',
         'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
+    }
+    if (
+      userAltura <= 12 &&
+      userArea <= 1200 &&
+      salao === 'nao' && cond === 'sim'      
+    ) {
+      const medFinal = [
+        'Acesso de viaturas',
+        'Saídas de Emergencia',
+        'Iluminação de Emergência',
+        'Sinalização de Emergência',
+        'Extintores',
+      ];
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (userAltura <= 12 && userArea > 1200) {
       const medFinal = [
@@ -110,7 +120,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Extintores',
         'Hidrantes e Mangotinhos',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (userAltura <= 12 && userArea > 1200 && salao === 'sim') {
       const medFinal = [
@@ -122,7 +132,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (userAltura > 12 && userAltura <= 30) {
       const medFinal = [
@@ -135,7 +145,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (userAltura > 30 && userAltura <= 54) {
       const medFinal = [
@@ -150,7 +160,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
     if (userAltura > 54) {
       const medFinal = [
@@ -166,18 +176,17 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      setMediaFinal(medFinal);
+      setMediaFinal(edificacaoExistente(medFinal));
     }
   }
 
   return (
     <div>
-      {userAltura <= 12 && userArea <= 1200 && (
+      {userAltura <= 12 && userArea <= 1200 && construcao !== "Existente" && (
         <div>
           <span>Trata-se de condomínio com arruamento interno?</span>
           <input
             type="radio"
-            name="condominio"
             id="simPossui"
             value="sim"
             checked={cond === 'sim'}
@@ -186,7 +195,6 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
           <label htmlFor="simPossui">Sim</label>
           <input
             type="radio"
-            name="condominio"
             id="naoPossui"
             value="nao"
             checked={cond === 'nao'}
@@ -204,7 +212,6 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
           </span>
           <input
             type="radio"
-            name="salao"
             id="simPossuiS"
             value="sim"
             checked={salao === 'sim'}
@@ -213,7 +220,6 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
           <label htmlFor="simPossuiS">Sim</label>
           <input
             type="radio"
-            name="salao"
             id="naoPossuiS"
             value="nao"
             checked={salao === 'nao'}
@@ -222,9 +228,6 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
           <label htmlFor="naoPossuiS">Não</label>
         </div>
       )}
-      <button disabled={enable} onClick={showMedidas}>
-        Mostrar medidas
-      </button>
       {medFinal.length != 0 && (
         <div>
           <br />
@@ -236,7 +239,7 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
                 .replace('ã', 'a')
                 .replace('ê', 'e')
                 .replace('í', 'i')
-                .replace('(nos salões de festas e auditórios com previsão de população superior a 200 pessoas)', '')
+                .replace(' (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)', '')
                 .toLowerCase();
               return (
                 <li key={item}>
@@ -256,9 +259,14 @@ const A1 = ({ altura, area, cargaIncendio, isolamento }: a1Props) => {
                 </li>
               );
             })}
-            {isolamento !== 0 && (
+            {isolamento > 1 && (
               <li>
-                <Link href="medidas/isolamentoderisco">
+                <Link href={{
+                  pathname: "/medidas/isolamentoderisco",
+                  query:{
+                    carga: cargaIncendio,
+                  }
+                }}>
                   Isolamento de risco
                 </Link>
               </li>

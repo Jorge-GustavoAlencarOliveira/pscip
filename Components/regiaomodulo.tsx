@@ -1,13 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import OcupacaoModulo from './ocupacaomodulo';
-
+import Construcao from '../Bases/construcao';
 interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
   altura: string;
   pavimentos: string;
   areaTotal: number;
-  cargaIncendio: number[];
   dataConstrucao: string;
 }
 type array = [dadosProps, number[][]]
@@ -25,13 +24,12 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
   const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([0]);
   const [count, setCount] = React.useState(1);
   const [areaTotal, setAreaTotal] = React.useState<number>(0);
-  const [dados, setDados] = React.useState({
+  const [dados, setDados] = React.useState<dadosProps>({
     areaConstruida: '',
     areaAconstruir: '',
     altura: '',
     pavimentos: '',
     areaTotal: 0,
-    cargaIncendio: [],
     dataConstrucao: ''
   });
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
@@ -180,6 +178,7 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 }
               />
             </div>
+            <Construcao setDados={setDados} dados={dados} />
           </div>
         )}
         {mista === 'mistaNao' && (
@@ -257,6 +256,7 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 }
               />
             </div>
+            <Construcao setDados={setDados} dados={dados} />
           </div>
         )}
       </div>

@@ -7,7 +7,6 @@ interface dadosProps {
   altura: string;
   pavimentos: string;
   areaTotal: number;
-  cargaIncendio: number[];
   dataConstrucao: string;
 }
 
@@ -33,7 +32,6 @@ const DataContext = ({ children }: ProviderProps) => {
         altura: '',
         pavimentos: '',
         areaTotal: 0,
-        cargaIncendio: [],
         dataConstrucao: '',
       },
       [],

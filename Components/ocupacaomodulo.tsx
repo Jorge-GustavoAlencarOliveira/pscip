@@ -2,10 +2,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 import TabelaDescricao from '../Tabelas/tabelaDescricao';
 import TabelaDivisao from '../Tabelas/tabelaDivisao';
 import TabelaOcupacao from '../Tabelas/tabelaOcupacao';
-import Deterministico from '../Bases/deterministico';
-import Probabilistico from '../Bases/probabilistico';
-import Cargaincendio from '../Bases/cargaincendio';
 import Cargaincendiocalculo from './cargaincendiocalculo';
+
 
 interface OcupacaoModuloProps {
   numero: number;
@@ -29,7 +27,7 @@ const OcupacaoModulo = ({
   const [ocup, setOcup] = React.useState<number>(0);
   const [div, setDiv] = React.useState<number>(0);
   const [desc, setDesc] = React.useState<number>(0);
-
+  
   React.useEffect(() => {
     setDiv(0);
     setDesc(0);
@@ -81,7 +79,8 @@ const OcupacaoModulo = ({
             })}
           </select>
           {ocup === 9 ? (
-              <Cargaincendiocalculo/>
+              <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
+              setValorOcupacao={setValorOcupacao}/>
             ) : (
               <div>
                 <div>

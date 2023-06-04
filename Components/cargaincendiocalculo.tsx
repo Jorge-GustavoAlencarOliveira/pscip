@@ -2,15 +2,28 @@ import React from 'react';
 import styles from '../src/pages/home.module.css';
 import Deterministico from '../Bases/deterministico';
 import Probabilistico from '../Bases/probabilistico';
+import { Dispatch, SetStateAction } from 'react';
 
-const Cargaincendiocalculo = () => {
+interface ocupacaoProps {
+  numero: number;
+  valorOcupacao: number[][],
+  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+}
+
+const Cargaincendiocalculo = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps) => {
   const [j1, setJ1] = React.useState<string>('sim');
   const [metodo, setMetodo] = React.useState<string>('');
 
   function handleMetodo(event: string) {
     setJ1(event);
     setMetodo('');
+    if(j1 === 'sim'){ 
+      valorOcupacao[numero] = [9,0,0]
+      setValorOcupacao(valorOcupacao)
   }
+}
+
+console.log(valorOcupacao)
   return (
     <div style={{margin: '2rem 0'}}>
       <span>Todo o material a ser armazenado é incombustível?</span>
@@ -18,7 +31,6 @@ const Cargaincendiocalculo = () => {
         <div>
           <input
             type="radio"
-            name="J-1"
             id="combustível"
             value="sim"
             checked={j1 === 'sim'}
@@ -31,7 +43,6 @@ const Cargaincendiocalculo = () => {
         <div>
           <input
             type="radio"
-            name="J-1"
             id="incombustível"
             value="nao"
             checked={j1 === 'nao'}
@@ -42,6 +53,12 @@ const Cargaincendiocalculo = () => {
           <label htmlFor="incombustível">Não</label>
         </div>
       </div>
+      {j1 === 'sim' && (
+        <div>
+          <p>Divisão: J-1</p>
+          <p>Descrição: Depósito de material incombustível</p>
+        </div>
+      )}
       {j1 === 'nao' && (
         <div>
           <span>Deseja calcular a carga incêndio por qual método?</span>
@@ -49,7 +66,6 @@ const Cargaincendiocalculo = () => {
             <div>
               <input
                 type="radio"
-                name="metodo"
                 id="probabilistico"
                 value="probabilistico"
                 checked={metodo === 'probabilistico'}
@@ -60,7 +76,6 @@ const Cargaincendiocalculo = () => {
             <div>
               <input
                 type="radio"
-                name="metodo"
                 id="deterministico"
                 value="deterministico"
                 checked={metodo === 'deterministico'}
@@ -71,8 +86,10 @@ const Cargaincendiocalculo = () => {
           </div>
         </div>
       )}
-      {metodo === 'probabilistico' && <Probabilistico />}
-      {metodo === 'deterministico' && <Deterministico />}
+      {metodo === 'probabilistico' && <Probabilistico numero={numero} valorOcupacao={valorOcupacao}
+              setValorOcupacao={setValorOcupacao}/>}
+      {metodo === 'deterministico' && <Deterministico numero={numero} valorOcupacao={valorOcupacao}
+              setValorOcupacao={setValorOcupacao}/>}
     </div>
   );
 };

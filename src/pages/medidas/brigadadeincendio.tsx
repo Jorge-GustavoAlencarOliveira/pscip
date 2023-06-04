@@ -1,10 +1,11 @@
 import React from 'react';
 import Brigada from '../../../Bases/brigada';
-import { DataStorage } from '../../../dataContext';
+import { useRouter } from 'next/router';
 
 const BrigadaPage = () => {
-  const { ocupacao} = React.useContext(DataStorage);
-  if (ocupacao) {
+  const router = useRouter()
+  const { ocupacao} = router.query
+  if(typeof ocupacao === "string"){
     if (ocupacao === 'A-2') {
       return (
         <div>
@@ -20,12 +21,12 @@ const BrigadaPage = () => {
         </div>
       );
     }
+    return (
+      <>
+        <Brigada />
+      </>
+    )
   }
-  return (
-    <>
-      <Brigada />
-    </>
-  );
 };
 
 export default BrigadaPage;

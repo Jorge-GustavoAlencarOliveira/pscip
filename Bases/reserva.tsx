@@ -100,7 +100,6 @@ interface reservaProps {
 }
 
 const ReservaTecnica = ({area, cargaIncendio, ocupacao}: reservaProps) => {
-  // const { area, cargaIncendio, ocupacao } = React.useContext(DataStorage);
   
   const valor = reservaTecnica.map((item) => {
     if (ocupacao) {

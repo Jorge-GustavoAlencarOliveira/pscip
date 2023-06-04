@@ -1,38 +1,57 @@
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 
-const Construcao = () => {
-  const [tipo, setTipo] = React.useState<string>('construida')
-   
+interface dadosProps {
+  areaConstruida: string;
+  areaAconstruir: string;
+  altura: string;
+  pavimentos: string;
+  areaTotal: number;
+  dataConstrucao: string;
+}
+
+type propsConstrucao = {
+  dados: dadosProps,
+  setDados: Dispatch<SetStateAction<dadosProps>>
+}
+
+const Construcao = ({setDados, dados}: propsConstrucao ) => {
+  
   return (
     <div>
-      <h2>Data de construção</h2>
-      <input
-        type='radio'
-        name='construcao'
-        id='construida'
-        value='construida'
-        checked={tipo === "construida"}
-        onChange={({target}) => setTipo(target.value)}
-      />
-      <label htmlFor='construida'>Edificação Construída antes de 2005</label>
-      <input
-        type='radio'
-        name='construcao'
-        id='existente'
-        value='existente'
-        checked={tipo === "existente"}
-        onChange={({target}) => setTipo(target.value)}
-      />
-      <label htmlFor='existente'>Edificação Construída entre 2005 e 2016</label>
-      <input
-        type='radio'
-        name='construcao'
-        id='nova'
-        value='nova'
-        checked={tipo === "nova"}
-        onChange={({target}) => setTipo(target.value)}
-      />
-      <label htmlFor='nova'>Edificação Construída após 2016</label>
+      <h4>Data de construção</h4>
+      <div>
+        <input
+          type='radio'
+          id='existente'
+          value="Existente"
+          checked={dados.dataConstrucao === "Existente"}
+          onChange={({target}) => {
+            setDados(item => ({...item, dataConstrucao: target.value}))
+          }
+        }
+        />
+        <label htmlFor='existente'>Edificação Existente (construída até 01Jul2005)</label>
+      </div>
+      <div>
+        <input
+          type='radio'
+          id='construida'
+          value="Construída"
+          checked={dados.dataConstrucao === "Construída"}
+          onChange={({target}) => setDados(item => ({...item, dataConstrucao: target.value}))}
+        />
+        <label htmlFor='construida'>Edificação Construída (construída entre 02Jul2005 e 31Dez2016)</label>
+      </div>
+      <div>
+        <input
+          type='radio'
+          id='nova'
+          value="Nova"
+          checked={dados.dataConstrucao === "Nova"}
+          onChange={({target}) => setDados(item => ({...item, dataConstrucao: target.value}))}
+        />
+        <label htmlFor='nova'>Edificação Nova (construída após 31Dez2016)</label>
+      </div>
     </div>
   )
 }

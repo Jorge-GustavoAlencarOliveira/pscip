@@ -3,6 +3,16 @@ import OcupacaoModulo from './ocupacaomodulo';
 import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';
 import TabelaDescricao from '../Tabelas/tabelaDescricao';
+import Construcao from '../Bases/construcao';
+
+interface dadosProps {
+  areaConstruida: string;
+  areaAconstruir: string;
+  altura: string;
+  pavimentos: string;
+  areaTotal: number;
+  dataConstrucao: string;
+}
 const Ocupacao = () => {
   const router = useRouter()
   const {descricao} = TabelaDescricao()
@@ -12,13 +22,12 @@ const Ocupacao = () => {
   const [count, setCount] = React.useState(1);
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
   const [areaTotal, setAreaTotal] = React.useState<number>(0);
-  const [dados, setDados] = React.useState({
+  const [dados, setDados] = React.useState<dadosProps>({
     areaConstruida: '',
     areaAconstruir: '',
     altura: '',
     pavimentos: '',
     areaTotal: 0,
-    cargaIncendio: [],
     dataConstrucao: ''
   });
   React.useEffect(() => {
@@ -29,6 +38,7 @@ const Ocupacao = () => {
    setDados(item => ({...item, areaTotal: areaTotal}))
   },[areaTotal])
 
+  
   React.useEffect(() =>{
     setValorOcupacao([[0, 0, 0]])
     setDados({
@@ -37,7 +47,6 @@ const Ocupacao = () => {
       altura: '',
       pavimentos: '',
       areaTotal: 0,
-      cargaIncendio: [],
       dataConstrucao: ''
     })
   },[,mista])
@@ -157,6 +166,7 @@ const Ocupacao = () => {
               }
             />
           </div>
+          <Construcao setDados={setDados} dados={dados} />
         </div>
       )}
       {mista === 'mistaNao' && (
@@ -230,6 +240,7 @@ const Ocupacao = () => {
               }
             />
           </div>
+          <Construcao setDados={setDados} dados={dados} />
         </div>
       )}
     <button onClick={handleNext}>Próximo</button>
