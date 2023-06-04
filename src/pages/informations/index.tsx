@@ -1,4 +1,4 @@
-// import React from 'react'
+import React from 'react'
 // import Head from 'next/head'
 // import { DataStorage } from '../../../dataContext'
 // import styles from '../home.module.css'
