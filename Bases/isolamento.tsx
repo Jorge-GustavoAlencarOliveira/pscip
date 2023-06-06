@@ -70,10 +70,11 @@ interface isolamentoProps {
   numero: number,
   quantidadeIsolamento: number[], 
   setQuantidadeIsolamento: Dispatch<SetStateAction<number[]>>
-
+  fatorSeguranca: number
+  setFatorSeguranca: Dispatch<SetStateAction<number>>
 }
 
-const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolamento }: isolamentoProps) => {
+const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolamento, fatorSeguranca, setFatorSeguranca }: isolamentoProps) => {
   const { descricao } = TabelaDescricao();
   const { valoresOcupacao } = React.useContext(DataStorage);
   const cargas = valoresOcupacao.map((item, index) =>
@@ -85,17 +86,22 @@ const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolament
     largura: '',
     altura: '',
     abertura: '',
-    fatorSeguranca: 1.5 || 3,
+    fatorSeguranca: fatorSeguranca,
     cargaIncendio: 0,
   });
   const [dimensoes1, setDimensoes1] = React.useState({
     largura: '',
     altura: '',
     abertura: '',
-    fatorSeguranca: 1.5 || 3,
+    fatorSeguranca: 1.5||3,
     cargaIncendio: 0,
   });
   const [distanciaFinal, setDistanciaFinal] = React.useState<number[]>([]);
+
+  React.useEffect(() =>{
+    setDimensoes(item => ({...item, fatorSeguranca: fatorSeguranca}))
+    setDimensoes1(item => ({...item, fatorSeguranca: fatorSeguranca}))
+  },[fatorSeguranca,setFatorSeguranca])
    
   function handleDelete (){
     setQuantidadeIsolamento(quantidadeIsolamento.filter(item => item !== quantidadeIsolamento[numero]))
@@ -106,7 +112,7 @@ const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolament
     if (cargaincendio > 680 && cargaincendio <= 1460) return 1;
     else return 2;
   }
-  function valorXY(altura: number, largura: number, abertura: number) {
+  function valorXY(altura: number, largura: number, abertura: number): { x: number; y: number; z: number; } {
     let x;
     let z;
     if (altura >= largura) {
@@ -119,14 +125,19 @@ const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolament
     const y = (abertura / (altura * largura)) * 100;
     return { x, y, z };
   }
-  console.log(distanciaFinal)
 
   function distanciaCalculo() {
     if (
-      dimensoes.altura !== '' &&
-      dimensoes.largura !== '' &&
-      dimensoes.abertura !== ''
+      dimensoes.altura !== '' ||
+      dimensoes.largura !== '' ||
+      dimensoes.abertura !== '' ||
+      dimensoes1.altura !== '' ||
+      dimensoes1.largura !== '' ||
+      dimensoes1.abertura !== '' 
     ) {
+      if((+dimensoes.abertura > (+dimensoes.altura * +dimensoes.largura)) || (+dimensoes1.abertura > (+dimensoes1.altura * +dimensoes1.largura))){
+        return alert('O somatório das aberturas deve ser sempre menor ou igual a área total da fachada')
+      }
       const dist1 = () => {
         const { x, y, z } = valorXY(
           Number(dimensoes.altura),
@@ -139,8 +150,8 @@ const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolament
         );
         const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
         const alfa = valorAlfa[abertura][valorX];
-        const distancia = alfa * z + dimensoes.fatorSeguranca;
-        setDistanciaFinal(item => [...item, distancia]);
+        const distancia = (alfa * z) + dimensoes.fatorSeguranca;
+        return distancia
       }
       const dist2 = () => {
         const { x, y, z } = valorXY(
@@ -155,13 +166,14 @@ const CalculoIsolamento = ({numero, quantidadeIsolamento, setQuantidadeIsolament
         const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
         const alfa = valorAlfa[abertura][valorX];
         const distancia = alfa * z + dimensoes.fatorSeguranca;
-        setDistanciaFinal(item => [...item, distancia]);
+        return distancia
+
       }
-      dist1();
-      dist2()
+      setDistanciaFinal([dist1(), dist2()])
     }
     return null;
   }
+  console.log(distanciaFinal)
   return (
     <>
       <div style={{marginTop: '2rem'}}>
@@ -293,37 +305,60 @@ const Isolamento = () => {
   const [tipo, setTipo] = React.useState('');
   const [quantidadeIsolamento, setQuantidadeIsolamento] = React.useState([0]);
   const [count, setCount] = React.useState(1);
-
+  const [fatorSeguranca, setFatorSeguranca] = React.useState<number>(1.5)
   function handleAdd() {
-    setCount((item) => item + 1);
+    setCount(count + 1);
     setQuantidadeIsolamento((item) => [...item, count]);
   }
   return (
     <>
       <div>
         <span>O isolamento de risco dá-se por:</span>
-        <br />
-        <input
-          type="radio"
-          id="distancia"
-          name="isolamentoderisco"
-          value="distancia"
-          onChange={({ target }) => setTipo(target.value)}
-          checked={tipo === 'distancia'}
-        />
-        <label htmlFor="distancia">Distância entre fachadas</label>
-        <input
-          type="radio"
-          id="parede"
-          name="isolamentoderisco"
-          value="parede"
-          onChange={({ target }) => setTipo(target.value)}
-          checked={tipo === 'parede'}
-        />
-        <label htmlFor="parede">Parede corta-fogo</label>
+        <div>
+          <input
+            type="radio"
+            id="distancia"
+            name="isolamentoderisco"
+            value="distancia"
+            onChange={({ target }) => setTipo(target.value)}
+            checked={tipo === 'distancia'}
+          />
+          <label htmlFor="distancia">Distância entre fachadas</label>
+          <input
+            type="radio"
+            id="parede"
+            name="isolamentoderisco"
+            value="parede"
+            onChange={({ target }) => setTipo(target.value)}
+            checked={tipo === 'parede'}
+          />
+          <label htmlFor="parede">Parede corta-fogo</label>
+        </div>
       </div>
       {tipo === 'distancia' && (
         <div>
+          <div>
+          <br />
+          <span>O município em que está localizado as edificações possui Corpo de Bombeiros Militar com viaturas para combate a incêndios?</span>
+          <input
+            type="radio"
+            id="fatorSegurancaSim"
+            name="fatorSeguranca"
+            value={1.5}
+            onChange={({ target }) => setFatorSeguranca(+target.value)}
+            checked={fatorSeguranca === 1.5}
+          />
+          <label htmlFor="fatorSegurancaSim">Sim</label>
+          <input
+            type="radio"
+            id="fatorSegurancaNao"
+            name="fatorSeguranca"
+            value={3}
+            onChange={({ target }) => setFatorSeguranca(+target.value)}
+            checked={fatorSeguranca === 3}
+          />
+          <label htmlFor="fatorSegurancaNao">Não</label>
+        </div>
           <button
             style={{ display: 'block', float: 'right' }}
             onClick={handleAdd}
@@ -338,6 +373,8 @@ const Isolamento = () => {
                   numero={index}
                   quantidadeIsolamento={quantidadeIsolamento}
                   setQuantidadeIsolamento={setQuantidadeIsolamento}
+                  fatorSeguranca={fatorSeguranca}
+                  setFatorSeguranca={setFatorSeguranca}
                 />
               );
             })}

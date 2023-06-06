@@ -1,7 +1,6 @@
 import React from 'react';
 import Regioes from '../../Components/regiao';
 import Ocupacao from '../../Components/ocupacao';
-
 export default function Home() {
   
   const [separacao, setSeparacao] = React.useState<string>('');
