@@ -1,10 +1,12 @@
 import React from 'react';
 import Regioes from '../../Components/regiao';
 import Ocupacao from '../../Components/ocupacao';
+import Pdf from '../../geradorPdf/pdf';
 export default function Home() {
   
   const [separacao, setSeparacao] = React.useState<string>('');
-    return (
+  
+  return (
     <>
       <div>
         <span>Existe separação entre edificações?</span>

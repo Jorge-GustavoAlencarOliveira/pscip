@@ -1,7 +1,4 @@
-import React from 'react';
-import { DataStorage } from '../dataContext';
-
-const divisao = [
+export const divisao = [
   'A-1',
   'A-2',
   'A-3',
@@ -59,12 +56,8 @@ const divisao = [
   'M-5',
   'M-8',
 ];
-const saidasEscadas = [
-  ['Não se aplica',
-  'Não se aplica',
-  'Não se aplica',
-  'Não se aplica',
-  ],
+export const saidasEscadas = [
+  ['Não se aplica', 'Não se aplica', 'Não se aplica', 'Não se aplica'],
   [
     'Número de saídas: 1, Tipo de Escada: NE',
     'Número de saídas: 1, Tipo de Escada: EP',
@@ -398,52 +391,3 @@ const saidasEscadas = [
     'Número de saídas: Necessidade de consultar normas e regulamentos específicos, Tipo de Escada:Necessidade de consultar normas e regulamentos específicos',
   ],
 ];
-
-interface numerosaidasProps {
-  ocupacao: string,
-  altura: string
-}
-
-const Numerodesaidas = ({ocupacao, altura}:numerosaidasProps) => {
-  // const { ocupacao, altura } = React.useContext(DataStorage);
-  if (ocupacao) {
-    const div = divisao.indexOf(ocupacao);
-    if (div !== -1) {
-      if (Number(altura) <= 12) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas && saidasEscadas[div][0]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 12 && Number(altura) <= 30) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][1]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 30 && Number(altura) <= 54) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][2]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 54) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][3]}</p>
-          </div>
-        );
-      }
-    }
-  }
-  return null;
-};
-
-export default Numerodesaidas;

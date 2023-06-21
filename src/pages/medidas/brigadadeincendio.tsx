@@ -1,6 +1,7 @@
 import React from 'react';
-import Brigada from '../../../Bases/brigada';
+import Brigada from '../../../Bases/Brigada/Brigada';
 import { useRouter } from 'next/router';
+import Pdf from '../../../geradorPdf/pdf';
 
 const BrigadaPage = () => {
   const router = useRouter()
@@ -24,6 +25,7 @@ const BrigadaPage = () => {
     return (
       <>
         <Brigada />
+      
       </>
     )
   }

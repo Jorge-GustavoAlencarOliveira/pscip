@@ -1,31 +1,35 @@
 import React from 'react';
 import styles from '../src/pages/home.module.css';
-import Deterministico from '../Bases/deterministico';
-import Probabilistico from '../Bases/probabilistico';
+import Deterministico from '../Bases/CargaIncendio/deterministico';
+import Probabilistico from '../Bases/CargaIncendio/probabilistico';
 import { Dispatch, SetStateAction } from 'react';
 
 interface ocupacaoProps {
   numero: number;
-  valorOcupacao: number[][],
-  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+  valorOcupacao: number[][];
+  setValorOcupacao: Dispatch<SetStateAction<number[][]>>;
 }
 
-const Cargaincendiocalculo = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps) => {
+const Cargaincendiocalculo = ({
+  numero,
+  valorOcupacao,
+  setValorOcupacao,
+}: ocupacaoProps) => {
   const [j1, setJ1] = React.useState<string>('sim');
   const [metodo, setMetodo] = React.useState<string>('');
 
   function handleMetodo(event: string) {
     setJ1(event);
     setMetodo('');
-    if(j1 === 'sim'){ 
-      valorOcupacao[numero] = [9,0,0]
-      setValorOcupacao(valorOcupacao)
+    if (j1 === 'sim') {
+      valorOcupacao[numero] = [9, 0, 0];
+      setValorOcupacao(valorOcupacao);
+    }
   }
-}
 
-console.log(valorOcupacao)
+  console.log(valorOcupacao);
   return (
-    <div style={{margin: '2rem 0'}}>
+    <div style={{ margin: '2rem 0' }}>
       <span>Todo o material a ser armazenado é incombustível?</span>
       <div className={styles.radio}>
         <div>
@@ -86,10 +90,20 @@ console.log(valorOcupacao)
           </div>
         </div>
       )}
-      {metodo === 'probabilistico' && <Probabilistico numero={numero} valorOcupacao={valorOcupacao}
-              setValorOcupacao={setValorOcupacao}/>}
-      {metodo === 'deterministico' && <Deterministico numero={numero} valorOcupacao={valorOcupacao}
-              setValorOcupacao={setValorOcupacao}/>}
+      {metodo === 'probabilistico' && (
+        <Probabilistico
+          numero={numero}
+          valorOcupacao={valorOcupacao}
+          setValorOcupacao={setValorOcupacao}
+        />
+      )}
+      {metodo === 'deterministico' && (
+        <Deterministico
+          numero={numero}
+          valorOcupacao={valorOcupacao}
+          setValorOcupacao={setValorOcupacao}
+        />
+      )}
     </div>
   );
 };
