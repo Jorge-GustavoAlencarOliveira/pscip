@@ -1,11 +1,10 @@
-// import Isolamento from '../../../Bases/isolamento'
 import Isolamento from '../../../Bases/Isolamento/Isolamento'
 const Isolamentoderisco = () => {
   
     return (
-      <>
+      <div className='container py-3'>
         <Isolamento/>
-      </>
+      </div>
     )
   }
 

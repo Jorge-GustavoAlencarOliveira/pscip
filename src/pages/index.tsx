@@ -1,47 +1,42 @@
 import React from 'react';
 import Regioes from '../../Components/regiao';
 import Ocupacao from '../../Components/ocupacao';
-import Pdf from '../../geradorPdf/pdf';
+
 export default function Home() {
-  
   const [separacao, setSeparacao] = React.useState<string>('');
-  
+
   return (
     <>
-      <div>
-        <span>Existe separação entre edificações?</span>
-        <br />
-        <input
-          type="radio"
-          id="separacaoSim"
-          name="isolamento"
-          value="separacaoSim"
-          onChange={({ target }) => setSeparacao(target.value)}
-          checked={separacao === 'separacaoSim'}
-        />
-        <label htmlFor="separacaoSim">Sim</label>
-        <input
-          type="radio"
-          id="separacaoNao"
-          name="isolamento"
-          value="separacaoNao"
-          onChange={({ target }) => setSeparacao(target.value)}
-          checked={separacao === 'separacaoNao'}
-        />
-        <label htmlFor="separacaoNao">Não</label>
+      <div className='d-flex gap-2'>
+        <span className='mr-2'>Existe separação entre edificações?</span>
+        <div className='d-flex gap-1 align-items-center'>
+          <input
+            type="radio"
+            id="separacaoSim"
+            name="isolamento"
+            value="separacaoSim"
+            onChange={({ target }) => setSeparacao(target.value)}
+            checked={separacao === 'separacaoSim'}
+          />
+          <label htmlFor="separacaoSim">Sim</label>
+        </div>
+        <div className='d-flex gap-1 align-items-center'>
+          <input
+            type="radio"
+            id="separacaoNao"
+            name="isolamento"
+            value="separacaoNao"
+            onChange={({ target }) => setSeparacao(target.value)}
+            checked={separacao === 'separacaoNao'}
+          />
+          <label htmlFor="separacaoNao">Não</label>
+        </div>
       </div>
-      <div>
-        {separacao === 'separacaoNao' && (
-          <Ocupacao/>
-        )}
-      </div>
-      <div>
-        {separacao === 'separacaoSim' && <Regioes/>}
-      </div>
+      <div>{separacao === 'separacaoNao' && <Ocupacao />}</div>
+      <div>{separacao === 'separacaoSim' && <Regioes />}</div>
     </>
   );
 }
-
 
 //   React.useEffect(() => {
 //     const local = localStorage.getItem('data');
@@ -82,7 +77,6 @@ export default function Home() {
 //     localStorage.setItem('data', JSON.stringify(dados));
 //     router.push('/result');
 //   }
-
 
 // import Head from 'next/head'
 // import { DataStorage } from '../../../dataContext'

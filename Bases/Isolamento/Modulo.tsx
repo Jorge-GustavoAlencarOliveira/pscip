@@ -1,37 +1,104 @@
-import { moduloProps } from "./IsolamentoReducer"
+import { moduloProps } from './IsolamentoReducer';
+import { Table } from 'react-bootstrap';
 
 interface modProps {
-  modulo: moduloProps,
-  onDelete: (id:number) => void
+  modulo: moduloProps;
+  onDelete: (id: number) => void;
 }
-const Modulo = ({modulo, onDelete}:modProps) => {
-  return(
-    <div>
-      <button style={{float: 'right'}} onClick={() => onDelete(modulo.id)}>Excluir</button>
-      <div>
-        <p>Nome da edificação: {modulo.risco1?.risco}</p>
-        <p>Largura: {modulo.risco1?.largura} metros</p>
-        <p>Altura: {modulo.risco1?.altura} metros</p>
-        <p>Somatório das áreas das abertura: {modulo.risco1?.abertura} m²</p>
-        <p>Carga incêndio: {modulo.risco1?.cargaIncendio} MJ/m²</p>
-        <p>Y: {modulo.risco1?.y?.toFixed(2)} %</p>
-        <p>X: {modulo.risco1?.x?.toFixed(2)}</p>
-        <p>Índice α: {modulo.risco1?.alfa} </p>       
-        <h3>Distância: {modulo.risco1?.distancia?.toFixed(2)} metros</h3>
-      </div>
-      <div>
-        <p>Nome da edificação: {modulo.risco2?.risco}</p>
-        <p>Largura: {modulo.risco2?.largura} metros</p>
-        <p>Altura: {modulo.risco2?.altura} metros</p>
-        <p>Somatório das áreas das abertura: {modulo.risco2?.abertura} m²</p>
-        <p>Carga incêndio: {modulo.risco2?.cargaIncendio} MJ/m²</p>
-        <p>Y: {modulo.risco2?.y?.toFixed(2)} %</p>
-        <p>X: {modulo.risco2?.x?.toFixed(2)}</p>
-        <p>Índice α: {modulo.risco2?.alfa} </p>       
-        <h3>Distância:  {modulo.risco2?.distancia?.toFixed(2)} metros</h3>
-      </div>
+const Modulo = ({ modulo, onDelete }: modProps) => {
+  return (
+    <div className='mt-5'>
+      <button className='float-end btn btn-secondary mb-2' onClick={() => onDelete(modulo.id)}>
+        Excluir
+      </button>
+      <Table striped bordered hover className='table-primary'>
+        <thead>
+          <tr className='fw-bold'>
+            <td className='w-50' >Nome da edificação:</td> 
+            <td >{modulo.risco1?.risco}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Largura</td>
+            <td>{modulo.risco1?.maiorDimensao} metros</td>
+          </tr>
+          <tr>
+            <td>Altura</td>
+            <td>{modulo.risco1?.menorDimensao} metros</td>
+          </tr>
+          <tr>
+            <td>Somatório das áreas das aberturas</td>
+            <td>{modulo.risco1?.abertura} m²</td>
+          </tr>
+          <tr>
+            <td>Carga incêndio</td>
+            <td>{modulo.risco1?.cargaIncendio} MJ/m²</td>
+          </tr>
+          <tr>
+            <td>X = maior dimensão/menor dimensão</td>
+            <td>{modulo.risco1?.x?.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Y = (área das aberturas/área da fachada) x 100</td>
+            <td>{modulo.risco1?.y?.toFixed(2)}%</td>
+          </tr>
+          <tr>
+            <td>Índice α</td>
+            <td>{modulo.risco1?.alfa}</td>
+          </tr>
+          <tr className='fw-bold'>
+            <td>
+            D = (menor dimensão da fachada x α) + ß  
+            </td>
+            <td>{modulo.risco1?.distancia?.toFixed(2)} metros</td>
+          </tr>
+        </tbody>
+      </Table>
+      <Table striped bordered hover className='table-primary'>
+        <tbody>
+          <tr className='fw-bold'>
+            <td className='w-50'>Nome da edificação</td>
+            <td>{modulo.risco2?.risco}</td>
+          </tr>
+          <tr>
+            <td>Largura</td>
+            <td>{modulo.risco2?.maiorDimensao} metros</td>
+          </tr>
+          <tr>
+            <td>Altura</td>
+            <td>{modulo.risco2?.menorDimensao} metros</td>
+          </tr>
+          <tr>
+            <td>Somatório das áreas das aberturas</td>
+            <td>{modulo.risco2?.abertura} m²</td>
+          </tr>
+          <tr>
+            <td>Carga incêndio</td>
+            <td>{modulo.risco2?.cargaIncendio} MJ/m²</td>
+          </tr>
+          <tr>
+            <td>X = maior dimensão/menor dimensão</td>
+            <td>{modulo.risco2?.x?.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Y = (área das aberturas/área da fachada) x 100</td>
+            <td>{modulo.risco2?.y?.toFixed(2)}%</td>
+          </tr>
+          <tr>
+            <td>Índice α</td>
+            <td>{modulo.risco2?.alfa}</td>
+          </tr>
+          <tr className='fw-bold'>
+            <td>
+            D = (menor dimensão da fachada x α) + ß  
+            </td>
+            <td>{modulo.risco2?.distancia?.toFixed(2)} metros</td>
+          </tr>
+        </tbody>
+      </Table>
     </div>
-  )
-}
+  );
+};
 
-export default Modulo
+export default Modulo;

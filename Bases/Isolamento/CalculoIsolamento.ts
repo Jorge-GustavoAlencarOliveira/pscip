@@ -38,7 +38,7 @@ export const dist1 = ({largura, altura, abertura, cargaIncendio, fatorSegurança
   const valorX = relacaoAlturaLargura.findIndex((item) => item >= x);
   const alfa = valorAlfa[valorAbertura][valorX];
   const distancia = (alfa * z) + fatorSegurança;
-  return {distancia, alfa, x, y, z}
+  return {distancia, alfa, x, y, z, valorSeveridade}
 }    
 
 

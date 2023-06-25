@@ -102,7 +102,7 @@ const CalculoSaidas = () => {
               <input
                 style={{ margin: '1rem 0' }}
                 type="text"
-                placeholder="area"
+                placeholder="Vagas"
                 onChange={({ target }) => setArea(+target.value)}
                 ref={ref}
                 value={area}

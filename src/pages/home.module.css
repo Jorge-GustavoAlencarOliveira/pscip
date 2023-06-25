@@ -1,4 +1,10 @@
-.form{
+.App{
+  font-family: Roboto;
+  font-size: 4rem;
+}
+
+
+/* .form{
   display: flex;
   flex-direction: column;
   gap: .5rem;
@@ -55,4 +61,4 @@
 }
 .modulo input, .modulo select{
   height: 40px;
-}
+} */
