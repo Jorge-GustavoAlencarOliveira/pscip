@@ -2,7 +2,7 @@ import React from 'react';
 import IsolamentoReducer from './IsolamentoReducer';
 import { dist1 } from './CalculoIsolamento';
 import ModuloShow from './ModuloShow';
-import PdfIsolamento from '../../geradorPdf/pdfIsolamento';
+
 let id = 1;
 
 const Isolamento = () => {
@@ -122,7 +122,6 @@ const Isolamento = () => {
       });
     } else return alert('Preencha todos os campos');
   }
-  console.log(modulos);
   function handleDelete(id: number) {
     dispatch({
       type: 'delete',
@@ -177,7 +176,10 @@ const Isolamento = () => {
                     id="fatorSegurancaSim"
                     name="fatorSeguranca"
                     value={1.5}
-                    onChange={({ target }) => setFatorSeguranca(+target.value)}
+                    onChange={({ target }) => {setFatorSeguranca(+target.value);
+                      setDimensoes((item) => ({ ...item, bombeiro: +target.value }))
+                      setDimensoes1((item) => ({ ...item, bombeiro: +target.value }))
+                    }}
                     checked={fatorSeguranca === 1.5}
                   />
                   <label htmlFor="fatorSegurancaSim">Sim</label>
@@ -188,7 +190,10 @@ const Isolamento = () => {
                     id="fatorSegurancaNao"
                     name="fatorSeguranca"
                     value={3}
-                    onChange={({ target }) => setFatorSeguranca(+target.value)}
+                    onChange={({ target }) => {setFatorSeguranca(+target.value);
+                      setDimensoes((item) => ({ ...item, bombeiro: +target.value }))
+                      setDimensoes1((item) => ({ ...item, bombeiro: +target.value }))
+                    }}
                     checked={fatorSeguranca === 3}
                   />
                   <label htmlFor="fatorSegurancaNao">Não</label>
@@ -450,7 +455,7 @@ const Isolamento = () => {
                     <div className="d-flex gap-2">
                       <input
                         type="radio"
-                        id="unidadeAutonomaSim"
+                        id="unidadeAutonomaSim1"
                         value="Sim"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -458,14 +463,14 @@ const Isolamento = () => {
                             unidadeAutonoma: target.value,
                           }))
                         }
-                        checked={dimensoes.unidadeAutonoma === 'Sim'}
+                        checked={dimensoes1.unidadeAutonoma === 'Sim'}
                       />
-                      <label htmlFor="unidadeAutonomaSim">Sim</label>
+                      <label htmlFor="unidadeAutonomaSim1">Sim</label>
                     </div>
                     <div className="d-flex gap-2 align-items-center">
                       <input
                         type="radio"
-                        id="unidadeAutonomaNao"
+                        id="unidadeAutonomaNao1"
                         value="Não"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -473,9 +478,9 @@ const Isolamento = () => {
                             unidadeAutonoma: target.value,
                           }))
                         }
-                        checked={dimensoes.unidadeAutonoma === 'Não'}
+                        checked={dimensoes1.unidadeAutonoma === 'Não'}
                       />
-                      <label htmlFor="unidadeAutonomaNao">Não</label>
+                      <label htmlFor="unidadeAutonomaNao1">Não</label>
                     </div>
                   </div>
                 </div>
@@ -487,7 +492,7 @@ const Isolamento = () => {
                     <div className="d-flex gap-2">
                       <input
                         type="radio"
-                        id="compartimentacaohorizontalSim"
+                        id="compartimentacaohorizontalSim1"
                         value="Sim"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -496,15 +501,15 @@ const Isolamento = () => {
                           }))
                         }
                         checked={
-                          dimensoes.compartimentacaohorizontal === 'Sim'
+                          dimensoes1.compartimentacaohorizontal === 'Sim'
                         }
                       />
-                      <label htmlFor="compartimentacaohorizontalSim">Sim</label>
+                      <label htmlFor="compartimentacaohorizontalSim1">Sim</label>
                     </div>
                     <div className="d-flex gap-2 align-items-center">
                       <input
                         type="radio"
-                        id="compartimentacaohorizontalNao"
+                        id="compartimentacaohorizontalNao1"
                         value="Não"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -513,10 +518,10 @@ const Isolamento = () => {
                           }))
                         }
                         checked={
-                          dimensoes.compartimentacaohorizontal === 'Não'
+                          dimensoes1.compartimentacaohorizontal === 'Não'
                         }
                       />
-                      <label htmlFor="compartimentacaohorizontalNao">Não</label>
+                      <label htmlFor="compartimentacaohorizontalNao1">Não</label>
                     </div>
                   </div>
                 </div>
@@ -528,7 +533,7 @@ const Isolamento = () => {
                     <div className="d-flex gap-2">
                       <input
                         type="radio"
-                        id="compartimentacaoverticalSim"
+                        id="compartimentacaoverticalSim1"
                         value="Sim"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -536,14 +541,14 @@ const Isolamento = () => {
                             compartimentacaovertical: target.value,
                           }))
                         }
-                        checked={dimensoes.compartimentacaovertical === 'Sim'}
+                        checked={dimensoes1.compartimentacaovertical === 'Sim'}
                       />
-                      <label htmlFor="compartimentacaoverticalSim">Sim</label>
+                      <label htmlFor="compartimentacaoverticalSim1">Sim</label>
                     </div>
                     <div className="d-flex gap-2 align-items-center">
                       <input
                         type="radio"
-                        id="compartimentacaoverticalNao"
+                        id="compartimentacaoverticalNao1"
                         value="Não"
                         onChange={({ target }) =>
                           setDimensoes1((item) => ({
@@ -551,9 +556,9 @@ const Isolamento = () => {
                             compartimentacaovertical: target.value,
                           }))
                         }
-                        checked={dimensoes.compartimentacaovertical === 'Não'}
+                        checked={dimensoes1.compartimentacaovertical === 'Não'}
                       />
-                      <label htmlFor="compartimentacaoverticalNao">Não</label>
+                      <label htmlFor="compartimentacaoverticalNao1">Não</label>
                     </div>
                   </div>
                 </div>

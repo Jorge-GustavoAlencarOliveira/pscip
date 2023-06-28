@@ -2,7 +2,6 @@ import React from 'react';
 import OcupacaoModulo from './ocupacaomodulo';
 import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';
-import TabelaDescricao from '../Tabelas/tabelaDescricao';
 import Construcao from '../Bases/construcao';
 
 interface dadosProps {
@@ -12,13 +11,18 @@ interface dadosProps {
   pavimentos: string;
   areaTotal: number;
   dataConstrucao: string;
+  compartimentacao: string
 }
+
+
 const Ocupacao = () => {
-  const router = useRouter()
-  const {descricao} = TabelaDescricao()
-  const {setValoresOcupacao, valoresOcupacao} = React.useContext(DataStorage)
+  const router = useRouter();
+  const { setValoresOcupacao, valoresOcupacao } = React.useContext(DataStorage);
   const [mista, setMista] = React.useState<string>('');
-  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([0]);
+  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([
+    0,
+  ]);
+  const scrollToBottom = React.useRef<HTMLDivElement>(null)
   const [count, setCount] = React.useState(1);
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
   const [areaTotal, setAreaTotal] = React.useState<number>(0);
@@ -28,71 +32,127 @@ const Ocupacao = () => {
     altura: '',
     pavimentos: '',
     areaTotal: 0,
-    dataConstrucao: ''
+    dataConstrucao: 'Nova',
+    compartimentacao: 'compartimentacaoNao'
   });
   React.useEffect(() => {
     setAreaTotal(Number(dados.areaAconstruir) + Number(dados.areaConstruida));
   }, [dados]);
-  
-  React.useEffect(() =>{
-   setDados(item => ({...item, areaTotal: areaTotal}))
-  },[areaTotal])
 
-  
-  React.useEffect(() =>{
-    setValorOcupacao([[0, 0, 0]])
+  React.useEffect(() => {
+    setDados((item) => ({ ...item, areaTotal: areaTotal }));
+  }, [areaTotal]);
+
+  React.useEffect(() => {
+    setValorOcupacao([[0, 0, 0]]);
     setDados({
       areaConstruida: '',
       areaAconstruir: '',
       altura: '',
       pavimentos: '',
       areaTotal: 0,
-      dataConstrucao: ''
-    })
-  },[,mista])
+      dataConstrucao: 'Nova',
+      compartimentacao: 'compartimentacaoNao'
+    });
+  }, [, mista]);
 
   function handleAdd() {
     setCount((item) => item + 1);
     setNumeroOcupacoes((item) => [...item, count]);
     setValorOcupacao((item) => [...item, [0, 0, 0]]);
+    if(scrollToBottom.current) scrollToBottom.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+      inline: 'nearest'
+    })
   }
 
-  function handleNext (){
-    if(dados.areaConstruida === "" || dados.altura === "" || dados.pavimentos === ""){
-      return alert('Preencha os dados')
-    } 
-    setValoresOcupacao([[dados, valorOcupacao]])
-    router.push('/result')
+  function handleNext() {
+    if (
+      dados.areaConstruida === '' ||
+      dados.altura === '' ||
+      dados.pavimentos === ''
+    ) {
+      return alert('Preencha os dados');
+    }
+    setValoresOcupacao([[dados, valorOcupacao]]);
+    router.push('/result');
   }
   return (
-    <div style={{ marginTop: '1rem' }}>
-      <div>
-        <span>A ocupação é mista?</span>
-        <br />
-        <input
-          type="radio"
-          id="mistaSim"
-          name="mista"
-          value="mistaSim"
-          onChange={({ target }) => setMista(target.value)}
-          checked={mista === 'mistaSim'}
-        />
-        <label htmlFor="mistaSim">Sim</label>
-        <input
-          type="radio"
-          id="mistaNao"
-          name="mista"
-          value="mistaNao"
-          onChange={({ target }) => setMista(target.value)}
-          checked={mista === 'mistaNao'}
-        />
-        <label htmlFor="mistaNao">Não</label>
+    <div ref={scrollToBottom}>
+      <div className="mb-4 mt-3">
+        <span className="fw-bold">A ocupação é mista?</span>
+        <div className="d-flex gap-5 my-2">
+          <div className="d-flex align-items-center gap-2">
+            <input
+              type="radio"
+              id="mistaSim"
+              name="mista"
+              value="mistaSim"
+              onChange={({ target }) => setMista(target.value)}
+              checked={mista === 'mistaSim'}
+            />
+            <label htmlFor="mistaSim">Sim</label>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <input
+              type="radio"
+              id="mistaNao"
+              name="mista"
+              value="mistaNao"
+              onChange={({ target }) => setMista(target.value)}
+              checked={mista === 'mistaNao'}
+            />
+            <label htmlFor="mistaNao">Não</label>
+          </div>
+        </div>
       </div>
       {mista === 'mistaSim' && (
-        <div>
-          <button style={{ float: 'right' }} onClick={handleAdd}>
-            Adicionar ocupação
-          </button>
+        <div className="d-flex flex-column">
+          <div className="mb-4">
+            <span className="fw-bold">Há compartimentação entre as ocupações?</span>
+            <div className="d-flex gap-5 my-2">
+              <div className="d-flex align-items-center gap-2">
+                <input
+                  type="radio"
+                  id="Sim"
+                  value="compartimentacaoSim"
+                  onChange={({ target }) => {
+                   
+                    setDados((item) => ({
+                      ...item,
+                      compartimentacao: target.value,
+                    }))
+                  }}
+                  checked={dados.compartimentacao === 'compartimentacaoSim'}
+                />
+                <label htmlFor="compartimentacaoSim">Sim</label>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <input
+                  type="radio"
+                  id="compartimentacaoNao"
+                  value="compartimentacaoNao"
+                  onChange={({ target }) => {
+                    setDados((item) => ({
+                      ...item,
+                      compartimentacao: target.value,
+                    }))
+                  }}
+                  checked={dados.compartimentacao === 'compartimentacaoNao'}
+                />
+                <label htmlFor="mistaNao">Não</label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              className="mb-3 float-end btn btn-secondary"
+              onClick={handleAdd}
+            >
+              Adicionar ocupação
+            </button>
+          </div>
           {numeroOcupacoes.map((item, index) => {
             return (
               <OcupacaoModulo
@@ -105,66 +165,81 @@ const Ocupacao = () => {
               />
             );
           })}
-          <div style={{ marginTop: '2rem' }}>
-            <label>Área construída:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={dados.areaConstruida}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaConstruida: target.value,
-                }))
-              }
-            />
-            <label>Área a construir:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={dados.areaAconstruir}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaAconstruir: target.value,
-                }))
-              }
-            />
-            <label>Área Total:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={areaTotal}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaTotal: +target.value,
-                }))
-              }
-            />
-            <br></br>
-            <br></br>
-            <label>Altura:</label>
-            <input
-              type="text"
-              placeholder="m"
-              value={dados.altura}
-              onChange={({ target }) =>
-                setDados((item) => ({ ...item, altura: target.value }))
-              }
-            />
-            <label>Número de pavimentos:</label>
-            <input
-              type="text"
-              placeholder="Un"
-              value={dados.pavimentos}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  pavimentos: target.value,
-                }))
-              }
-            />
+          <div className="d-flex flex-column py-3 gap-2">
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área construída:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={dados.areaConstruida}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaConstruida: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área a construir:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={dados.areaAconstruir}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaAconstruir: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área Total:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={areaTotal}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaTotal: +target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Altura:</label>
+              <input
+                type="text"
+                placeholder="m"
+                value={dados.altura}
+                onChange={({ target }) =>
+                  setDados((item) => ({ ...item, altura: target.value }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">
+                Número de pavimentos:
+              </label>
+              <input
+                type="text"
+                placeholder="Un"
+                value={dados.pavimentos}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    pavimentos: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
           </div>
           <Construcao setDados={setDados} dados={dados} />
         </div>
@@ -179,71 +254,101 @@ const Ocupacao = () => {
             valorOcupacao={valorOcupacao}
             setValorOcupacao={setValorOcupacao}
           />
-          <div style={{ marginTop: '2rem' }}>
-            <label>Área construída:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={dados.areaConstruida}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaConstruida: target.value,
-                }))
-              }
-            />
-            <label>Área a construir:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={dados.areaAconstruir}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaAconstruir: target.value,
-                }))
-              }
-            />
-            <label>Área Total:</label>
-            <input
-              type="text"
-              placeholder="m²"
-              value={areaTotal}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  areaTotal: +target.value,
-                }))
-              }
-            />
-            <br></br>
-            <br></br>
-            <label>Altura:</label>
-            <input
-              type="text"
-              placeholder="m"
-              value={dados.altura}
-              onChange={({ target }) =>
-                setDados((item) => ({ ...item, altura: target.value }))
-              }
-            />
-            <label>Número de pavimentos:</label>
-            <input
-              type="text"
-              placeholder="Un"
-              value={dados.pavimentos}
-              onChange={({ target }) =>
-                setDados((item) => ({
-                  ...item,
-                  pavimentos: target.value,
-                }))
-              }
-            />
+          <div className="d-flex flex-column py-3 gap-2">
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área construída:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={dados.areaConstruida}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaConstruida: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área a construir:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={dados.areaAconstruir}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaAconstruir: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área Total:</label>
+              <input
+                type="text"
+                placeholder="m²"
+                value={areaTotal}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    areaTotal: +target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Altura:</label>
+              <input
+                type="text"
+                placeholder="m"
+                value={dados.altura}
+                onChange={({ target }) =>
+                  setDados((item) => ({ ...item, altura: target.value }))
+                }
+                className="form-control"
+              />
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">
+                Número de pavimentos:
+              </label>
+              <input
+                type="text"
+                placeholder="Un"
+                value={dados.pavimentos}
+                onChange={({ target }) =>
+                  setDados((item) => ({
+                    ...item,
+                    pavimentos: target.value,
+                  }))
+                }
+                className="form-control"
+              />
+            </div>
           </div>
           <Construcao setDados={setDados} dados={dados} />
         </div>
       )}
-    <button onClick={handleNext}>Próximo</button>
+      {mista === 'mistaSim' && (
+        <button
+          className="btn btn-primary float-end btn-sm-lg mb-3"
+          onClick={handleNext}
+        >
+          Próximo
+        </button>
+      )}
+      {mista === 'mistaNao' && (
+        <button
+          className="btn btn-primary float-end btn-sm-lg mb-3"
+          onClick={handleNext}
+        >
+          Próximo
+        </button>
+      )}
     </div>
   );
 };

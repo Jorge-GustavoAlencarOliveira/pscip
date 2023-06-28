@@ -6,35 +6,37 @@ export default function Home() {
   const [separacao, setSeparacao] = React.useState<string>('');
 
   return (
-    <>
-      <div className='d-flex gap-2'>
-        <span className='mr-2'>Existe separação entre edificações?</span>
-        <div className='d-flex gap-1 align-items-center'>
-          <input
-            type="radio"
-            id="separacaoSim"
-            name="isolamento"
-            value="separacaoSim"
-            onChange={({ target }) => setSeparacao(target.value)}
-            checked={separacao === 'separacaoSim'}
-          />
-          <label htmlFor="separacaoSim">Sim</label>
-        </div>
-        <div className='d-flex gap-1 align-items-center'>
-          <input
-            type="radio"
-            id="separacaoNao"
-            name="isolamento"
-            value="separacaoNao"
-            onChange={({ target }) => setSeparacao(target.value)}
-            checked={separacao === 'separacaoNao'}
-          />
-          <label htmlFor="separacaoNao">Não</label>
+    <div className='container mt-2'>
+      <div className="d-flex flex-column gap-2">
+        <span className="fw-bold">Existe separação entre edificações?</span>
+        <div className="d-flex gap-5">
+          <div className="d-flex gap-1 align-items-center">
+            <input
+              type="radio"
+              id="separacaoSim"
+              name="isolamento"
+              value="separacaoSim"
+              onChange={({ target }) => setSeparacao(target.value)}
+              checked={separacao === 'separacaoSim'}
+            />
+            <label htmlFor="separacaoSim">Sim</label>
+          </div>
+          <div className="d-flex gap-1 align-items-center">
+            <input
+              type="radio"
+              id="separacaoNao"
+              name="isolamento"
+              value="separacaoNao"
+              onChange={({ target }) => setSeparacao(target.value)}
+              checked={separacao === 'separacaoNao'}
+            />
+            <label htmlFor="separacaoNao">Não</label>
+          </div>
         </div>
       </div>
       <div>{separacao === 'separacaoNao' && <Ocupacao />}</div>
       <div>{separacao === 'separacaoSim' && <Regioes />}</div>
-    </>
+    </div>
   );
 }
 

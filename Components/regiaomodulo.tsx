@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import OcupacaoModulo from './ocupacaomodulo';
 import Construcao from '../Bases/construcao';
+
 interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
@@ -8,6 +9,7 @@ interface dadosProps {
   pavimentos: string;
   areaTotal: number;
   dataConstrucao: string;
+  compartimentacao: string
 }
 type array = [dadosProps, number[][]]
 
@@ -30,7 +32,8 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
     altura: '',
     pavimentos: '',
     areaTotal: 0,
-    dataConstrucao: ''
+    dataConstrucao: '',
+    compartimentacao: 'compartimentacaoNao'
   });
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
   
@@ -63,48 +66,49 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
 
   return (
     <>
-      <div>
+      <div className='py-4'>
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+          className='d-flex justify-content-between align-items-center mb-3 '
         >
-          <h3>Regiao {numero + 1}</h3>
+          <h4 className='fw-bold text-primary' >Regiao {numero + 1}</h4>
           {numero > 0 && (
-            <button onClick={handleDelete} style={{ maxHeight: '20px' }}>
+            <button className='btn btn-secondary d-block' onClick={handleDelete}>
               Excluir
             </button>
           )}
         </div>
-        <div>
-          <span>A ocupação é mista?</span>
-          <br />
-          <input
-            type="radio"
-            id="mistaSim"
-            name={`mista$${numero}`}
-            value="mistaSim"
-            onChange={({ target }) => setMista(target.value)}
-            checked={mista === 'mistaSim'}
-          />
-          <label htmlFor="mistaSim">Sim</label>
-          <input
-            type="radio"
-            id="mistaNao"
-            name={`mista$${numero}`}
-            value="mistaNao"
-            onChange={({ target }) => setMista(target.value)}
-            checked={mista === 'mistaNao'}
-          />
-          <label htmlFor="mistaNao">Não</label>
+        <div className="mb-4 mt-3">
+        <span className="fw-bold">A ocupação é mista?</span>
+        <div className="d-flex gap-5 my-2">
+          <div className="d-flex align-items-center gap-2">
+            <input
+              type="radio"
+              id="mistaSim"
+              value="mistaSim"
+              onChange={({ target }) => setMista(target.value)}
+              checked={mista === 'mistaSim'}
+            />
+            <label htmlFor="mistaSim">Sim</label>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <input
+              type="radio"
+              id="mistaNao"
+              value="mistaNao"
+              onChange={({ target }) => setMista(target.value)}
+              checked={mista === 'mistaNao'}
+            />
+            <label htmlFor="mistaNao">Não</label>
+          </div>
         </div>
+      </div>
         {mista === 'mistaSim' && (
-          <div>
-            <button style={{ float: 'right' }} onClick={handleAdd}>
-              Adicionar ocupação
-            </button>
+          <div className="d-flex flex-column">
+            <div>
+              <button className="mb-3 float-end btn btn-secondary" onClick={handleAdd}>
+                Adicionar ocupação
+              </button>
+            </div>
             {numeroOcupacoes.map((item, index) => {
               return (
                 <OcupacaoModulo
@@ -117,8 +121,9 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 />
               );
             })}
-            <div style={{ marginTop: '2rem' }}>
-              <label>Área construída:</label>
+            <div className="d-flex flex-column py-3 gap-2">
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área construída:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -129,8 +134,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaConstruida: target.value,
                   }))
                 }
+                className="form-control"
               />
-              <label>Área a construir:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área a construir:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -141,8 +149,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaAconstruir: target.value,
                   }))
                 }
+                className="form-control"
               />
-              <label>Área Total:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área Total:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -153,10 +164,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaTotal: +target.value,
                   }))
                 }
+                className="form-control"
               />
-              <br></br>
-              <br></br>
-              <label>Altura:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Altura:</label>
               <input
                 type="text"
                 placeholder="m"
@@ -164,8 +176,13 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 onChange={({ target }) =>
                   setDados((item) => ({ ...item, altura: target.value }))
                 }
+                className="form-control"
               />
-              <label>Número de pavimentos:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">
+                Número de pavimentos:
+              </label>
               <input
                 type="text"
                 placeholder="Un"
@@ -176,9 +193,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     pavimentos: target.value,
                   }))
                 }
+                className="form-control"
               />
             </div>
-            <Construcao setDados={setDados} dados={dados} />
+          </div>
+          <Construcao setDados={setDados} dados={dados} />
           </div>
         )}
         {mista === 'mistaNao' && (
@@ -195,8 +214,9 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 />
               );
             })}
-            <div style={{ marginTop: '2rem' }}>
-              <label>Área construída:</label>
+           <div className="d-flex flex-column py-3 gap-2">
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área construída:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -207,8 +227,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaConstruida: target.value,
                   }))
                 }
+                className="form-control"
               />
-              <label>Área a construir:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área a construir:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -219,8 +242,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaAconstruir: target.value,
                   }))
                 }
+                className="form-control"
               />
-              <label>Área Total:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Área Total:</label>
               <input
                 type="text"
                 placeholder="m²"
@@ -231,10 +257,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     areaTotal: +target.value,
                   }))
                 }
+                className="form-control"
               />
-              <br></br>
-              <br></br>
-              <label>Altura:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">Altura:</label>
               <input
                 type="text"
                 placeholder="m"
@@ -242,8 +269,13 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 onChange={({ target }) =>
                   setDados((item) => ({ ...item, altura: target.value }))
                 }
+                className="form-control"
               />
-              <label>Número de pavimentos:</label>
+            </div>
+            <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+              <label className="text-nowrap fw-bold">
+                Número de pavimentos:
+              </label>
               <input
                 type="text"
                 placeholder="Un"
@@ -254,9 +286,11 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                     pavimentos: target.value,
                   }))
                 }
+                className="form-control"
               />
             </div>
-            <Construcao setDados={setDados} dados={dados} />
+          </div>
+          <Construcao setDados={setDados} dados={dados} />
           </div>
         )}
       </div>

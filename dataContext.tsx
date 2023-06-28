@@ -8,6 +8,7 @@ interface dadosProps {
   pavimentos: string;
   areaTotal: number;
   dataConstrucao: string;
+  compartimentacao: string
 }
 
 type ContextData = {
@@ -33,6 +34,7 @@ const DataContext = ({ children }: ProviderProps) => {
         pavimentos: '',
         areaTotal: 0,
         dataConstrucao: '',
+        compartimentacao: ''
       },
       [],
     ],

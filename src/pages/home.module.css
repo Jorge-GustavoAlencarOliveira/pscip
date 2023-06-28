@@ -1,7 +1,10 @@
 .App{
-  font-family: Roboto;
-  font-size: 4rem;
+  min-height: 100vh;
+  width: 100%;
+
 }
+
+
 
 
 /* .form{

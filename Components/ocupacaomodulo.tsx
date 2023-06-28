@@ -13,17 +13,18 @@ interface OcupacaoModuloProps {
   setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
 }
 
+const { descricao } = TabelaDescricao();
+const { divisao } = TabelaDivisao();
+const { ocupacao } = TabelaOcupacao();
+
 const OcupacaoModulo = ({
   numero,
   numeroOcupacoes,
   setNumeroOcupacoes,
   valorOcupacao,
   setValorOcupacao
-  
 }: OcupacaoModuloProps) => {
-  const { descricao } = TabelaDescricao();
-  const { divisao } = TabelaDivisao();
-  const { ocupacao } = TabelaOcupacao();
+
   const [ocup, setOcup] = React.useState<number>(0);
   const [div, setDiv] = React.useState<number>(0);
   const [desc, setDesc] = React.useState<number>(0);
@@ -44,47 +45,44 @@ const OcupacaoModulo = ({
   
   
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <h3>Ocupação {numero + 1}</h3>
-        {numero > 0 && (
-          <button style={{ maxHeight: '20px' }} onClick={handleDelete}>
-            Excluir
-          </button>
-        )}
+    <div className='border-top border-top-primary border-bottom border-primary py-4'>
+      <div className='d-flex justify-content-between align-items-center mb-3 '>
+          <h4 className='fw-bold text-primary '>Ocupação {numero + 1}</h4>
+          {numero > 0 && (
+            <button className='btn btn-secondary d-block' onClick={handleDelete}>
+              Excluir
+            </button>
+          )}
       </div>
       <div>
-        <div>
-          <span>Ocupacao:  </span>
-          <select
-            onChange={({ target }) => {
-              setOcup(+target.value);
-              valorOcupacao[numero][0] = +target.value;
-              setValorOcupacao(valorOcupacao)
-            }}
-            value={ocup}
-          >
-            {ocupacao?.map((item, index) => {
-              return (
-                <option key={index} value={index}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
+        <div className='d-flex flex-column gap-3'>
+          <div className='d-flex flex-column flex-sm-row align-items-sm-center gap-2'>
+            <span className='fw-bold'>Ocupação:  </span>
+            <select
+              onChange={({ target }) => {
+                setOcup(+target.value);
+                valorOcupacao[numero][0] = +target.value;
+                setValorOcupacao(valorOcupacao)
+              }}
+              value={ocup}
+              className='form-select'
+            >
+              {ocupacao?.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>         
           {ocup === 9 ? (
               <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
               setValorOcupacao={setValorOcupacao}/>
             ) : (
-              <div>
-                <div>
-                  <span>Divisão:  </span>
+              <div className='d-flex flex-column gap-3'>
+                <div className='d-flex flex-column flex-sm-row align-items-sm-center gap-2'>
+                  <span className='fw-bold'>Divisão:  </span>
                   <select
                     onChange={({ target }) => {
                       setDiv(+target.value);
@@ -92,6 +90,7 @@ const OcupacaoModulo = ({
                       setValorOcupacao(valorOcupacao)
                     }}
                     value={div}
+                    className='form-select'
                   >
                     {divisao[ocup]?.map((item, index) => {
                       return (
@@ -102,28 +101,30 @@ const OcupacaoModulo = ({
                     })}
                   </select>
                 </div>
-                <div>
-                  <span>Descrição:  </span>
-                  <select
-                    onChange={({ target }) => {
-                      setDesc(+target.value);
-                      valorOcupacao[numero][2] = +target.value;
-                      setValorOcupacao(valorOcupacao)
-                    }}
-                    value={desc}
-                  >
-                    {descricao[ocup][div]?.map((item, index) => {
-                      return (
-                        <option key={index} value={index}>
-                          {item.descricao}
-                        </option>
-                      );
-                    })}
-                  </select>
+                <div className='d-flex flex-column gap-3'>
+                  <div className='d-flex flex-column flex-sm-row align-items-sm-center gap-2'>
+                    <span className='fw-bold'>Descrição: </span>
+                    <select
+                      onChange={({ target }) => {
+                        setDesc(+target.value);
+                        valorOcupacao[numero][2] = +target.value;
+                        setValorOcupacao(valorOcupacao)
+                      }}
+                      value={desc}
+                      className='form-select '
+                    >
+                      {descricao[ocup][div]?.map((item, index) => {
+                        return (
+                          <option key={index} value={index}>
+                            {item.descricao}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
                 </div>
               </div>
             )
-
             }
         </div>
       </div>

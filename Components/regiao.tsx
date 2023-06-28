@@ -10,6 +10,7 @@ interface dadosProps {
   pavimentos: string;
   areaTotal: number;
   dataConstrucao: string;
+  compartimentacao: string
 }
 type array = [dadosProps, number[][]]
 
@@ -21,11 +22,14 @@ const Regioes = () => {
   altura: '',
   pavimentos: '',
   areaTotal: 0,
-  dataConstrucao: ''
+  dataConstrucao: 'Nova',
+    compartimentacao: 'compartimentacaoNao'
+
 },[]]]);
   const [count, setCount] = React.useState(1);
   const {valoresOcupacao,setValoresOcupacao} = React.useContext(DataStorage)
- 
+  const scrollToBottom = React.useRef<HTMLDivElement>(null)
+  
   function handleAdd() {
     setCount((item) => item + 1);
     setNumeroRegiao((item) => [...item, count]);
@@ -35,8 +39,13 @@ const Regioes = () => {
     pavimentos: '',
     areaTotal: 0,
     cargaIncendio: [],
-   dataConstrucao: ''
+   dataConstrucao: 'Nova',
+   compartimentacao: 'compartimentacaoNao'
   },[]]]);
+  if(scrollToBottom.current) scrollToBottom.current.scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+  })
   }
 
   function handleNext(){
@@ -46,10 +55,12 @@ const Regioes = () => {
   console.log(valorRegiao)
 
   return (
-    <div>
-      <button style={{ float: 'right' }} onClick={handleAdd}>
-        Adicionar Regiao
-      </button>
+    <div ref={scrollToBottom} className="d-flex flex-column">
+      <div>
+        <button className="float-end btn btn-secondary" onClick={handleAdd}>
+          Adicionar Regiao
+        </button>
+      </div>
       {numeroRegiao.map((item, index) => {
         return (
           <RegiaoModulo
@@ -62,7 +73,9 @@ const Regioes = () => {
           />
         );
       })}
-      <button onClick={handleNext}>Proximo</button>
+      <div>
+        <button className='btn btn-primary float-end btn-sm-lg mb-3' onClick={handleNext}>Proximo</button>
+      </div>
     </div>
   );
 };
