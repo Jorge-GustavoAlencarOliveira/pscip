@@ -2,29 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import styles from '../home.module.css';
 import { Form, Button } from 'react-bootstrap';
-
-// interface AvatarProps {
-//   person?: string,
-//   size: string
-// }
-
-// const Avatar = (props: AvatarProps) => {
-//   return(
-//     <div>
-//       <div>{props.person}</div>
-//       <div>{props.size}</div>
-//     </div>
-//   )
-// }
-
-// const Data = (props: AvatarProps) => {
-//   return (
-//     <Avatar {...props} />
-//   )
-// }
-
+import { useRouter } from 'next/router';
+import { DataStorage } from '../../../dataContext';
 
 const SignUp = () => {
+  const router = useRouter();
+  const {login} = React.useContext(DataStorage)
+  if(login){
+    router.push('/dashboard')
+  }
   return (
     <div
       className={`d-flex justify-content-center align-items-center ${styles.App}`}

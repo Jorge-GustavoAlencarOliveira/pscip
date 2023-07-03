@@ -34,46 +34,13 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
     return medidas
   }
   function showMedidas() {
-    if (userAltura <= 12 && userArea <= 1200) {
-      const medFinal = [
-        'Saídas de Emergencia',
-        'Iluminação de Emergência',
-        'Sinalização de Emergência',
-        'Extintores',
-      ];
-      return medFinal;
-    }
-    if (userAltura <= 12 && userArea <= 1200  ) {
-      const medFinal = [
-        'Acesso de viaturas',
-        'Saídas de Emergencia',
-        'Iluminação de Emergência',
-        'Sinalização de Emergência',
-        'Extintores',
-      ];
-      return edificacaoExistente(medFinal);
-    }
     if (
       userAltura <= 12 &&
       userArea <= 1200 
       
     ) {
       const medFinal = [
-        'Saídas de Emergencia',
-        'Iluminação de Emergência',
-        'Sinalização de Emergência',
-        'Extintores',
-        'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
-      ];
-      return (medFinal);
-    }
-    if (
-      userAltura <= 12 &&
-      userArea <= 1200 
-      
-    ) {
-      const medFinal = [
-        'Acesso de viaturas',
+        'Acesso de viaturas (nos condomínios com arruamento interno, independente da área)',
         'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
@@ -82,34 +49,10 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
       ];
       return (edificacaoExistente(medFinal));
     }
-    if (
-      userAltura <= 12 &&
-      userArea <= 1200
-           
-    ) {
-      const medFinal = [
-        'Acesso de viaturas',
-        'Saídas de Emergencia',
-        'Iluminação de Emergência',
-        'Sinalização de Emergência',
-        'Extintores',
-      ];
-      return (edificacaoExistente(medFinal));
-    }
-    if (userAltura <= 12 && userArea > 1200) {
-      const medFinal = [
-        'Acesso de viaturas',
-        'Saídas de Emergencia',
-        'Iluminação de Emergência',
-        'Sinalização de Emergência',
-        'Extintores',
-        'Hidrantes e Mangotinhos',
-      ];
-      return(edificacaoExistente(medFinal));
-    }
+
     if (userAltura <= 12 && userArea > 1200  ) {
       const medFinal = [
-        'Acesso de viaturas',
+        'Acesso de viaturas (nos condomínios com arruamento interno, independente da área)',
         'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',

@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import styles from '../../src/pages/home.module.css'
 import { DataStorage } from '../../dataContext';
 import { useRouter } from 'next/router';
 import { tabelac1, valorestabelac1 } from './TabelaDeterministico';
-
-
+import { Table } from 'react-bootstrap';
+import {toast} from 'react-toastify'
 interface moduloProps {
   numero: number;
   modulos: number[];
@@ -49,14 +48,26 @@ const Modulo = ({
 
   return (
     <>
-      <div className={styles.modulo}>
-        <span>Modulo {numero + 1} </span>
-        {numero !== 0 && (
-          <button onClick={() => handleDelete(numero)}>Apagar</button>
-        )}
-        <div className={styles.proba}>
-          <span>Material:</span>
-          <select onChange={({ target }) => setMat(target.value)}>
+      <div className="d-flex flex-column bg-primary-subtle p-3 my-2">
+        <div className="d-flex justify-content-between align-items-center">
+          <span className="mb-3 fw-bold fs-4 text-primary">
+            Modulo {numero + 1}{' '}
+          </span>
+          {numero !== 0 && (
+            <button
+              className="float-right btn btn-secondary"
+              onClick={() => handleDelete(numero)}
+            >
+              Apagar
+            </button>
+          )}
+        </div>
+        <div className="d-flex flex-column gap-2">
+          <span className="fw-bold">Material:</span>
+          <select
+            className="form-select"
+            onChange={({ target }) => setMat(target.value)}
+          >
             {tabelac1.map((item, index) => {
               return (
                 <option key={index} value={index}>
@@ -65,22 +76,35 @@ const Modulo = ({
               );
             })}
           </select>
-          <span>Massa:</span>
+          <span className="fw-bold">Massa:</span>
           <input
             type="text"
             value={massa}
             onChange={({ target }) => setMassa(target.value)}
             placeholder="Kg"
+            className="form-control"
           />
-          <span>Area:</span>
+          <span className="fw-bold">Área:</span>
           <input
             type="text"
             value={area}
             onChange={({ target }) => setArea(target.value)}
             placeholder="metros"
+            className="form-control"
           />
-          <button onClick={() => handleCalcular(numero)}>Calcular</button>
-          {valor !== 0 && <h2>Carga Incêndio: {valor.toFixed(2)} MJ/m²</h2>}
+          <div>
+            <button
+              className="btn btn-primary mt-2"
+              onClick={() => handleCalcular(numero)}
+            >
+              Calcular
+            </button>
+          </div>
+          {valor !== 0 && (
+            <span className="fs-4 fw-bold">
+              Carga Incêndio: {valor.toFixed(2).replace('.', ',')} MJ/m²
+            </span>
+          )}
         </div>
       </div>
     </>
@@ -117,16 +141,19 @@ const Deterministico = ({
   function sortFunction(a: any, b: any) {
     return a - b;
   }
-  function handleCargaFinal() {
+
+  function handleFinalizar() {
+    if (modulos[0] === 0){
+      return toast.error('Preencha os valores')
+    }
+    
     let modulosB = [...modulos];
     let media = modulosB.sort(sortFunction).reverse();
     let mediafinal = (media[0] + media[1]) / 2;
     let cargafinal = Math.max(...modulos) * 0.85;
     setFinal(+cargafinal.toFixed(2));
     setMediaf(+mediafinal.toFixed(2));
-  }
 
-  function handleFinalizar() {
     if (modulos.length === 1) {
       if (modulos[0] <= 300) {
         valorOcupacao[numero] = [9, 1, 0, +modulos[0].toFixed(2)];
@@ -144,7 +171,7 @@ const Deterministico = ({
         setValorFinal(3);
       }
     } else {
-      let cargaIncendioFinal = Math.max(final, mediaf);
+      let cargaIncendioFinal = Math.max(mediafinal, cargafinal);
       if (cargaIncendioFinal <= 300) {
         setValorFinal(1);
         valorOcupacao[numero] = [9, 1, 0, cargaIncendioFinal];
@@ -163,58 +190,80 @@ const Deterministico = ({
     }
   }
   return (
-    <div className={styles.proba}>
+    <div className="d-flex flex-column gap-2 my-2">
       <div>
-        <button onClick={handleAdicionar}>Adicionar modulo</button>
-      </div>
-      {modulo.map((item, index) => {
-        return (
-          <Modulo
-            key={item}
-            numero={Number(index)}
-            modulo={modulo}
-            setModulo={setModulo}
-            modulos={modulos}
-            final={setFinal}
-            media={setMediaf}
-            setModulos={setModulos}
-            setValorFinal={setValorFinal}
-          />
-        );
-      })}
-      {modulo.length > 1 && (
-        <button onClick={handleCargaFinal}>
-          Calcular carga incêndio total
+        <button className="float-end btn btn-primary" onClick={handleAdicionar}>
+          Adicionar modulo
         </button>
+      </div>
+      <div>
+        {modulo.map((item, index) => {
+          return (
+            <Modulo
+              key={item}
+              numero={Number(index)}
+              modulo={modulo}
+              setModulo={setModulo}
+              modulos={modulos}
+              final={setFinal}
+              media={setMediaf}
+              setModulos={setModulos}
+              setValorFinal={setValorFinal}
+            />
+          );
+        })}
+      </div>
+      <div>
+        <button
+          className="btn btn-success btn-lg fw-bold my-3"
+          onClick={() => {
+            handleFinalizar();
+          }}
+        >
+          Finalizar Dimensionamento
+        </button>
+      </div>
+      {modulos.length > 1 && (
+        <Table striped bordered className="table-success">
+          <tbody className="fs-4">
+            <tr>
+              <td className="w-50">
+                85 % da maior carga de incêndio encontrada:
+              </td>
+              <td className="text-center">{final.toFixed(2).replace('.', ',')} MJ/m²</td>
+            </tr>
+            <tr>
+              <td className="w-50">
+                {' '}
+                Média das duas maiores carga incêndio encontradas:
+              </td>
+              <td className="text-center">{mediaf.toFixed(2).replace('.', ',')} MJ/m²</td>
+            </tr>
+          </tbody>
+        </Table>
       )}
-      {final !== 0 && (
-        <h2>
-          85 % da maior carga de incêndio encontrada: {final.toFixed(2)} MJ/m²
-        </h2>
-      )}
-      {mediaf !== 0 && (
-        <h2>
-          Média das duas maiores carga incêndio encontradas: {mediaf.toFixed(2)}{' '}
-          MJ/m²
-        </h2>
-      )}
-      <button onClick={handleFinalizar}>Finalizar Dimensionamento</button>
       {valorFinal === 1 && (
         <div>
-          <p>Divisão: J-2</p>
-          <p>Descrição: Depósitos e similares com carga de incêndio baixa</p>
+          <p className="fw-bold fs-4">Divisão: J-2</p>
+          <p className="fw-bold fs-4">
+            Descrição: Depósitos e similares com carga de incêndio baixa
+          </p>
         </div>
       )}
       {valorFinal === 2 && (
         <div>
-          <p>Divisão: J-3</p>
-          <p>Descrição: Depósitos e similares com carga de incêndio média</p>
+          <p className="fw-bold fs-4">Divisão: J-3</p>
+          <p className="fw-bold fs-4">
+            Descrição: Depósitos e similares com carga de incêndio média
+          </p>
         </div>
       )}
       {valorFinal === 3 && (
         <div>
-          <p>Divisão: J-4</p>
-          <p>Descrição: Depósitos e similares com carga de incêndio alta</p>
+          <p className="fw-bold fs-4">Divisão: J-4</p>
+          <p className="fw-bold fs-4">
+            Descrição: Depósitos e similares com carga de incêndio alta
+          </p>
         </div>
       )}
     </div>

@@ -29,10 +29,10 @@ const Cargaincendiocalculo = ({
 
   console.log(valorOcupacao);
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <span>Todo o material a ser armazenado é incombustível?</span>
-      <div className={styles.radio}>
-        <div>
+    <div className='d-flex flex-column'>
+      <span className='fw-bold'>*** Todo o material a ser armazenado é incombustível?</span>
+      <div className='d-flex gap-5 my-2'>
+        <div className='d-flex gap-2'>
           <input
             type="radio"
             id="combustível"
@@ -44,7 +44,7 @@ const Cargaincendiocalculo = ({
           />
           <label htmlFor="combustível">Sim</label>
         </div>
-        <div>
+        <div className='d-flex gap-2'>
           <input
             type="radio"
             id="incombustível"
@@ -59,15 +59,15 @@ const Cargaincendiocalculo = ({
       </div>
       {j1 === 'sim' && (
         <div>
-          <p>Divisão: J-1</p>
-          <p>Descrição: Depósito de material incombustível</p>
+          <p className='fw-bold'>Divisão: J-1</p>
+          <p className='fw-bold'>Descrição: Depósito de material incombustível</p>
         </div>
       )}
       {j1 === 'nao' && (
         <div>
-          <span>Deseja calcular a carga incêndio por qual método?</span>
-          <div className={styles.radio}>
-            <div>
+          <span className='fw-bold'>*** Deseja calcular a carga incêndio por qual método?</span>
+          <div className='d-flex gap-5 my-2'>
+            <div className='d-flex gap-2'>
               <input
                 type="radio"
                 id="probabilistico"
@@ -75,9 +75,9 @@ const Cargaincendiocalculo = ({
                 checked={metodo === 'probabilistico'}
                 onChange={({ target }) => setMetodo(target.value)}
               />
-              <label htmlFor="probabilistico">Probabilistico</label>
+              <label htmlFor="probabilistico">Probabilístico</label>
             </div>
-            <div>
+            <div className='d-flex gap-2'>
               <input
                 type="radio"
                 id="deterministico"
@@ -85,7 +85,7 @@ const Cargaincendiocalculo = ({
                 checked={metodo === 'deterministico'}
                 onChange={({ target }) => setMetodo(target.value)}
               />
-              <label htmlFor="deterministico">Deterministico</label>
+              <label htmlFor="deterministico">Determinístico</label>
             </div>
           </div>
         </div>

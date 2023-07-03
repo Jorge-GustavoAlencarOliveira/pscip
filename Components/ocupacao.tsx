@@ -3,7 +3,7 @@ import OcupacaoModulo from './ocupacaomodulo';
 import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';
 import Construcao from '../Bases/construcao';
-
+import {toast} from 'react-toastify'
 interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
@@ -73,7 +73,7 @@ const Ocupacao = () => {
       dados.altura === '' ||
       dados.pavimentos === ''
     ) {
-      return alert('Preencha os dados');
+      return toast.info('Preencha os dados');
     }
     setValoresOcupacao([[dados, valorOcupacao]]);
     router.push('/result');
@@ -147,7 +147,7 @@ const Ocupacao = () => {
           </div>
           <div>
             <button
-              className="mb-3 float-end btn btn-secondary"
+              className="mb-3 float-end btn btn-primary"
               onClick={handleAdd}
             >
               Adicionar ocupação

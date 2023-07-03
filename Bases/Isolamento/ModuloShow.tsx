@@ -16,7 +16,7 @@ const ModuloShow = ({ modulos, onDelete }: ModuloProps) => {
         return (
           <div key={item.id}>
             <Modulo modulo={item} onDelete={onDelete} />
-            <Table striped bordered className='table-success max-wi'>
+            <Table striped bordered className='table-success'>
               <tbody className='fw-bold'>
                 <tr>
                   <td className='w-50'>Edificação expositora</td>

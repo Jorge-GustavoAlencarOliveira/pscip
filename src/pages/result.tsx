@@ -1,76 +1,66 @@
 import React from 'react';
 import { DataStorage } from '../../dataContext';
 import TabelaDescricao from '../../Tabelas/tabelaDescricao';
-import A2 from '../../Ocupacoes/A2';
+import { listaOcupacao } from '../../Ocupacoes/ListaOcupacoes';
 import Link from 'next/link';
 
-
-const ShowMedidads = ({medidas}: {medidas: string[]}) => {
+const ShowMedidads = ({ medidas }: { medidas: string[] }) => {
+  const { valoresOcupacao } = React.useContext(DataStorage);
   return (
     <ul>
       {medidas.map((item, index) => {
-       const links = item
-      .replaceAll(' ', '')
-      .replace('ç', 'c')
-      .replace('ã', 'a')
-      .replace('ê', 'e')
-      .replace('í', 'i')
-      .replace(
-        ' (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
-        '',
-      )
-      .toLowerCase();
-      return (
-        <li key={index}>
-        <Link
-          href={{
-            pathname: `/medidas/${links}`,
-            query: {
-              // altura: altura,
-              // area: area,
-              // carga: cargaIncendio,
-              ocupacao: 'A-2',
-            },
-          }}
-        >
-          {item}
-        </Link>
-      </li>
-      )
-  })}
+        const links = item
+          .replaceAll(
+            '(nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
+            '',
+          )
+          .replaceAll(
+            '(nos condomínios com arruamento interno, independente da área)',
+            '',
+          )
+          .replaceAll(' ', '')
+          .replaceAll('ç', 'c')
+          .replaceAll('ã', 'a')
+          .replaceAll('ê', 'e')
+          .replaceAll('í', 'i')
+          .toLowerCase();
+        return (
+          <li key={index}>
+            <Link
+              className="text-decoration-none"
+              href={{
+                pathname: `/medidas/${links}`,
+                query: {
+                  // altura: altura,
+                  // area: area,
+                  // carga: cargaIncendio,
+                  ocupacao: 'A-2',
+                },
+              }}
+            >
+              {item}
+            </Link>
+          </li>
+        );
+      })}
+      {valoresOcupacao.length > 1 && (
+        <li>
+          <Link
+            href={{
+              pathname: '/medidas/isolamentoderisco',
+            }}
+          >
+            Separação entre edificações
+          </Link>
+        </li>
+      )}
     </ul>
-  )
-};
-
-type listaProps = {
-  [key: string]: (
-    alt: string,
-    area: string,
-    carga: number,
-    isolamento: number,
-    construcao: string,
-  ) => string[] | undefined;
+  );
 };
 
 const Result = () => {
   const { descricao } = TabelaDescricao();
   const { valoresOcupacao } = React.useContext(DataStorage);
-  const listaOcupacao: listaProps = {
-    'A-2': (
-      alt: string,
-      area: string,
-      carga: number,
-      isolamento: number,
-      construcao: string,
-    ) =>
-      A2({
-        altura: alt,
-        area: area,
-        cargaIncendio: carga,
-        isolamento: isolamento,
-        construcao: construcao,
-      }),
-  };
   const [medidas1, setMedidas] = React.useState<string[]>([]);
 
   React.useEffect(() => {
@@ -132,11 +122,7 @@ const Result = () => {
                           .cargaincendio}{' '}
                       MJ/m²
                     </p>
-                    <div>
-                      {medidas &&
-                        <ShowMedidads medidas={medidas}/>
-                      }
-                    </div>
+                    <div>{medidas && <ShowMedidads medidas={medidas} />}</div>
                   </div>
                 );
               } else {
@@ -158,11 +144,7 @@ const Result = () => {
                 );
               }
             })}
-            <div>
-              {final.length !== 0 &&
-                <ShowMedidads  medidas={final}/>
-              }
-            </div>
+            <div>{final.length !== 0 && <ShowMedidads medidas={final} />}</div>
             <br />
             <p>Área construída: {item[0].areaConstruida} m²</p>
             <p>Área a construir: {item[0].areaAconstruir} m²</p>

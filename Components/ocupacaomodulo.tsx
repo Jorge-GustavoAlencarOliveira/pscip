@@ -42,8 +42,7 @@ const OcupacaoModulo = ({
       valorOcupacao.filter((item) => item !== valorOcupacao[numero]),
     );
   }
-  
-  
+    
   return (
     <div className='border-top border-top-primary border-bottom border-primary py-4'>
       <div className='d-flex justify-content-between align-items-center mb-3 '>
@@ -69,7 +68,7 @@ const OcupacaoModulo = ({
             >
               {ocupacao?.map((item, index) => {
                 return (
-                  <option key={index} value={index}>
+                  <option  className='form-control' key={index} value={index}>
                     {item}
                   </option>
                 );

@@ -1,10 +1,11 @@
 .App{
   min-height: 100vh;
   width: 100%;
-
 }
 
-
+.SideBar{
+  height: inherit;
+}
 
 
 /* .form{

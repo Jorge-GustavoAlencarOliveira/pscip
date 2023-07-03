@@ -1,167 +1,129 @@
 import React from 'react';
-import Regioes from '../../Components/regiao';
-import Ocupacao from '../../Components/ocupacao';
+import Logo from '../../public/logo.png';
+import Image from 'next/image';
+import { FaSignInAlt } from 'react-icons/fa';
+import Link from 'next/link';
+import styles from './home.module.css';
 
-export default function Home() {
-  const [separacao, setSeparacao] = React.useState<string>('');
-
+const index = () => {
   return (
-    <div className='container mt-2'>
-      <div className="d-flex flex-column gap-2">
-        <span className="fw-bold">Existe separação entre edificações?</span>
-        <div className="d-flex gap-5">
-          <div className="d-flex gap-1 align-items-center">
-            <input
-              type="radio"
-              id="separacaoSim"
-              name="isolamento"
-              value="separacaoSim"
-              onChange={({ target }) => setSeparacao(target.value)}
-              checked={separacao === 'separacaoSim'}
-            />
-            <label htmlFor="separacaoSim">Sim</label>
-          </div>
-          <div className="d-flex gap-1 align-items-center">
-            <input
-              type="radio"
-              id="separacaoNao"
-              name="isolamento"
-              value="separacaoNao"
-              onChange={({ target }) => setSeparacao(target.value)}
-              checked={separacao === 'separacaoNao'}
-            />
-            <label htmlFor="separacaoNao">Não</label>
-          </div>
+    <div className={`container ${styles.App}`}>
+      <header className="d-flex justify-content-between align-items-center">
+        <div>
+          <Image src={Logo} alt="Logo" width={150} />
         </div>
+        <nav className="d-flex justify-content-between align-items-center gap-3">
+          <Link
+            href="/login/signin"
+            className="text-decoration-none d-flex justify-content-between align-items-center gap-2"
+          >
+            <FaSignInAlt size={20} color="text-primary" />
+            <span>Login</span>
+          </Link>
+          <Link
+            href="/login/signup"
+            className="text-decoration-none d-flex justify-content-between align-items-center gap-2"
+          >
+            <FaSignInAlt size={20} color="text-primary" />
+            <span>Inscreva-se</span>
+          </Link>
+        </nav>
+      </header>
+      <div className="my-3">
+        <span className="text-dark ">
+          Nosso site foi feito para atender você que deseja regularizar seu
+          imóvel, como também para profissionais técnicos e empresas que atuam
+          na área de prevenção e incêndio.{' '}
+          <Link href="/login/signup" className="text-decoration-none text-dark fw-bold">
+            FAÇA SEU CADASTRO
+          </Link>{' '}
+          e tenha acesso GRATUITO a ferramentas exclusivas em nossa plataforma
+          para desenvolver Projetos de Incêndio e Pânico.
+        </span>
+        <nav className="my-4">
+          <div className="row">
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="/login/signin"
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                ENTENDA SEU IMÓVEL
+              </Link>
+              <span>
+                Informe as características da sua edificação e saíba como
+                regulariza-la.
+              </span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="/login/signin"
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                FAÇA SEU PROJETO AQUI
+              </Link>
+              <span>Desenvolva seu Projeto de Incêndio em nossa plataforma, aumente a sua chance de aprovação utiliznado nossas ferramentas.</span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="/login/signin"
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                MEMORIAIS DE INCÊNDIO
+              </Link>
+              <span>Todos os memoriais exigidos pelo Corpo de Bombeiros à sua disposição para preenchimento online.</span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="/login/signin"
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                CALCULADORA DE INCÊNDIO
+              </Link>
+              <span>Tenha acesso a calculos de saídas de emergências, brigada de incêndio,  carga de incêndio e isolamento de risco AQUI.</span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="https://www.prevencaobombeiros.mg.gov.br/lops/portal.do" target='_blank'
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                INFOSCIP
+              </Link>
+              <span>Acesse o Portal do INFOSCIP para protocolar seu Projeto de Incêndio e declarar eventos temporários.</span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="https://portalservicos.jucemg.mg.gov.br/licenciamento-web/pages/licenciamento/simuladorGrauDeRisco.jsf"
+                target='_blank'
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                JUCEMG
+              </Link>
+              <span>Acesse o Portal da Jucemg para preencher a sua autodeclaração de risco da sua empresa. Tenha orientações de como preencher sua declaração. </span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="https://www.bombeiros.mg.gov.br/normastecnicas"
+                target='_blank'
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                LEGISLAÇÃO
+              </Link>
+              <span>Acesse toda a Legislação de Incêndio e Pânico do Corpo de Bombeiros de Minas Gerais.</span>
+            </div>
+            <div className="col-6 col-sm-4 d-flex flex-column gap-2 py-2">
+              <Link
+                href="/login/signin"
+                className="btn btn-primary text-decoration-none fw-bold flex-1"
+              >
+                GERENCIE SEUS PROJETOS AQUI
+              </Link>
+              <span>Responsável Técnico, faça orçamentos de projetos para seus clientes aqui. Gerencie todas as etapas da aprovação do Projeto e tenha um portifólio de empresas com quem você ja trabalhou.</span>
+            </div>
+          </div>
+        </nav>
       </div>
-      <div>{separacao === 'separacaoNao' && <Ocupacao />}</div>
-      <div>{separacao === 'separacaoSim' && <Regioes />}</div>
     </div>
   );
-}
+};
 
-//   React.useEffect(() => {
-//     const local = localStorage.getItem('data');
-//     if (local) {
-//       const dados = JSON.parse(local);
-//       const divi = divisao[select].map((item, index) => index);
-//       const desc = descricao[select][div].map((item, index) => index);
-//       setSelect(dados.select);
-//       setDiv(divi[dados.div]);
-//       setDesc(0);
-//       setAlt(dados.alt);
-//       setArea(dados.area);
-//       setTipo(dados.tipo);
-//     }
-//   }, []);
-
-//   React.useEffect(() =>{
-//     setDiv(0);
-//     setDesc(0)
-//   },[select])
-
-//   function handleNext() {
-//     // baseData({
-//     //   ocupacao: descricao[select][div][desc].divisao,
-//     //   altura: alt,
-//     //   area: area,
-//     //   dataconstrucao: tipo,
-//     //   cargaincendio: descricao[select][div][desc].cargaincendio,
-//     // });
-//     const dados = {
-//       select,
-//       div,
-//       desc,
-//       alt,
-//       area,
-//       tipo,
-//     };
-//     localStorage.setItem('data', JSON.stringify(dados));
-//     router.push('/result');
-//   }
-
-// import Head from 'next/head'
-// import { DataStorage } from '../../../dataContext'
-// import styles from '../home.module.css'
-// import { useRouter } from 'next/router'
-// const index = () => {
-//   const router = useRouter();
-//   const {allStates} = React.useContext(DataStorage)
-//   const [alt, setAlt] = React.useState<string>('');
-//   const [area, setarea] = React.useState<string>('');
-//   const [tipo, setTipo] = React.useState<string>('existente');
-
-//   function handleNext(){
-//     allStates({altura: Number(alt), area: Number(area), dataConstrucao: tipo})
-//     router.push('/informations/ocupacao')
-//   }
-//   return (
-//     <>
-//       <Head>
-//         <title>Projeto de Segurança Contra Incêndio e Pânico</title>
-//       </Head>
-//       <div className={styles.form}>
-//         <label>Altura</label>
-//         <input
-//           type="text"
-//           placeholder="ex: 9.34 metros"
-//           value={alt}
-//           onChange={({ target }) => setAlt(target.value)}
-//         />
-//         <label>Área total</label>
-//         <input
-//           type="text"
-//           placeholder="ex: 945.3 m²"
-//           value={area}
-//           onChange={({ target }) => setarea(target.value)}
-//         />
-//         <div className={styles.data}>
-//           <h3>Data de construção</h3>
-//           <div>
-//             <input
-//               type="radio"
-//               name="construcao"
-//               id="existente"
-//               value="existente"
-//               checked={tipo === 'existente'}
-//               onChange={({ target }) => setTipo(target.value)}
-//             />
-//             <label htmlFor="existente">
-//               Existente - Edificação Construída anterior a 2 de julho de 2005
-//             </label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               name="construcao"
-//               id="construida"
-//               value="construida"
-//               checked={tipo === 'construida'}
-//               onChange={({ target }) => setTipo(target.value)}
-//             />
-//             <label htmlFor="construida">
-//               Construída - Edificação Construída entre 2 de julho de 2005 e 31
-//               de dezembro de 2016
-//             </label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               name="construcao"
-//               id="nova"
-//               value="nova"
-//               checked={tipo === 'nova'}
-//               onChange={({ target }) => setTipo(target.value)}
-//             />
-//             <label htmlFor="nova">
-//               Nova - Edificação Construída após 31 de dezembro de 2016
-//             </label>
-//           </div>
-//         </div>
-//         <button onClick={handleNext}>Próximo</button>
-//       </div>
-//     </>
-//   )
-// }
-
-// export default index
+export default index;

@@ -2,8 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import styles from '../home.module.css';
 import { Form, Button } from 'react-bootstrap';
+import { DataStorage } from '../../../dataContext';
+import { useRouter } from 'next/router';
 
 const SignIn = () => {
+  const router = useRouter()
+  const {signInGoogle, login} = React.useContext(DataStorage)
+
+  if(login){
+    router.push('/dashboard')
+  }
   return (
     <div
       className={`d-flex justify-content-center align-items-center ${styles.App}`}
@@ -19,7 +27,7 @@ const SignIn = () => {
             <Form.Label>Senha</Form.Label>
             <Form.Control type="password" placeholder="*****" />
           </Form.Group>
-          <Button className="w-100 mt-2">Acessar</Button>
+          <Button onClick={() => signInGoogle()} className="w-100 mt-2">Logar com o Google</Button>
         </Form>
         <p className="text-center mt-4">
           Você ainda não possui conta?{' '}

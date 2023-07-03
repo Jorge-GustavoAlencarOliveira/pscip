@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import styles from '../../src/pages/home.module.css';
 import { tabela1, tabela2 } from './TabelaProbabilistico';
 
 interface moduloProps {
@@ -38,14 +37,18 @@ const Modulo = ({
 
   return (
     <>
-      <div className={styles.modulo}>
-        <span>Modulo {numero + 1} </span>
-        {numero !== 0 && (
-          <button onClick={() => handleDelete(numero)}>Apagar</button>
-        )}
-        <div className={styles.proba}>
-          <span>Material:</span>
-          <select onChange={({ target }) => setMat(target.value)}>
+      <div className="d-flex flex-column bg-primary-subtle p-3 my-2">
+        <div  className="d-flex justify-content-between align-items-center">
+          <span className="mb-3 fw-bold fs-4 text-primary">Modulo {numero + 1} </span>
+          {numero !== 0 && (
+            <button className="float-right btn btn-secondary" onClick={() => handleDelete(numero)}>Apagar</button>
+          )}
+        </div>
+        <div className="d-flex flex-column gap-2">
+          <span className="fw-bold">Material:</span>
+          <select 
+          className="form-select"
+          onChange={({ target }) => setMat(target.value)}>
             {tabela1.map((item, index) => {
               return (
                 <option key={index} value={index}>
@@ -54,15 +57,18 @@ const Modulo = ({
               );
             })}
           </select>
-          <span>Altura:</span>
+          <span className="fw-bold">Altura:</span>
           <input
             type="text"
             value={altura}
             onChange={({ target }) => setAltura(target.value)}
             placeholder="metros"
+            className="form-control"
           />
-          <button onClick={() => handleCalcular(numero)}>Calcular</button>
-          {valor !== 0 && <h2>Carga Incêndio: {valor.toFixed(2)} MJ/m²</h2>}
+          <div>
+            <button className="btn btn-primary mt-2" onClick={() => handleCalcular(numero)}>Calcular</button>
+          </div>
+          {valor !== 0 && <span className="fs-4 fw-bold">Carga Incêndio: {valor.toFixed(2).replace('.', ',')} MJ/m²</span>}
         </div>
       </div>
     </>
@@ -82,7 +88,6 @@ const Probabilistico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps)
   );
   const [valorFinal, setValorFinal] = React.useState<number>(0);
   
-  let i = 1;
   function handleAdicionar() {
     setCount((item) => item + 1);
     setModulo((item) => [...item, count]);
@@ -127,9 +132,9 @@ const Probabilistico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps)
 
 
   return (
-    <div className={styles.proba}>
+    <div className='d-flex flex-column gap-2 my-2'>
       <div>
-        <button onClick={handleAdicionar}>Adicionar modulo</button>
+        <button className="float-end btn btn-primary" onClick={handleAdicionar}>Adicionar modulo</button>
       </div>
       {modulo.map((item, index) => {
         return (
@@ -143,29 +148,31 @@ const Probabilistico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps)
           />
         );
       })}
-      <button onClick={handleCargaFinal}>
-          Calcular carga incêndio total
-      </button>
+      <div>
+        <button  className="btn btn-success btn-lg fw-bold my-3" onClick={handleCargaFinal}>
+            Calcular carga incêndio total
+        </button>
+      </div>
       {valorFinal === 1 && (
         <div>
-          <p>Divisão: J-2</p>
-          <p>
+          <p className="fw-bold fs-4">Divisão: J-2</p>
+          <p className="fw-bold fs-4">
             Descrição: Depósitos e similares com carga de incêndio baixa
           </p>
         </div>
       )}
       {valorFinal === 2 && (
-        <div>
+        <div className="fw-bold fs-4">
           <p>Divisão: J-3</p>
-          <p>
+          <p className="fw-bold fs-4">
             Descrição: Depósitos e similares com carga de incêndio média
           </p>
         </div>
       )}
       {valorFinal === 3 && (
         <div>
-          <p>Divisão: J-4</p>
-          <p>
+          <p className="fw-bold fs-4">Divisão: J-4</p>
+          <p className="fw-bold fs-4">
             Descrição: Depósitos e similares com carga de incêndio alta
           </p>
         </div>
