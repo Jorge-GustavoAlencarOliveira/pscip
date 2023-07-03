@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.dashboard {
+  min-height: 100vh;
+}
+
+
 .SideBar{
   height: inherit;
 }

@@ -5,6 +5,7 @@ import '../pages/home.module.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
+import './home.module.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()

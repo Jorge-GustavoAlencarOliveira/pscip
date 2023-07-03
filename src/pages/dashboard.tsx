@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <>
       <ProtectedRoute>
-        <div className={`container ${styles.App}`}>
-          <div className='d-flex'>
+        <div className={styles.App}>
+          <div className={`d-flex ${styles.dashboard}`}>
             <Sidebar/>
             <div className='col-10 px-4' >
               <Header/>
