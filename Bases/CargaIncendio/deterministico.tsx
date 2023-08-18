@@ -114,7 +114,7 @@ const Modulo = ({
 interface ocupacaoProps {
   numero: number;
   valorOcupacao: number[][];
-  setValorOcupacao: Dispatch<SetStateAction<number[][]>>;
+  setValorOcupacao: (valorOcupacao: number[][]) => void;
 }
 
 const Deterministico = ({
@@ -122,8 +122,6 @@ const Deterministico = ({
   valorOcupacao,
   setValorOcupacao,
 }: ocupacaoProps) => {
-  const { setValoresOcupacao } = React.useContext(DataStorage);
-  const router = useRouter();
   const [count, setCount] = React.useState<number>(1);
   const [modulo, setModulo] = React.useState<Array<number>>([0]);
   const [modulos, setModulos] = React.useState<Array<number>>(

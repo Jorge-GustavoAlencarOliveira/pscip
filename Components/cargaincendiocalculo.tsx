@@ -7,7 +7,7 @@ import { Dispatch, SetStateAction } from 'react';
 interface ocupacaoProps {
   numero: number;
   valorOcupacao: number[][];
-  setValorOcupacao: Dispatch<SetStateAction<number[][]>>;
+  setValorOcupacao: (valorOcupacao: number[][]) => void;
 }
 
 const Cargaincendiocalculo = ({

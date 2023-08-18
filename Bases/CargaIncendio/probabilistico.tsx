@@ -77,7 +77,7 @@ const Modulo = ({
 interface ocupacaoProps {
   numero: number;
   valorOcupacao: number[][],
-  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+  setValorOcupacao: (valorOcupacao: number[][]) => void 
 }
 
 const Probabilistico = ({numero, valorOcupacao, setValorOcupacao}:ocupacaoProps) => {

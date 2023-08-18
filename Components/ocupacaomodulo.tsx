@@ -65,9 +65,8 @@ const OcupacaoModulo = ({
             </select>
           </div>         
           {ocup === 9 ? (
-              // <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
-              // setValorOcupacao={setValorOcupacao}/> 
-              null
+              <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
+              setValorOcupacao={setValorOcupacao}/> 
             ) : (
               <div className='d-flex flex-column gap-3'>
                 <div className='d-flex flex-column flex-sm-row align-items-sm-center gap-2'>
