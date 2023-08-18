@@ -73,7 +73,7 @@ const Result = () => {
         item[1].map((item1) => {
           const valor = descricao[item1[0]][item1[1]][item1[2]].divisao;
           const medidas =
-            valor in listaOcupacao &&
+            valor in listaOcupacao && (typeof item[0].altura === 'string') && item[0].areaTotal && (typeof item[0].dataConstrucao === 'string') &&
             listaOcupacao[valor](
               item[0].altura,
               item[0].areaTotal.toString(),
@@ -102,7 +102,7 @@ const Result = () => {
             {item[1].map((item1, index1) => {
               const valor = descricao[item1[0]][item1[1]][item1[2]].divisao;
               const medidas =
-                valor in listaOcupacao &&
+                valor in listaOcupacao && (typeof item[0].altura === 'string') && item[0].areaTotal && (typeof item[0].dataConstrucao === 'string') &&
                 listaOcupacao[valor](
                   item[0].altura,
                   item[0].areaTotal.toString(),
