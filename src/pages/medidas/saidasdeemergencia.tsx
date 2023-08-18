@@ -2,6 +2,8 @@ import React from 'react';
 import Numerodesaidas from '../../../Bases/NumeroSaidas/numerodesaidas';
 import { useRouter } from 'next/router';
 import CalculoSaidas from '../../../Bases/SaidadeEmergencia/Saidas';
+import Pavimento from '../../../Bases/SaidadeEmergencia/pavimento';
+import Layout from '../../../Components/layout';
 
 interface moduloProps {
   id: number;
@@ -20,11 +22,15 @@ const SaidasdeemergenciaPage = () => {
     return (
       <>
         <Numerodesaidas altura={altura} ocupacao={ocupacao} />
-        <CalculoSaidas />
+        {/* <CalculoSaidas /> */}
       </>
     );
   }
-  return <CalculoSaidas />;
+  return (
+      <Layout>
+        <Pavimento />
+      </Layout>
+  );
 };
 
 export default SaidasdeemergenciaPage;

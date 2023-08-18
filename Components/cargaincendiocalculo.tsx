@@ -27,7 +27,6 @@ const Cargaincendiocalculo = ({
     }
   }
 
-  console.log(valorOcupacao);
   return (
     <div className='d-flex flex-column'>
       <span className='fw-bold'>*** Todo o material a ser armazenado é incombustível?</span>

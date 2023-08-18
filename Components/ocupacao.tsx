@@ -4,6 +4,7 @@ import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';
 import Construcao from '../Bases/construcao';
 import {toast} from 'react-toastify'
+
 interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
@@ -14,14 +15,11 @@ interface dadosProps {
   compartimentacao: string
 }
 
-
 const Ocupacao = () => {
   const router = useRouter();
-  const { setValoresOcupacao, valoresOcupacao } = React.useContext(DataStorage);
+  const {valoresOcupacoes} = React.useContext(DataStorage);
   const [mista, setMista] = React.useState<string>('');
-  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([
-    0,
-  ]);
+  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([0]);
   const scrollToBottom = React.useRef<HTMLDivElement>(null)
   const [count, setCount] = React.useState(1);
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
@@ -35,12 +33,13 @@ const Ocupacao = () => {
     dataConstrucao: 'Nova',
     compartimentacao: 'compartimentacaoNao'
   });
+
   React.useEffect(() => {
     setAreaTotal(Number(dados.areaAconstruir) + Number(dados.areaConstruida));
   }, [dados]);
 
   React.useEffect(() => {
-    setDados((item) => ({ ...item, areaTotal: areaTotal }));
+    setDados((item) => ({...item, areaTotal: areaTotal}));
   }, [areaTotal]);
 
   React.useEffect(() => {
@@ -56,6 +55,10 @@ const Ocupacao = () => {
     });
   }, [, mista]);
 
+  function selecionarOcupacao (valorOcupacao: number[][]){
+     setValorOcupacao(valorOcupacao) 
+  }
+
   function handleAdd() {
     setCount((item) => item + 1);
     setNumeroOcupacoes((item) => [...item, count]);
@@ -67,6 +70,15 @@ const Ocupacao = () => {
     })
   }
 
+  function handleDelete(numero:number) {
+    setNumeroOcupacoes(
+      numeroOcupacoes.filter((item, index) => index !== numero),
+    );
+    setValorOcupacao(
+      valorOcupacao.filter((item) => item !== valorOcupacao[numero]),
+    );
+  }
+
   function handleNext() {
     if (
       dados.areaConstruida === '' ||
@@ -75,9 +87,10 @@ const Ocupacao = () => {
     ) {
       return toast.info('Preencha os dados');
     }
-    setValoresOcupacao([[dados, valorOcupacao]]);
+    valoresOcupacoes(dados, valorOcupacao);
     router.push('/result');
   }
+  
   return (
     <div ref={scrollToBottom}>
       <div className="mb-4 mt-3">
@@ -158,10 +171,9 @@ const Ocupacao = () => {
               <OcupacaoModulo
                 key={item}
                 numero={index}
-                setNumeroOcupacoes={setNumeroOcupacoes}
-                numeroOcupacoes={numeroOcupacoes}
                 valorOcupacao={valorOcupacao}
-                setValorOcupacao={setValorOcupacao}
+                setValorOcupacao={selecionarOcupacao}
+                handleDelete={handleDelete}
               />
             );
           })}
@@ -176,7 +188,7 @@ const Ocupacao = () => {
                   setDados((item) => ({
                     ...item,
                     areaConstruida: target.value,
-                  }))
+                  }))               
                 }
                 className="form-control"
               />
@@ -249,10 +261,9 @@ const Ocupacao = () => {
           <OcupacaoModulo
             key={0}
             numero={0}
-            setNumeroOcupacoes={setNumeroOcupacoes}
-            numeroOcupacoes={numeroOcupacoes}
             valorOcupacao={valorOcupacao}
             setValorOcupacao={setValorOcupacao}
+            handleDelete={handleDelete}
           />
           <div className="d-flex flex-column py-3 gap-2">
             <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">

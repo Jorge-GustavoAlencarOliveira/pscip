@@ -1,11 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import {FaBook, FaCalculator, FaHome, FaPage4, FaPagelines, FaReadme, FaUser} from 'react-icons/fa'
-import styles from '../src/pages/home.module.css'
+import {FaBook, FaCalculator, FaHome, FaReadme, FaUser} from 'react-icons/fa'
+import styles from '../../src/pages/home.module.css'
 
 const Sidebar = () => {
   return (
-    <div className={`col-2 bg-primary px-2 ${styles.SideBar}`}>
+    <div className={`bg-primary px-3 ${styles.SideBar}`}>
       <nav className='d-flex flex-column gap-3 py-5 '>
         <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaReadme /> 
@@ -37,8 +37,6 @@ const Sidebar = () => {
           Calculadora de incêndio
           </span>
          </Link>
-        <Link href='#'>Jucemg</Link>
-        <Link href='#'>Legislação</Link>
       </nav>
     </div>
   )

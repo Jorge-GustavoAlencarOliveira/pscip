@@ -1,10 +1,12 @@
 import Isolamento from '../../../Bases/Isolamento/Isolamento'
+import Layout from '../../../Components/layout'
 const Isolamentoderisco = () => {
-  
+
     return (
-      <div className='container py-3'>
+      <Layout>
         <Isolamento/>
-      </div>
+      </Layout>
+    
     )
   }
 

@@ -7,10 +7,9 @@ import Cargaincendiocalculo from './cargaincendiocalculo';
 
 interface OcupacaoModuloProps {
   numero: number;
-  setNumeroOcupacoes: Dispatch<SetStateAction<number[]>>;
-  numeroOcupacoes: number[];
   valorOcupacao: number[][],
-  setValorOcupacao: Dispatch<SetStateAction<number[][]>> 
+  setValorOcupacao: (valorOcupacao: number[][]) => void;
+  handleDelete: (numero: number) => void;
 }
 
 const { descricao } = TabelaDescricao();
@@ -19,10 +18,9 @@ const { ocupacao } = TabelaOcupacao();
 
 const OcupacaoModulo = ({
   numero,
-  numeroOcupacoes,
-  setNumeroOcupacoes,
   valorOcupacao,
-  setValorOcupacao
+  setValorOcupacao, 
+  handleDelete
 }: OcupacaoModuloProps) => {
 
   const [ocup, setOcup] = React.useState<number>(0);
@@ -33,22 +31,13 @@ const OcupacaoModulo = ({
     setDiv(0);
     setDesc(0);
   }, [ocup]);
-
-  function handleDelete() {
-    setNumeroOcupacoes(
-      numeroOcupacoes.filter((item, index) => index !== numero),
-    );
-    setValorOcupacao(
-      valorOcupacao.filter((item) => item !== valorOcupacao[numero]),
-    );
-  }
     
   return (
     <div className='border-top border-top-primary border-bottom border-primary py-4'>
       <div className='d-flex justify-content-between align-items-center mb-3 '>
           <h4 className='fw-bold text-primary '>Ocupação {numero + 1}</h4>
           {numero > 0 && (
-            <button className='btn btn-secondary d-block' onClick={handleDelete}>
+            <button className='btn btn-secondary d-block' onClick={() => handleDelete(numero)}>
               Excluir
             </button>
           )}
@@ -76,8 +65,9 @@ const OcupacaoModulo = ({
             </select>
           </div>         
           {ocup === 9 ? (
-              <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
-              setValorOcupacao={setValorOcupacao}/>
+              // <Cargaincendiocalculo numero={numero} valorOcupacao={valorOcupacao}
+              // setValorOcupacao={setValorOcupacao}/> 
+              null
             ) : (
               <div className='d-flex flex-column gap-3'>
                 <div className='d-flex flex-column flex-sm-row align-items-sm-center gap-2'>

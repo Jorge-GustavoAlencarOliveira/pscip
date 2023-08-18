@@ -7,7 +7,7 @@ import styles from './home.module.css';
 
 const index = () => {
   return (
-    <div className={`container ${styles.App}`}>
+    <div className={`container-fluid ${styles.App}`}>
       <header className="d-flex justify-content-between align-items-center">
         <div>
           <Image src={Logo} alt="Logo" width={150} />

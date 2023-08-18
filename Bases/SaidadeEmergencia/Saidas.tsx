@@ -1,12 +1,17 @@
 import React from 'react';
 import TabelaSaidaEmergencia from './tabelaSaidaEmergencia';
 import ModuloShow from './ModuloShow';
-import moduloReducer from './ModuloReducer';
+import { moduloReducer, pavimentoReducer } from './ModuloReducer';
 import { handleCalcular, handleCalcular1 } from './Calculo';
 
 let id = 1;
 
-const CalculoSaidas = () => {
+interface calculoSaidaProps {
+  pavimento: string | undefined;
+  onDelete: () => void;
+}
+
+const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   const { divisao } = TabelaSaidaEmergencia();
   const [div, setDiv] = React.useState<number>(0);
   const [area, setArea] = React.useState<number | string>('');
@@ -82,158 +87,230 @@ const CalculoSaidas = () => {
   }, [div]);
 
   return (
-    <div>
-      <h1>Dimensionamento de saídas de emergencia</h1>
-      <span>Divisão: </span>
-      <select onChange={({ target }) => setDiv(+target.value)}>
-        {divisao.map((item, index) => {
-          return (
-            <option key={index} value={index}>
-              {item[0]}
-            </option>
-          );
-        })}
-      </select>
+    <div className="d-flex flex-column gap-2 mt-4 bg-light px-2 py-4">
+      <div className="d-flex justify-content-between align-items-center my-3">
+        <h5 className="fw-bold">Pavimento: {pavimento} </h5>
+        <button className="btn btn-secondary" onClick={onDelete}>
+          Excluir
+        </button>
+      </div>
+      <div className="d-flex gap-2 form-group align-items-center">
+        <span>Divisão: </span>
+        <select
+          onChange={({ target }) => setDiv(+target.value)}
+          className="form-select"
+        >
+          {divisao.map((item, index) => {
+            return (
+              <option key={index} value={index}>
+                {item[0]}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       {div !== 0 && div !== 2 && div !== 1 && div !== 35 && div !== 36 && (
         <div>
           {div === 29 ? (
-            <div>
-              <label style={{ marginTop: '1rem' }}>Vagas: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="Vagas"
-                onChange={({ target }) => setArea(+target.value)}
-                ref={ref}
-                value={area}
-              />
-              <label style={{ marginTop: '1rem' }}>Ambiente: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="Nome do Ambiente"
-                onChange={({ target }) => setAmbiente(target.value)}
-                value={ambiente}
-                ref={ref1}
-              />
-              <button onClick={moduloAdd}>Adicionar</button>
+            <div className="d-flex flex-column gap-2">
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Vagas: </label>
+                <input
+                  type="text"
+                  placeholder="Vagas"
+                  onChange={({ target }) => setArea(+target.value)}
+                  ref={ref}
+                  value={area}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref1}
+                  className="form-control"
+                />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary float-end my-3"
+                  onClick={moduloAdd}
+                >
+                  Adicionar
+                </button>
+              </div>
             </div>
           ) : (
-            <div>
-              <label style={{ marginTop: '1rem' }}>Área: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="area"
-                onChange={({ target }) => setArea(+target.value)}
-                value={area}
-                ref={ref}
-              />
-              <label style={{ marginTop: '1rem' }}>Ambiente: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="Nome do Ambiente"
-                onChange={({ target }) => setAmbiente(target.value)}
-                value={ambiente}
-                ref={ref1}
-              />
-              <button onClick={moduloAdd}>Adicionar</button>
+            <div className="d-flex flex-column gap-2">
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Área: </label>
+                <input
+                  type="text"
+                  placeholder="area"
+                  onChange={({ target }) => setArea(+target.value)}
+                  value={area}
+                  ref={ref}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref1}
+                  className="form-control"
+                />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary float-end my-3"
+                  onClick={moduloAdd}
+                >
+                  Adicionar
+                </button>
+              </div>
             </div>
           )}
         </div>
       )}
       {(div === 0 || div === 1) && (
-        <div>
-          <label style={{ marginTop: '1rem' }}>Dormitórios: </label>
-          <input
-            style={{ margin: '1rem 0' }}
-            type="text"
-            placeholder="unidades"
-            value={area}
-            onChange={({ target }) => setArea(+target.value)}
-            ref={ref}
-          />
-          <label style={{ marginTop: '1rem' }}>Ambiente: </label>
-          <input
-            style={{ margin: '1rem 0' }}
-            type="text"
-            placeholder="Nome do Ambiente"
-            onChange={({ target }) => setAmbiente(target.value)}
-            value={ambiente}
-            ref={ref1}
-          />
-          <button onClick={moduloAdd}>Adicionar</button>
+        <div className="d-flex flex-column gap-2">
+          <div className="d-flex gap-2 form-group align-items-center">
+            <label>Dormitórios: </label>
+            <input
+              type="text"
+              placeholder="unidades"
+              value={area}
+              onChange={({ target }) => setArea(+target.value)}
+              ref={ref}
+              className="form-control"
+            />
+          </div>
+          <div className="d-flex gap-2 form-group align-items-center">
+            <label>Ambiente: </label>
+            <input
+              type="text"
+              placeholder="Nome do Ambiente"
+              onChange={({ target }) => setAmbiente(target.value)}
+              value={ambiente}
+              ref={ref1}
+              className="form-control"
+            />
+          </div>
+          <div>
+            <button
+              className="btn btn-primary float-end my-3"
+              onClick={moduloAdd}
+            >
+              Adicionar
+            </button>
+          </div>
         </div>
       )}
       {(div === 2 || div === 35 || div === 36) && (
-        <div>
+        <div className="d-flex flex-column gap-2">
           {div === 36 ? (
             <div>
-              <label style={{ marginTop: '1rem' }}>Área do ambulatório: </label>
-              <input
-                type="text"
-                placeholder="m²"
-                onChange={({ target }) => setArea(+target.value)}
-                ref={ref1}
-                value={area}
-              />
-              <label style={{ marginTop: '1rem' }}>Número de leitos:</label>
-              <input
-                type="text"
-                placeholder="unidade"
-                onChange={({ target }) => setDormitorio(+target.value)}
-                ref={ref}
-                value={dormitorio}
-              />
-              <label style={{ marginTop: '1rem' }}>Ambiente: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="Nome do Ambiente"
-                onChange={({ target }) => setAmbiente(target.value)}
-                value={ambiente}
-                ref={ref2}
-              />
-              <button onClick={moduloAdd1}>Adicionar</button>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Área do ambulatório: </label>
+                <input
+                  type="text"
+                  placeholder="m²"
+                  onChange={({ target }) => setArea(+target.value)}
+                  ref={ref1}
+                  value={area}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Número de leitos:</label>
+                <input
+                  type="text"
+                  placeholder="unidade"
+                  onChange={({ target }) => setDormitorio(+target.value)}
+                  ref={ref}
+                  value={dormitorio}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref2}
+                  className="form-control"
+                />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary float-end my-3"
+                  onClick={moduloAdd1}
+                >
+                  Adicionar
+                </button>
+              </div>
               <br />
             </div>
           ) : (
-            <div>
-              <label style={{ marginTop: '1rem' }}>Área de alojamento: </label>
-              <input
-                type="text"
-                placeholder="m²"
-                onChange={({ target }) => setArea(+target.value)}
-                ref={ref1}
-                value={area}
-              />
-              <br />
-              <label style={{ marginTop: '1rem' }}>
-                Quantidade de dormitórios:{' '}
-              </label>
-              <input
-                type="text"
-                placeholder="unidades"
-                onChange={({ target }) => setDormitorio(+target.value)}
-                ref={ref}
-                value={dormitorio}
-              />
-              <label style={{ marginTop: '1rem' }}>Ambiente: </label>
-              <input
-                style={{ margin: '1rem 0' }}
-                type="text"
-                placeholder="Nome do Ambiente"
-                onChange={({ target }) => setAmbiente(target.value)}
-                value={ambiente}
-                ref={ref2}
-              />
-              <button onClick={moduloAdd1}>Adicionar</button>
+            <div className="d-flex flex-column gap-2">
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Área de alojamento: </label>
+                <input
+                  type="text"
+                  placeholder="m²"
+                  onChange={({ target }) => setArea(+target.value)}
+                  ref={ref1}
+                  value={area}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Quantidade de dormitórios: </label>
+                <input
+                  type="text"
+                  placeholder="unidades"
+                  onChange={({ target }) => setDormitorio(+target.value)}
+                  ref={ref}
+                  value={dormitorio}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref2}
+                  className="form-control "
+                />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary float-end my-3"
+                  onClick={moduloAdd1}
+                >
+                  Adicionar
+                </button>
+              </div>
             </div>
           )}
         </div>
       )}
-      <ModuloShow modulos={modulo} onDeleteModulos={moduloDelete} />
+      <div className="my-4">
+        <ModuloShow modulos={modulo} onDeleteModulos={moduloDelete} />
+      </div>
     </div>
   );
 };

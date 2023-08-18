@@ -17,23 +17,25 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
 
 interface dadosProps {
-  areaConstruida: string;
-  areaAconstruir: string;
-  altura: string;
-  pavimentos: string;
-  areaTotal: number;
-  dataConstrucao: string;
-  compartimentacao: string;
+  areaConstruida?: string;
+  areaAconstruir?: string;
+  altura?: string;
+  pavimentos?: string;
+  areaTotal?: number;
+  dataConstrucao?: string;
+  compartimentacao?: string;
 }
+
 
 type ContextData = {
   valoresOcupacao: Array<array>;
-  setValoresOcupacao: Dispatch<SetStateAction<Array<array>>>;
   signInGoogle: () => Promise<void>;
   userLogout: () => Promise<void>;
   login: boolean;
   data: User | null;
   signed: boolean;
+  valoresOcupacoes: (dados: dadosProps, ocupacoes: number[][]) => void;
+  valoresRegiao: (valorRegiao: Array<array>) => void
 };
 
 type array = [dadosProps, number[][]];
@@ -61,6 +63,13 @@ const DataContext = ({ children }: ProviderProps) => {
       [],
     ],
   ]);
+
+  function valoresOcupacoes (dados: dadosProps, ocupacoes: number[][] ){
+    setValoresOcupacao([[dados, ocupacoes]])
+  }
+  function valoresRegiao (valorRegiao: Array<array>){
+    setValoresOcupacao(valorRegiao)
+  }
 
   async function signInGoogle() {
     await signInWithPopup(auth, provider)
@@ -112,11 +121,12 @@ const DataContext = ({ children }: ProviderProps) => {
       value={{
         signed: !!data,
         valoresOcupacao,
-        setValoresOcupacao,
         signInGoogle,
         userLogout,
         login,
         data,
+        valoresOcupacoes,
+        valoresRegiao
       }}
     >
       {children}

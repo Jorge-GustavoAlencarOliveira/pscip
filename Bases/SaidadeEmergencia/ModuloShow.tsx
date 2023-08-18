@@ -1,6 +1,7 @@
 import React from 'react';
 import Modulo from './Modulo';
 import { moduloProps } from './ModuloReducer';
+import SaidaPavimento from './saidaPavimento';
 
 
 interface ModuloShowProps {
@@ -28,6 +29,7 @@ const ModuloShow = ({ modulos, onDeleteModulos }: ModuloShowProps) => {
           <span>População total: {populaçãoTotal} pessoas</span>
         )}
       </h2>
+      <SaidaPavimento populacao={populaçãoTotal}/>
     </div>
   );
 };

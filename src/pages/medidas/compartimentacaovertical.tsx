@@ -3,7 +3,7 @@ import React from 'react'
 const CompartimetacaoverticalPage = () => {
   return (
     <div>
-      Compartimentação Vertical
+      
     </div>
   )
 }

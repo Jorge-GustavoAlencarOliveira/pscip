@@ -1,3 +1,14 @@
+export interface PavimentoProps {
+  idPavimento: number;
+  pavimento?: string;
+}
+
+type actionPavimento = {
+  type: 'add' | 'delete';
+  idPavimento: number;
+  pavimento?: string;
+};
+
 export interface moduloProps {
   id: number;
   ambiente?: string;
@@ -10,7 +21,7 @@ export interface moduloProps {
   porta?: number;
 }
 
-type actionPropsAdd = {
+type actionModulo = {
   type: 'add' | 'add1' | 'delete';
   id: number;
   ambiente?: string;
@@ -21,10 +32,32 @@ type actionPropsAdd = {
   acesso?: number;
   escada?: number;
   porta?: number;
+};
+
+export function pavimentoReducer( pavimento: PavimentoProps[], action: actionPavimento) {
+  switch (action.type) {
+    case 'add': {
+      return [
+        ...pavimento,
+        {
+          idPavimento: action.idPavimento,
+          pavimento: action.pavimento,
+        },
+      ];
+    }
+    case 'delete': {
+      return pavimento.filter(
+        (item) => item.idPavimento !== action.idPavimento,
+      );
+    }
+    default: {
+      throw Error('Ação desconhecida');
+    }
+  }
 }
 
-export default function moduloReducer(modulos: moduloProps[], action:actionPropsAdd){
-  switch(action.type){
+export function moduloReducer(modulos: moduloProps[], action: actionModulo) {
+  switch (action.type) {
     case 'add': {
       return [
         ...modulos,
@@ -36,7 +69,7 @@ export default function moduloReducer(modulos: moduloProps[], action:actionProps
           acesso: action.acesso,
           porta: action.porta,
           escada: action.escada,
-          ambiente: action.ambiente
+          ambiente: action.ambiente,
         },
       ];
     }
@@ -52,18 +85,15 @@ export default function moduloReducer(modulos: moduloProps[], action:actionProps
           acesso: action.acesso,
           porta: action.porta,
           escada: action.escada,
-          ambiente: action.ambiente
+          ambiente: action.ambiente,
         },
       ];
     }
     case 'delete': {
-      return modulos.filter((item) => item.id !== action.id)
+      return modulos.filter((item) => item.id !== action.id);
     }
     default: {
-      throw Error('Ação desconhecida')
+      throw Error('Ação desconhecida');
     }
   }
 }
-
-
-

@@ -3,6 +3,8 @@ import { DataStorage } from '../../dataContext';
 import TabelaDescricao from '../../Tabelas/tabelaDescricao';
 import { listaOcupacao } from '../../Ocupacoes/ListaOcupacoes';
 import Link from 'next/link';
+import Layout from '../../Components/layout';
+import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
 
 const ShowMedidads = ({ medidas }: { medidas: string[] }) => {
   const { valoresOcupacao } = React.useContext(DataStorage);
@@ -49,6 +51,7 @@ const ShowMedidads = ({ medidas }: { medidas: string[] }) => {
             href={{
               pathname: '/medidas/isolamentoderisco',
             }}
+            className="text-decoration-none"
           >
             Separação entre edificações
           </Link>
@@ -159,4 +162,16 @@ const Result = () => {
   );
 };
 
-export default Result;
+const ShowResult = () => {
+  return (
+    <>
+      <ProtectedRoute>
+        <Layout>
+          <Result />
+        </Layout>
+      </ProtectedRoute>
+    </>
+  );
+};
+
+export default ShowResult;
