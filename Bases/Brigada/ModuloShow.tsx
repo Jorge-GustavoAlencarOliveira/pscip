@@ -26,9 +26,9 @@ const ModuloShow = ({modulos, onDelete}: ModuloShowProps ) => {
         })}
       </div>
       {totalBrigadistas !== 0 && (
-        <div>
+        <div className='my-4'>
           <h3>Total de brigadistas: {totalBrigadistas}</h3>
-          <button onClick={() => Pdf(modulos, totalBrigadistas)}>Gerar Quadro Resumo</button>
+          <button className='btn btn-primary my-3' onClick={() => Pdf(modulos, totalBrigadistas)}>Gerar Quadro Resumo</button>
         </div>
       )}
 

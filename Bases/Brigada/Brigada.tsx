@@ -36,37 +36,49 @@ const Brigada = () => {
     })
   }
 
-  console.log(modulos)
 
   return (
     <>
       <h1>Dimensionamento de Brigada de incêndio</h1>
-      <div>
-        <label>Divisão:</label>
-        <select onChange={({ target }) => setOcupacao(Number(+target.value))}>
-          {divisao.map((item, index) => {
-            return (
-              <option key={index} value={index}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-        <label>Pavimento: </label>
-        <input
-          type="text"
-          value={pavimento}
-          onChange={({ target }) => setPavimento(target.value)}
-          placeholder="Nome do pavimento"
-        />
-        <label>População fixa: </label>
-        <input
-          type="text"
-          placeholder="Quantidade de pessoas"
-          value={populacao}
-          onChange={({ target }) => setPopulacao(+target.value)}
-        />
-        <button onClick={handleAdd}>Adicionar</button>
+      <div className='d-flex flex-column gap-2'>
+        <div className='d-flex gap-2 align-items-center'>
+          <label>Divisão:</label>
+          <select 
+            onChange={({ target }) => setOcupacao(Number(+target.value))}
+            className="form-select"  
+          >
+            {divisao.map((item, index) => {
+              return (
+                <option key={index} value={index}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <div className='d-flex gap-2 align-items-center'>
+          <label>Pavimento: </label>
+          <input
+            type="text"
+            value={pavimento}
+            onChange={({ target }) => setPavimento(target.value)}
+            placeholder="Nome do pavimento"
+            className="form-control"
+          />
+        </div>
+        <div className='d-flex gap-2 align-items-center'>
+          <label>População fixa: </label>
+          <input
+            type="text"
+            placeholder="Quantidade de pessoas"
+            value={populacao}
+            onChange={({ target }) => setPopulacao(+target.value)}
+            className="form-control"
+          />
+        </div>
+        <div>
+          <button className='btn btn-primary float-start my-2' onClick={handleAdd}>Adicionar</button>  
+        </div>
       </div>
       <ModuloShow onDelete={handleDelete} modulos={modulos}/>
     </>
