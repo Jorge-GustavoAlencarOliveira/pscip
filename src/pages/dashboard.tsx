@@ -4,7 +4,7 @@ import Ocupacao from '../../Components/ocupacao';
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import SidebarMobile from '../../Components/Sidebar/SidebarMobile';
-import Header from '../../Components/header';
+import Header from '../../Components/headers';
 import styles from './home.module.css';
 import Layout from '../../Components/layout';
 export default function Home() {

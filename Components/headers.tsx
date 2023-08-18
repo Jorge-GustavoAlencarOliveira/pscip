@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { DataStorage } from '../dataContext';
 import Link from 'next/link';
+
 const Header = () => {
   const { userLogout, data } = React.useContext(DataStorage);
   
