@@ -9,7 +9,7 @@ interface OcupacaoModuloProps {
   numero: number;
   valorOcupacao: number[][],
   setValorOcupacao: (valorOcupacao: number[][]) => void;
-  handleDelete: (numero: number) => void;
+  handleDelete?: (numero: number) => void;
 }
 
 const { descricao } = TabelaDescricao();
@@ -37,7 +37,7 @@ const OcupacaoModulo = ({
       <div className='d-flex justify-content-between align-items-center mb-3 '>
           <h4 className='fw-bold text-primary '>Ocupação {numero + 1}</h4>
           {numero > 0 && (
-            <button className='btn btn-secondary d-block' onClick={() => handleDelete(numero)}>
+            <button className='btn btn-secondary d-block' onClick={() => handleDelete && handleDelete(numero)}>
               Excluir
             </button>
           )}

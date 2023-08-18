@@ -114,8 +114,6 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 <OcupacaoModulo
                   key={item}
                   numero={index}
-                  setNumeroOcupacoes={setNumeroOcupacoes}
-                  numeroOcupacoes={numeroOcupacoes}
                   valorOcupacao={valorOcupacao}
                   setValorOcupacao={setValorOcupacao}
                 />
@@ -207,8 +205,6 @@ const RegiaoModulo = ({numero, numeroRegiao, setNumeroRegiao, valorRegiao, setVa
                 <OcupacaoModulo
                   key={item}
                   numero={index}
-                  setNumeroOcupacoes={setNumeroOcupacoes}
-                  numeroOcupacoes={numeroOcupacoes}
                   valorOcupacao={valorOcupacao}
                   setValorOcupacao={setValorOcupacao}
                 />
