@@ -47,6 +47,15 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
   
   React.useEffect(() => {
     setValorOcupacao([[0, 0, 0]]);
+    setDados({
+      areaConstruida: '',
+      areaAconstruir: '',
+      altura: '',
+      pavimentos: '',
+      areaTotal: 0,
+      dataConstrucao: 'Nova',
+      compartimentacao: 'compartimentacaoNao'
+    })
   },[, mista])
   
 
