@@ -14,7 +14,11 @@ interface dadosProps {
 }
 type array = [dadosProps, number[][]];
 
-const Regioes = () => {
+interface ocupacaoProps{
+  nextsection: () => void
+}
+
+const Regioes = ({nextsection}:ocupacaoProps) => {
   const router = useRouter();
   const [numeroRegiao, setNumeroRegiao] = React.useState<number[]>([0]);
   const [valorRegiao, setValorRegiao] = React.useState<Array<array>>([
@@ -63,7 +67,7 @@ const Regioes = () => {
 
   function handleNext() {
     valoresRegiao(valorRegiao);
-    router.push('/result');
+    nextsection();
   }
 
 

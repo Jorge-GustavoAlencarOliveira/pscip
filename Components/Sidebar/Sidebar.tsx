@@ -34,7 +34,7 @@ const Sidebar = () => {
          <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaCalculator /> 
           <span>
-          Calculadora de incêndio
+          Calculadoras
           </span>
          </Link>
       </nav>

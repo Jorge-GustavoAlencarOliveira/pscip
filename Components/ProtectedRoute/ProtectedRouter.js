@@ -32,7 +32,7 @@ const ProtectedRoute = ({children}) => {
   }
     
   if(!signed){  
-    router.push('/')
+    router.push('/login/signin')
     return;
   }
     

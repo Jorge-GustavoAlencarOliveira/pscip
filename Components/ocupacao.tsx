@@ -4,7 +4,6 @@ import { DataStorage } from '../dataContext';
 import { useRouter } from 'next/router';
 import Construcao from '../Bases/construcao';
 import {toast} from 'react-toastify'
-
 interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
@@ -15,10 +14,14 @@ interface dadosProps {
   compartimentacao: string
 }
 
-const Ocupacao = () => {
+interface ocupacaoProps{
+  nextsection: () => void
+}
+
+const Ocupacao = ({nextsection}:ocupacaoProps) => {
   const router = useRouter();
   const {valoresOcupacoes} = React.useContext(DataStorage);
-  const [mista, setMista] = React.useState<string>('');
+  const [mista, setMista] = React.useState<string>('mistaNao');
   const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([0]);
   const scrollToBottom = React.useRef<HTMLDivElement>(null)
   const [count, setCount] = React.useState(1);
@@ -42,18 +45,7 @@ const Ocupacao = () => {
     setDados((item) => ({...item, areaTotal: areaTotal}));
   }, [areaTotal]);
 
-  React.useEffect(() => {
-    setValorOcupacao([[0, 0, 0]]);
-    setDados({
-      areaConstruida: '',
-      areaAconstruir: '',
-      altura: '',
-      pavimentos: '',
-      areaTotal: 0,
-      dataConstrucao: 'Nova',
-      compartimentacao: 'compartimentacaoNao'
-    });
-  }, [, mista]);
+  
 
   function selecionarOcupacao (valorOcupacao: number[][]){
      setValorOcupacao(valorOcupacao) 
@@ -88,7 +80,7 @@ const Ocupacao = () => {
       return toast.info('Preencha os dados');
     }
     valoresOcupacoes(dados, valorOcupacao);
-    router.push('/result');
+    nextsection()
   }
   
   return (

@@ -3,7 +3,7 @@ import { divisao, saidasEscadas } from './TabelaNumeroSaidas';
 
 interface numerosaidasProps {
   ocupacao: string;
-  altura: string;
+  altura?: string;
 }
 
 const Numerodesaidas = ({ ocupacao, altura }: numerosaidasProps) => {

@@ -2,23 +2,21 @@ import React from 'react';
 import Regioes from '../../Components/regiao';
 import Ocupacao from '../../Components/ocupacao';
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
-import Sidebar from '../../Components/Sidebar/Sidebar';
-import SidebarMobile from '../../Components/Sidebar/SidebarMobile';
-import Header from '../../Components/headers';
-import styles from './home.module.css';
 import Layout from '../../Components/layout';
+import { useRouter } from 'next/router';
 export default function Home() {
   const [separacao, setSeparacao] = React.useState<string>('');
   const [iniciar, setIniciar] = React.useState(false);
-
+  const router = useRouter()
   return (
     <>
       <ProtectedRoute>
         <Layout>
+
           <div className="d-flex flex-column gap-2">
             <div>
               <button
-                onClick={() => setIniciar(!iniciar)}
+                onClick={() => router.push('/projeto')}
                 className="btn btn-primary my-3"
               >
                 Iniciar Projeto
