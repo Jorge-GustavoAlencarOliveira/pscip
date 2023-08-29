@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { DataStorage } from '../../../dataContext';
 import { toast } from 'react-toastify';
-import { canSSRGuest } from '../utils/canSSRGuest'; 
+import  canSSRGuest  from '../utils/canSSRGuest'; 
 
 const SignUp = () => {
   const router = useRouter();

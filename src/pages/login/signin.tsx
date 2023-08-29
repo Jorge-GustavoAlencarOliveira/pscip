@@ -6,7 +6,7 @@ import { DataStorage } from '../../../dataContext';
 import { useRouter } from 'next/router';
 import {FaGoogle} from 'react-icons/fa'
 import { toast } from 'react-toastify';
-import { canSSRGuest } from '../utils/canSSRGuest';
+import  canSSRGuest  from '../utils/canSSRGuest';
 const SignIn = () => {
   const router = useRouter()
   const {signInGoogle, login, userLogin} = React.useContext(DataStorage)

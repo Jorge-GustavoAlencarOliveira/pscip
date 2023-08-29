@@ -6,7 +6,7 @@ import {
 import { destroyCookie, parseCookies } from 'nookies';
 import { AuthTokenError } from '@/services/errors/AuthTokenError';
 
-export function canSSRAuth<P>(fn: GetServerSideProps<P>) {
+export default function canSSRAuth<P>(fn: GetServerSideProps<P>) {
   return async (
     ctx: GetServerSidePropsContext,
   ): Promise<GetServerSidePropsResult<P>> => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../../../Components/layout';
-import { useRouter } from 'next/router';
-import { canSSRAuth } from '../utils/canSSRAuth';
+import useRouter  from 'next/router';
+import  canSSRAuth  from '../utils/canSSRAuth';
 import { setupAPIClient } from '@/services/api';
 import { Table } from 'react-bootstrap';
 import TabelaDescricao from '../../../Tabelas/tabelaDescricao';

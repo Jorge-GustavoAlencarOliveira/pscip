@@ -2,7 +2,7 @@ import React from 'react';
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
 import Layout from '../../Components/layout';
 import { useRouter } from 'next/router';
-import { canSSRAuth } from './utils/canSSRAuth';
+import  canSSRAuth  from './utils/canSSRAuth';
 export default function Home() {
   const router = useRouter()
   return (
