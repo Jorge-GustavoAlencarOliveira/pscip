@@ -6,7 +6,7 @@ import {Logout } from '../../dataContext';
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
   const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
     headers: {
       Authorization: `Bearer ${cookies['@pscip.token']}`,
     },
@@ -19,7 +19,7 @@ export function setupAPIClient(ctx = undefined) {
     (err: AxiosError) => {
       if (err.response?.status === 401) {
         if (typeof window !== undefined) {
-          // Logout();
+          Logout();
         }
       } else {
         return Promise.reject(new AuthTokenError());
