@@ -37,8 +37,8 @@ export default Meusprojetos;
 export const getServerSideProps = canSSRAuth(async (ctx) => {
   try {
     const api = setupAPIClient(ctx);
-    const response = await api.get('/projects');
-    const count = await api.get('/projects/count')
+    const response = await api.get('https://backend-pscip.vercel.app/projects');
+    const count = await api.get('https://backend-pscip.vercel.app/projects/count')
     return { props: 
       { list: response.data,
         count: count.data 
