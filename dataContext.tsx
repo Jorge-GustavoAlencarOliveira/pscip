@@ -148,7 +148,7 @@ const DataContext = ({ children }: ProviderProps) => {
     async function checkLogin () {
       const {'@pscip.token': token} = parseCookies()
       if(token){
-        await api.get('https://backend-pscip.vercel.app/me').then(response => {
+        await api.get('/me').then(response => {
           const {id, name, endereco, email, subscriptions, cpf} = response.data
           setUser({
             id,
@@ -178,7 +178,7 @@ const DataContext = ({ children }: ProviderProps) => {
 
   const userLogin = async ({ email, password }: LoginProps) => {
     try{
-      const response = await api.post('https://backend-pscip.vercel.app/session', {
+      const response = await api.post('/session', {
         email,
         password
       })
@@ -213,7 +213,7 @@ const DataContext = ({ children }: ProviderProps) => {
    
   const userSignUp = async ({name, email, password, cpf}:SignUpProps) => {
     try{
-      await api.post('https://backend-pscip.vercel.app/users', {
+      await api.post('/users', {
         name, 
         email,
         password,

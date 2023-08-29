@@ -17,7 +17,7 @@ const ItemProject = ({name, id}: ProjectProps) => {
   }
   async function handleDeleteProject(){
     try{
-      const response = await api.delete('https://backend-pscip.vercel.app/project', {
+      const response = await api.delete('/project', {
         params:{
           id: id
         }

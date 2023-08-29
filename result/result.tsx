@@ -14,7 +14,7 @@ const Result = () => {
   async function handleCreateProject() {
     try{
       const api = setupAPIClient()
-      await api.post('https://backend-pscip.vercel.app/project', {
+      await api.post('/project', {
         name: informations.projeto,
         dados: informations,
         edificacao: valoresOcupacao
