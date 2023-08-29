@@ -178,7 +178,7 @@ const DataContext = ({ children }: ProviderProps) => {
 
   const userLogin = async ({ email, password }: LoginProps) => {
     try{
-      const response = await api.post('/session', {
+      const response = await api.post('https://backend-pscip.vercel.app/session', {
         email,
         password
       })
