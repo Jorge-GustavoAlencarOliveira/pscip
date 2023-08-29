@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <div className={`bg-primary px-3 ${styles.SideBar}`}>
       <nav className='d-flex flex-column gap-3 py-5 '>
-        <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
+        <Link href='/meusprojetos' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaReadme /> 
           <span>
           Meus Projetos

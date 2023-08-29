@@ -5,12 +5,21 @@ import { Form, Button } from 'react-bootstrap';
 import { DataStorage } from '../../../dataContext';
 import { useRouter } from 'next/router';
 import {FaGoogle} from 'react-icons/fa'
+import { toast } from 'react-toastify';
+import { canSSRGuest } from '../utils/canSSRGuest';
 const SignIn = () => {
   const router = useRouter()
-  const {signInGoogle, login} = React.useContext(DataStorage)
-
+  const {signInGoogle, login, userLogin} = React.useContext(DataStorage)
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   if(login){
     router.push('/dashboard')
+  }
+  async function handleLogin(){
+    if(email === '' || password === ''){
+      return toast.info('Preencha todos os campos')
+    }
+    await userLogin({email, password})
   }
   return (
     <div
@@ -21,16 +30,16 @@ const SignIn = () => {
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="name@example.com" />
+            <Form.Control type="email" placeholder="" onChange={({target}) => setEmail(target.value)}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
             <Form.Label>Senha</Form.Label>
-            <Form.Control type="password" placeholder="*****" />
+            <Form.Control type="password" placeholder="" onChange={({target}) => setPassword(target.value)}/>
           </Form.Group>
-          <Button onClick={() => signInGoogle()} className="w-100 mt-2">Acessar</Button>
-          <Button onClick={() => signInGoogle()} className="w-100 mt-2 d-flex justify-content-center gap-3">
+          <Button onClick={handleLogin} className="w-100 mt-2">Acessar</Button>
+          <Button onClick={() => signInGoogle()} className="w-100 mt-2 d-flex justify-content-center align-items-center gap-3">
             <span>Logar com o Google</span>
-            <FaGoogle size={20} />
+            <FaGoogle size={20}/>
           </Button>
         </Form>
         <p className="text-center mt-4">
@@ -45,3 +54,9 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

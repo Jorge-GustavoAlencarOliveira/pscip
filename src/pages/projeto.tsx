@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../../Components/layout';
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
-import Navbar from '../../Components/Navbar/navbar';
+import Navbar from '../../projeto/Navbar/navbar';
 import InformacoesProjeto from '../../projeto/informacoesProjeto';
 import DadosEdificacao from '../../projeto/dadosEdificacao';
 import RegioesOcupacoes from '../../projeto/regioesOcupacoes';
@@ -17,9 +17,9 @@ const Projeto = () => {
       <Layout>
         <Navbar isActive={activeIndex} onshow={onShow} />
         <InformacoesProjeto onshow={onShow} isActive={activeIndex === 0} />
-        <DadosEdificacao onshow={onShow} isActive={activeIndex === 1} />
-        <RegioesOcupacoes onshow={onShow} isActive={activeIndex === 2} />
-        <MedidasSeguranca isActive={activeIndex === 3} />
+        {/* <DadosEdificacao onshow={onShow} isActive={activeIndex === 1} /> */}
+        <RegioesOcupacoes onshow={onShow} isActive={activeIndex === 1} />
+        <MedidasSeguranca isActive={activeIndex === 2} />
       </Layout>
     </ProtectedRoute>
   );

@@ -73,8 +73,8 @@ const tabelaBrigada: Array<brigadaProps> = [
     recomendado: 'Isento',
   },
   {
-    ate10: 0,
-    acima10: 0,
+    ate10: 1,
+    acima10: 1,
     exigido: 'Básico',
     recomendado: 'Básico',
     descricao: [

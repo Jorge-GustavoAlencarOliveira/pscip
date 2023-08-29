@@ -1,34 +1,19 @@
 import React from 'react';
-import { DataStorage } from '../dataContext';
-import TabelaDescricao from '../Tabelas/tabelaDescricao';
-import { listaOcupacao } from '../Ocupacoes/ListaOcupacoes';
-import ShowMedidas from './showMedidas';
-import { setupAPIClient } from '@/services/api';
-import { toast } from 'react-toastify';
+import Layout from '../../../Components/layout';
 import { useRouter } from 'next/router';
-const Result = () => {
-  const { descricao } = TabelaDescricao();
-  const { valoresOcupacao, informations } = React.useContext(DataStorage);
-  const [medidas1, setMedidas] = React.useState<string[][]>([]);
-  const router = useRouter()
-  async function handleCreateProject() {
-    try{
-      const api = setupAPIClient()
-      await api.post('/project', {
-        name: informations.projeto,
-        dados: informations,
-        edificacao: valoresOcupacao
-      })
-      toast.success('Projeto salvo com sucesso')
-      router.push('/meusprojetos')
-    }catch(err){
-       console.log(err)
-       toast.error('Erro ao criar projeto')
-    }
-  }
+import { canSSRAuth } from '../utils/canSSRAuth';
+import { setupAPIClient } from '@/services/api';
+import { Table } from 'react-bootstrap';
+import TabelaDescricao from '../../../Tabelas/tabelaDescricao';
+import { listaOcupacao } from '../../../Ocupacoes/ListaOcupacoes';
+import ShowMedidas from '../../../result/showMedidas';
 
+const DetailsProject = ({ project }) => {
+  const {descricao} = TabelaDescricao()
+  const [medidas1, setMedidas] = React.useState<string[][]>([]);
+  
   React.useEffect(() => {
-    valoresOcupacao.map((item) => {
+    project?.edificacao?.map((item) => {
       if (item[0].compartimentacao === 'compartimentacaoNao') {
         item[1].map((item1) => {
           const valor = descricao[item1[0]][item1[1]][item1[2]].divisao;
@@ -41,7 +26,7 @@ const Result = () => {
               item[0].altura,
               item[0].areaTotal.toString(),
               descricao[item1[0]][item1[1]][item1[2]].cargaincendio,
-              valoresOcupacao.length,
+              project?.edificacao?.length,
               item[0].dataConstrucao,
             );
           if (medidas) {
@@ -58,12 +43,40 @@ const Result = () => {
     });
   });
   const final = [...new Set(medidasFinal)];
+
   return (
     <>
-      {valoresOcupacao.map((item, index) => {
+      <Layout>
+        <Table striped bordered className="table-primary">
+          <thead>
+            <tr>
+              <td>Nome do Projeto</td>
+              <td>{project?.dados?.projeto}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Proprietário / Responsável pelo uso</td>
+              <td>{project?.dados?.proprietario}</td>
+            </tr>
+            <tr>
+              <td>CPF</td>
+              <td>{project?.dados?.cpf}</td>
+            </tr>
+            <tr>
+              <td>Razão Social</td>
+              <td>{project?.dados?.razaoSocial}</td>
+            </tr>
+            <tr>
+              <td>CNPJ</td>
+              <td>{project?.dados?.cnpj}</td>
+            </tr>
+          </tbody>
+        </Table>
+        {project?.edificacao?.map((item, index) => {
         return (
           <div key={index}>
-            {valoresOcupacao.length > 1 && <h1>Risco {index + 1}</h1>}
+            {project?.edificacao?.length > 1 && <h1>Risco {index + 1}</h1>}
             {item[1].map((item1, index1) => {
               const valor = descricao[item1[0]][item1[1]][item1[2]].divisao;
               const medidas =
@@ -75,7 +88,7 @@ const Result = () => {
                   item[0].altura,
                   item[0].areaTotal.toString(),
                   descricao[item1[0]][item1[1]][item1[2]].cargaincendio,
-                  valoresOcupacao.length,
+                  project?.edificacao?.length,
                   item[0].dataConstrucao,
                 );
               if (item[0].compartimentacao === 'compartimentacaoSim') {
@@ -135,14 +148,46 @@ const Result = () => {
             <p>Altura: {item[0].altura} m</p>
             <p>Pavimentos: {item[0].pavimentos}</p>
             <p>Situação: {item[0].dataConstrucao}</p>
-            <div>
-              <button onClick={handleCreateProject} className='btn btn-primary float-end'>Salvar Projeto</button>
-            </div>
           </div>
         );
       })}
+      </Layout>
     </>
   );
 };
 
-export default Result;
+export default DetailsProject;
+
+export const getServerSideProps = canSSRAuth(async (ctx) => {
+  const { id } = ctx.params;
+  try{
+    const api = setupAPIClient(ctx);
+    if (typeof id === 'string') {
+      const response = await api.get('/project/details', {
+        params: {
+          id: id,
+        },
+      });
+      const project = response.data;
+      if(project){
+        return {
+          props: { project: project },
+        };
+      }
+      return {
+        redirect: {
+          destination: '/dashboard',
+          permanent: false,
+        }
+      }
+    }
+  }catch(err){
+    console.log(err)
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
+  }
+});

@@ -1,11 +1,9 @@
 import React from 'react';
-import Regioes from '../../Components/regiao';
-import Ocupacao from '../../Components/ocupacao';
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRouter';
 import Layout from '../../Components/layout';
 import { useRouter } from 'next/router';
+import { canSSRAuth } from './utils/canSSRAuth';
 export default function Home() {
-  const [separacao, setSeparacao] = React.useState<string>('');
   const router = useRouter()
   return (
     <>
@@ -24,3 +22,9 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRAuth(async (ctx) => {
+   return {
+    props: {}
+   }
+})

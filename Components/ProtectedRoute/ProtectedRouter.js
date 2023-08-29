@@ -2,8 +2,10 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { app } from '../../Firebase/firebaseConfig';
+import { DataStorage } from '../../dataContext';
 
 const ProtectedRoute = ({children}) => {
+  const { login } = React.useContext(DataStorage)
   const [loading, setLoading] = React.useState(true);
   const [signed, setSigned] = React.useState(false);
   const router = useRouter();
@@ -11,7 +13,7 @@ const ProtectedRoute = ({children}) => {
   
   React.useEffect(() =>{
     async function checkLogin(){
-      const unsub = onAuthStateChanged(auth, (user) =>{
+      const unsub = await onAuthStateChanged(auth, (user) =>{
         if(user){
           setLoading(false)
           setSigned(true)

@@ -58,7 +58,7 @@ const ShowMedidas = ({ medidas, dados, ocupacao, ocupacoes }: showMedidasProps) 
             </li>
           );
         })}
-        {valoresOcupacao.length > 1 && (
+        {valoresOcupacao && valoresOcupacao.length > 1 && (
           <li>
             <Link
               href={{

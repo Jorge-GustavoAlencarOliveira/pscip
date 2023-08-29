@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonNext from '../Components/Navbar/buttonNext';
+import ButtonNext from './Navbar/buttonNext';
 
 interface pageProps {
   isActive: boolean;

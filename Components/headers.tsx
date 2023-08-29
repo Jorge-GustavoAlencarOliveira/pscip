@@ -6,7 +6,7 @@ import { DataStorage } from '../dataContext';
 import Link from 'next/link';
 
 const Header = () => {
-  const { userLogout, data } = React.useContext(DataStorage);
+  const { userSignOut, data, user } = React.useContext(DataStorage);
   
   return (
     <header className="d-flex justify-content-between align-items-center border-bottom border-bottom-secondary-subtle pb-2">
@@ -16,16 +16,16 @@ const Header = () => {
         </Link>
       </div>
       <nav className="d-flex justify-content-between align-items-center gap-3">
-        <span className='d-none d-sm-block'>Bem vindo <strong>{data?.displayName}</strong></span>
+        <span className='d-none d-sm-block'>Bem vindo <strong>{user?.name}</strong></span>
         <button
-          onClick={userLogout}
+          onClick={userSignOut}
           className="d-none d-sm-block btn btn-primary d-flex justify-content-between align-items-center gap-2"
         >
           <FaSignOutAlt size={20} color="text-primary" />
           <span>Sair</span>
         </button>
         <button
-          onClick={userLogout}
+          onClick={userSignOut}
           className="d-block d-sm-none btn btn-primary d-flex justify-content-between align-items-center gap-2"
         >
           <FaSignOutAlt size={20} color="text-primary" />
