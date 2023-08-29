@@ -15,11 +15,11 @@ const ItemProject = ({name, id}: ProjectProps) => {
   function handleDetailsProject (){
     router.push(`/detailsproject/${id}`)
   }
-  async function handleDeleteProject(){
+  async function handleDeleteProject(idProject: string){
     try{
       const response = await api.delete('/project', {
         params:{
-          id: id
+          id: idProject
         }
       })
       toast.success('Projeto deletado com sucesso')
@@ -36,7 +36,7 @@ const ItemProject = ({name, id}: ProjectProps) => {
         <ul style={{listStyle: 'none'}} className='d-flex align-items-center my-0'>
           <li onClick={handleDetailsProject} className='btn text-dark'><FaEye size={20}/></li>
           <li className='btn text-light'><FaEdit size={20}/></li>
-          <li onClick={handleDeleteProject} className='btn text-danger'><FaTrash size={20}/></li>              
+          <li onClick={() => handleDeleteProject(id)} className='btn text-danger'><FaTrash size={20}/></li>              
         </ul>
     </div>
   )

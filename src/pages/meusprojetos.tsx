@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from '../../Components/layout';
 import { setupAPIClient } from '@/services/api';
 import canSSRAuth  from './utils/canSSRAuth';
-import Link from 'next/link';
 import ItemProject from '../../Components/ListProjects/itemProject';
 
 interface ListProjectsProps {
