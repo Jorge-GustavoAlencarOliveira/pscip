@@ -1,4 +1,4 @@
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
 import React from 'react'
 import {FaEye, FaTrash, FaEdit} from 'react-icons/fa'
@@ -10,24 +10,26 @@ interface ProjectProps {
 }
 
 const ItemProject = ({name, id}: ProjectProps) => {
-  console.log(id)
   const router = useRouter()
   function handleDetailsProject (){
     router.push(`/detailsproject/${id}`)
   }
   async function handleDeleteProject(idProject: string){
-    try{
-      const response = await api.delete('/project', {
-        params:{
-          id: idProject
+      toast.success(idProject)
+      try{
+        const api = setupAPIClient()
+        if (typeof id === 'string'){
+          await api.delete('/project', {
+            params:{
+              id: idProject
+            }
+          })
+          toast.success('Projeto deletado com sucesso')
+          router.reload()
         }
-      })
-      toast.success('Projeto deletado com sucesso')
-      router.reload()
-
-    }catch(err){
-      console.log(err)
-    }
+      }catch(err){
+        console.log(err)
+      }
   }
 
   return (

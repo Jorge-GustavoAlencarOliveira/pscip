@@ -12,6 +12,7 @@ const SignIn = () => {
   const {signInGoogle, login, userLogin} = React.useContext(DataStorage)
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false)
   if(login){
     router.push('/dashboard')
   }
@@ -19,7 +20,16 @@ const SignIn = () => {
     if(email === '' || password === ''){
       return toast.info('Preencha todos os campos')
     }
-    await userLogin({email, password})
+    try{
+      setLoading(true)
+      await userLogin({email, password})
+    }
+    catch(err){
+      console.log('Erro ao logar')
+    }
+    finally{
+      setLoading(false)
+    }
   }
   return (
     <div
@@ -36,8 +46,8 @@ const SignIn = () => {
             <Form.Label>Senha</Form.Label>
             <Form.Control type="password" placeholder="" onChange={({target}) => setPassword(target.value)}/>
           </Form.Group>
-          <Button onClick={handleLogin} className="w-100 mt-2">Acessar</Button>
-          <Button onClick={() => signInGoogle()} className="w-100 mt-2 d-flex justify-content-center align-items-center gap-3">
+          <Button disabled={loading} onClick={handleLogin} className="w-100 mt-2">Acessar</Button>
+          <Button  onClick={() => signInGoogle()} className="w-100 mt-2 d-flex justify-content-center align-items-center gap-3">
             <span>Logar com o Google</span>
             <FaGoogle size={20}/>
           </Button>
