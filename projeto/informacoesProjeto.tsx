@@ -18,8 +18,8 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
     setEnderecoEdificação,
     endereco,
   } = UseDadosEdificação();
-  const {valoresInformacoes} = React.useContext(DataStorage)
- 
+  const { valoresInformacoes } = React.useContext(DataStorage);
+
   return (
     <div className={isActive ? 'd-block' : 'd-none'}>
       <div className={`bg-{#6495ED} px-2`}>
@@ -30,9 +30,10 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Control
               type="text"
               placeholder=""
+              name="projeto"
               value={information.projeto}
               onChange={({ target }) =>
-                setInformacoesEdificacao('projeto', target.value)
+                setInformacoesEdificacao(target.name, target.value)
               }
             />
           </Form.Group>
@@ -40,10 +41,11 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Label>Proprietário / Responsável pelo Uso</Form.Label>
             <Form.Control
               type="text"
+              name="proprietario"
               placeholder=""
               value={information.proprietario}
               onChange={({ target }) =>
-                setInformacoesEdificacao('proprietario', target.value)
+                setInformacoesEdificacao(target.name, target.value)
               }
             />
           </Form.Group>
@@ -51,10 +53,11 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Label>CPF</Form.Label>
             <Form.Control
               type="text"
+              name="cpf"
               placeholder=""
               value={information.cpf}
               onChange={({ target }) =>
-                setInformacoesEdificacao('cpf', target.value)
+                setInformacoesEdificacao(target.name, target.value)
               }
             />
           </Form.Group>
@@ -62,10 +65,11 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Label>Razão Social</Form.Label>
             <Form.Control
               type="text"
+              name="razaoSocial"
               placeholder=""
               value={information.razaoSocial}
               onChange={({ target }) =>
-                setInformacoesEdificacao('razaoSocial', target.value)
+                setInformacoesEdificacao(target.name, target.value)
               }
             />
           </Form.Group>
@@ -73,10 +77,11 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Label>CNPJ</Form.Label>
             <Form.Control
               type="text"
+              name="cnpj"
               placeholder=""
               value={information.cnpj}
               onChange={({ target }) =>
-                setInformacoesEdificacao('cnpj', target.value)
+                setInformacoesEdificacao(target.name, target.value)
               }
             />
           </Form.Group>
@@ -87,6 +92,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
             <Form.Label>Tipo</Form.Label>
             <Form.Control
               type="text"
+              name="endereco"
               placeholder=""
               value={endereco.tipo}
               onChange={({ target }) => {

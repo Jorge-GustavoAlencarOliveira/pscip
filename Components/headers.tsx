@@ -6,7 +6,7 @@ import { DataStorage } from '../dataContext';
 import Link from 'next/link';
 
 const Header = () => {
-  const { userSignOut, data, user } = React.useContext(DataStorage);
+  const { userSignOut, user } = React.useContext(DataStorage);
   
   return (
     <header className="d-flex justify-content-between align-items-center border-bottom border-bottom-secondary-subtle pb-2">
