@@ -1,14 +1,16 @@
 import React from 'react';
-import ButtonNext from './Navbar/buttonNext';
 import Ocupacao from '../Components/ocupacao';
 import Regioes from '../Components/regiao';
+import { array } from '../dataContext';
+
 
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
+  edificacao?: array
 }
 
-const RegioesOcupacoes = ({ isActive, onshow }: pageProps) => {
+const RegioesOcupacoes = ({ isActive, onshow, edificacao }: pageProps) => {
   const [separacao, setSeparacao] = React.useState<string>('');
   return (
     <div className={isActive ? 'd-block' : 'd-none'}>

@@ -10,22 +10,18 @@ interface dadosProps {
   compartimentacao: string;
 }
 
-interface enderecoProps {
-  tipo: string;
-  logradouro: string;
-  numero: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-}
-
 export interface informacoesProps {
   projeto: string;
   proprietario: string;
   cpf: string;
   razaoSocial: string;
   cnpj: string;
-  endereco: enderecoProps;
+  tipo: string;
+  logradouro: string;
+  numero: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
 }
 
 export const UseDadosEdificação = () => {
@@ -38,24 +34,25 @@ export const UseDadosEdificação = () => {
     dataConstrucao: 'Nova',
     compartimentacao: 'compartimentacaoNao',
   });
-  const [endereco, setEndereco] = React.useState<enderecoProps>({
-    tipo: '',
-    logradouro: '',
-    numero: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-  },)
   const [information, setInformation] = React.useState<informacoesProps>({
     projeto: '',
     proprietario: '',
     cpf: '',
     razaoSocial: '',
     cnpj: '',
-    endereco: endereco
+    tipo: '',
+    logradouro: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
   });
 
-  function setInformacoesEdificacao(key: string, value: string | number | enderecoProps) {
+  function setAllInformacoesEdificacao(dados: informacoesProps){
+    setInformation(dados)
+  }
+
+  function setInformacoesEdificacao(key: string, value: string | number) {
     setInformation((item) => ({ ...item, [key]: value }));
   }
 
@@ -66,14 +63,12 @@ export const UseDadosEdificação = () => {
       cpf: '',
       razaoSocial: '',
       cnpj: '',
-      endereco: {
-        tipo: '',
-        logradouro: '',
-        numero: '',
-        bairro: '',
-        cidade: '',
-        estado: '',
-      },
+      tipo: '',
+      logradouro: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
     });
   }
 
@@ -84,12 +79,6 @@ export const UseDadosEdificação = () => {
     setDados((item) => ({ ...item, [key]: value }));
   }
 
-  function setEnderecoEdificação(
-    key: string,
-    value: string,
-  ) {
-    setEndereco((item) => ({ ...item, [key]: value }));
-  }
 
   function resetDadosEdificação() {
     setDados({
@@ -110,7 +99,6 @@ export const UseDadosEdificação = () => {
     setInformacoesEdificacao,
     information,
     resetInformacoesEdificacao,
-    setEnderecoEdificação,
-    endereco
+    setAllInformacoesEdificacao
   };
 };

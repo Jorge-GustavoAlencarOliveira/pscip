@@ -1,31 +1,33 @@
 import React from 'react';
 import ButtonNext from './Navbar/buttonNext';
-import { toast } from 'react-toastify';
-import { setupAPIClient } from '@/services/api';
 import { Form } from 'react-bootstrap';
-import { UseDadosEdificação } from '../Components/Hooks/useDados';
+import {
+  UseDadosEdificação,
+  informacoesProps,
+} from '../Components/Hooks/useDados';
 import { DataStorage } from '../dataContext';
 
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
+  dados?: informacoesProps;
 }
 
-const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
-  const {
-    setInformacoesEdificacao,
-    information,
-    setEnderecoEdificação,
-    endereco,
-  } = UseDadosEdificação();
+const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
   const { valoresInformacoes } = React.useContext(DataStorage);
-
+  const { setInformacoesEdificacao, information, setAllInformacoesEdificacao } =
+    UseDadosEdificação();
+  React.useEffect(() => {
+    if (dados) {
+      setAllInformacoesEdificacao(dados);
+    }
+  }, []);
   return (
-    <div className={isActive ? 'd-block' : 'd-none'}>
+    <div className={isActive ? 'd-block mb-5' : 'd-none'}>
       <div className={`bg-{#6495ED} px-2`}>
         <h1 className="text-primary">Informações do Projeto</h1>
         <Form>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Nome do projeto</Form.Label>
             <Form.Control
               type="text"
@@ -37,7 +39,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Proprietário / Responsável pelo Uso</Form.Label>
             <Form.Control
               type="text"
@@ -49,7 +51,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>CPF</Form.Label>
             <Form.Control
               type="text"
@@ -61,7 +63,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Razão Social</Form.Label>
             <Form.Control
               type="text"
@@ -73,7 +75,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>CNPJ</Form.Label>
             <Form.Control
               type="text"
@@ -88,76 +90,75 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
         </Form>
         <h2 className="text-primary">Endereço</h2>
         <Form>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Tipo</Form.Label>
             <Form.Control
               type="text"
-              name="endereco"
+              name="tipo"
               placeholder=""
-              value={endereco.tipo}
+              value={information.tipo}
               onChange={({ target }) => {
-                setEnderecoEdificação('tipo', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Nome do logradouro</Form.Label>
             <Form.Control
               type="text"
+              name="logradouro"
               placeholder=""
-              value={endereco.logradouro}
+              value={information.logradouro}
               onChange={({ target }) => {
-                setEnderecoEdificação('logradouro', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Número do logradouro</Form.Label>
             <Form.Control
               type="text"
+              name="numero"
               placeholder=""
-              value={endereco.numero}
+              value={information.numero}
               onChange={({ target }) => {
-                setEnderecoEdificação('numero', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Bairro</Form.Label>
             <Form.Control
               type="text"
+              name="bairro"
               placeholder=""
-              value={endereco.bairro}
+              value={information.bairro}
               onChange={({ target }) => {
-                setEnderecoEdificação('bairro', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Cidade</Form.Label>
             <Form.Control
               type="text"
+              name="cidade"
               placeholder=""
-              value={endereco.cidade}
+              value={information.cidade}
               onChange={({ target }) => {
-                setEnderecoEdificação('cidade', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" >
+          <Form.Group className="mb-3">
             <Form.Label>Estado</Form.Label>
             <Form.Control
               type="text"
+              name="estado"
               placeholder=""
-              value={endereco.estado}
+              value={information.estado}
               onChange={({ target }) => {
-                setEnderecoEdificação('estado', target.value);
-                setInformacoesEdificacao('endereco', endereco);
+                setInformacoesEdificacao(target.name, target.value);
               }}
             />
           </Form.Group>

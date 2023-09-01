@@ -6,6 +6,7 @@ import InformacoesProjeto from '../../projeto/informacoesProjeto';
 import DadosEdificacao from '../../projeto/dadosEdificacao';
 import RegioesOcupacoes from '../../projeto/regioesOcupacoes';
 import MedidasSeguranca from '../../projeto/medidasSeguranca';
+import canSSRAuth from './utils/canSSRAuth';
 
 const Projeto = () => {
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -26,3 +27,9 @@ const Projeto = () => {
 };
 
 export default Projeto;
+
+export const getServerSideProps = canSSRAuth(async () => {
+  return {
+   props: {}
+  }
+})

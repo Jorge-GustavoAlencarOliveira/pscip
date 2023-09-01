@@ -73,7 +73,7 @@ interface SignUpProps{
   cpf: string
 }
 
-type array = [dadosProps, number[][]];
+export type array = [dadosProps, number[][]];
 
 type ProviderProps = {
   children: ReactNode;

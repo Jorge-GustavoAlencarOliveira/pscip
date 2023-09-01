@@ -6,26 +6,70 @@ import ShowMedidas from './showMedidas';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { usePathname, useParams } from 'next/navigation';
 
 const Result = () => {
   const { descricao } = TabelaDescricao();
-  const { valoresOcupacao, informations } = React.useContext(DataStorage);
+  const { valoresOcupacao, informations, valoresOcupacoes } =
+    React.useContext(DataStorage);
   const [medidas1, setMedidas] = React.useState<string[][]>([]);
-  const router = useRouter()
-
+  const router = useRouter();
+  const { id } = router.query;
+  const pathname = usePathname();
   async function handleCreateProject() {
-    try{
-      const api = setupAPIClient()
-      await api.post('/project', {
-        name: informations.projeto,
-        dados: informations,
-        edificacao: valoresOcupacao
-      })
-      toast.success('Projeto salvo com sucesso')
-      router.push('/meusprojetos')
-    }catch(err){
-       console.log(err)
-       toast.error('Erro ao criar projeto')
+    if (pathname.startsWith('/projeto')) {
+      try {
+        const api = setupAPIClient();
+        await api.post('/project', {
+          name: informations.projeto,
+          dados: informations,
+          edificacao: valoresOcupacao,
+        });
+        valoresOcupacoes(
+          {
+            areaConstruida: '',
+            areaAconstruir: '',
+            altura: '',
+            pavimentos: '',
+            areaTotal: 0,
+            dataConstrucao: 'Nova',
+            compartimentacao: 'compartimentacaoNao',
+          },
+          [[0, 0, 0]],
+        );
+        toast.success('Projeto salvo com sucesso');
+        router.push('/meusprojetos');
+      } catch (err) {
+        console.log(err);
+        toast.error('Seja premium para salvar mais este projeto');
+      }
+    } else{
+      try {
+        const api = setupAPIClient();
+        await api.put('/project/update', {
+          id: id,
+          name: informations.projeto,
+          dados: informations,
+          edificacao: valoresOcupacao,
+        });
+        valoresOcupacoes(
+          {
+            areaConstruida: '',
+            areaAconstruir: '',
+            altura: '',
+            pavimentos: '',
+            areaTotal: 0,
+            dataConstrucao: 'Nova',
+            compartimentacao: 'compartimentacaoNao',
+          },
+          [[0, 0, 0]],
+        );
+        toast.success('Projeto atualizado com sucesso');
+        router.push('/meusprojetos');
+      } catch (err) {
+        console.log(err);
+        toast.error('Erro ao atualizar projeto');
+      }
     }
   }
 
@@ -127,7 +171,11 @@ const Result = () => {
             })}
             <div>
               {final.length !== 0 && (
-                <ShowMedidas medidas={final} dados={item[0]} ocupacoes={item[1]} />
+                <ShowMedidas
+                  medidas={final}
+                  dados={item[0]}
+                  ocupacoes={item[1]}
+                />
               )}
             </div>
             <br />
@@ -138,7 +186,12 @@ const Result = () => {
             <p>Pavimentos: {item[0].pavimentos}</p>
             <p>Situação: {item[0].dataConstrucao}</p>
             <div>
-              <button onClick={handleCreateProject} className='btn btn-primary float-end'>Salvar Projeto</button>
+              <button
+                onClick={handleCreateProject}
+                className="btn btn-primary float-end"
+              >
+                {pathname.startsWith('/projeto') ? "Salvar projeto" : "Atualizar projeto"}
+              </button>
             </div>
           </div>
         );
