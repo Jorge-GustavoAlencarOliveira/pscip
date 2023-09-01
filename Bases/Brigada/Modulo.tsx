@@ -10,7 +10,7 @@ interface ModuloProps {
 }
 
 const Modulo = ({ modulo, onDelete }: ModuloProps) => {
-  const { divisao, tabelaBrigada } = TabelaBrigada();
+  const { tabelaBrigada } = TabelaBrigada();
   if (typeof modulo.divisao === 'number') {
     const descricao = tabelaBrigada[modulo.divisao].descricao;
     return (
