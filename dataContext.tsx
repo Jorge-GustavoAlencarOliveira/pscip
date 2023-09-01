@@ -1,22 +1,22 @@
 import React, {ReactNode} from 'react';
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  User,
-  signOut,
-  onAuthStateChanged,
-} from 'firebase/auth';
-import { app } from './Firebase/firebaseConfig';
+// import {
+//   getAuth,
+//   signInWithPopup,
+//   GoogleAuthProvider,
+//   User,
+//   signOut,
+//   onAuthStateChanged,
+// } from 'firebase/auth';
+// import { app } from './Firebase/firebaseConfig';
 import { toast } from 'react-toastify';
 import Router, { useRouter } from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 import { informacoesProps } from './Components/Hooks/useDados';
 
-const provider = new GoogleAuthProvider();
+// const provider = new GoogleAuthProvider();
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
 
 interface dadosProps {
   areaConstruida: string;
@@ -30,11 +30,11 @@ interface dadosProps {
 
 type ContextData = {
   valoresOcupacao: Array<array>;
-  signInGoogle: () => Promise<void>;
-  userLogout: () => Promise<void>;
+  // signInGoogle: () => Promise<void>;
+  // userLogout: () => Promise<void>;
   login: boolean;
-  data: User | null;
-  signed: boolean;
+  // data: User | null;
+  // signed: boolean;
   valoresOcupacoes: (dados: dadosProps, ocupacoes: number[][]) => void;
   valoresRegiao: (valorRegiao: Array<array>) => void;
   user: UserProps;
@@ -93,7 +93,7 @@ const DataContext = ({ children }: ProviderProps) => {
   const router = useRouter();
   const [user, setUser] = React.useState<UserProps>();
   const isAuthenticated = !!user
-  const [data, setData] = React.useState<User>();
+  // const [data, setData] = React.useState<User>();
   const [login, setLogin] = React.useState(false);
   const [valoresOcupacao, setValoresOcupacao] = React.useState<array[]>();
   const [informations, setInformations] = React.useState<informacoesProps>()
@@ -106,48 +106,13 @@ const DataContext = ({ children }: ProviderProps) => {
   function valoresInformacoes (informacoes: informacoesProps){
     setInformations(informacoes)
   }
-  async function signInGoogle() {
-    await signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (credential) {
-          const token = credential.accessToken;
-          const user = result.user;
-          toast.success('Usuário logado com sucesso');
-          setData(user);
-          setLogin(true);
-          router.push('/dashboard');
-          localStorage.setItem('userPSCIP', JSON.stringify({ token: token }));
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        toast.error('Login e senha inválidos');
-      });
-  }
 
-  // React.useEffect(() => {
-  //   async function checkLogin() {
-  //     onAuthStateChanged(auth, (user) => {
-  //       if (user) {
-  //         console.log(user)
-  //         setData(user);
-  //         setLogin(true);
-  //       } else {
-  //         setLogin(false);
-  //       }
-  //     });
-  //   }
-  //   checkLogin();
-  // }, []);
 
   React.useEffect(() =>{
     async function checkLogin () {
       const {'@pscip.token': token} = parseCookies()
       if(token){
+        const api = setupAPIClient()
         await api.get('/me').then(response => {
           const {id, name, endereco, email, subscriptions, cpf} = response.data
           setUser({
@@ -168,16 +133,11 @@ const DataContext = ({ children }: ProviderProps) => {
     checkLogin()
   },[])
 
-  async function userLogout() {
-    await signOut(auth);
-    setLogin(false);
-    setData(null);
-    localStorage.clear();
-    toast.info('Usuário deslogado');
-  }
+  
 
   const userLogin = async ({ email, password }: LoginProps) => {
     try{
+      const api = setupAPIClient()
       const response = await api.post('/session', {
         email,
         password
@@ -213,6 +173,7 @@ const DataContext = ({ children }: ProviderProps) => {
    
   const userSignUp = async ({name, email, password, cpf}:SignUpProps) => {
     try{
+      const api = setupAPIClient()
       await api.post('/users', {
         name, 
         email,
@@ -235,12 +196,12 @@ const DataContext = ({ children }: ProviderProps) => {
         userLogin,
         userSignUp,
         userSignOut,
-        signed: !!data,
+        // signed: !!data,
         valoresOcupacao,
-        signInGoogle,
-        userLogout,
+        // signInGoogle,
+        // userLogout,
         login,
-        data,
+        // data,
         valoresOcupacoes,
         valoresRegiao,
         valoresInformacoes,
@@ -253,3 +214,49 @@ const DataContext = ({ children }: ProviderProps) => {
 };
 
 export default DataContext;
+
+  // async function signInGoogle() {
+  //   await signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       if (credential) {
+  //         const token = credential.accessToken;
+  //         const user = result.user;
+  //         toast.success('Usuário logado com sucesso');
+  //         setData(user);
+  //         setLogin(true);
+  //         router.push('/dashboard');
+  //         localStorage.setItem('userPSCIP', JSON.stringify({ token: token }));
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       const email = error.customData.email;
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       toast.error('Login e senha inválidos');
+  //     });
+  // }
+
+  // React.useEffect(() => {
+  //   async function checkLogin() {
+  //     onAuthStateChanged(auth, (user) => {
+  //       if (user) {
+  //         console.log(user)
+  //         setData(user);
+  //         setLogin(true);
+  //       } else {
+  //         setLogin(false);
+  //       }
+  //     });
+  //   }
+  //   checkLogin();
+  // }, []);
+
+  // async function userLogout() {
+  //   await signOut(auth);
+  //   setLogin(false);
+  //   setData(null);
+  //   localStorage.clear();
+  //   toast.info('Usuário deslogado');
+  // }

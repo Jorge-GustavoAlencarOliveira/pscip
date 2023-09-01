@@ -15,7 +15,6 @@ const ItemProject = ({name, id}: ProjectProps) => {
     router.push(`/detailsproject/${id}`)
   }
   async function handleDeleteProject(idProject: string){
-      toast.success(idProject)
       try{
         const api = setupAPIClient()
         if (typeof id === 'string'){
