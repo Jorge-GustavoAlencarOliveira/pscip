@@ -25,7 +25,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
       <div className={`bg-{#6495ED} px-2`}>
         <h1 className="text-primary">Informações do Projeto</h1>
         <Form>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Nome do projeto</Form.Label>
             <Form.Control
               type="text"
@@ -37,7 +37,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Proprietário / Responsável pelo Uso</Form.Label>
             <Form.Control
               type="text"
@@ -49,7 +49,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>CPF</Form.Label>
             <Form.Control
               type="text"
@@ -61,7 +61,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Razão Social</Form.Label>
             <Form.Control
               type="text"
@@ -73,7 +73,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>CNPJ</Form.Label>
             <Form.Control
               type="text"
@@ -88,7 +88,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
         </Form>
         <h2 className="text-primary">Endereço</h2>
         <Form>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Tipo</Form.Label>
             <Form.Control
               type="text"
@@ -101,7 +101,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Nome do logradouro</Form.Label>
             <Form.Control
               type="text"
@@ -113,7 +113,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Número do logradouro</Form.Label>
             <Form.Control
               type="text"
@@ -125,7 +125,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Bairro</Form.Label>
             <Form.Control
               type="text"
@@ -137,7 +137,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Cidade</Form.Label>
             <Form.Control
               type="text"
@@ -149,7 +149,7 @@ const InformacoesProjeto = ({ isActive, onshow }: pageProps) => {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="proprietario">
+          <Form.Group className="mb-3" >
             <Form.Label>Estado</Form.Label>
             <Form.Control
               type="text"

@@ -3,11 +3,11 @@ import TabelaBrigada from './TabelaBrigada';
 import BrigadaReducer from './BrigadaReducer';
 import ModuloShow from './ModuloShow';
 import { calculoBrigada } from './Calculo';
+import { divisao } from '../../Tabelas/tabelaRedDivisao';
 
 let id = 1;
 
 const Brigada = () => {
-  const { divisao } = TabelaBrigada();
   const [ocupacao, setOcupacao] = React.useState<number>(0);
   const [pavimento, setPavimento] = React.useState<string>('');
   const [populacao, setPopulacao] = React.useState<number | string>('');

@@ -6,11 +6,13 @@ import ShowMedidas from './showMedidas';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+
 const Result = () => {
   const { descricao } = TabelaDescricao();
   const { valoresOcupacao, informations } = React.useContext(DataStorage);
   const [medidas1, setMedidas] = React.useState<string[][]>([]);
   const router = useRouter()
+
   async function handleCreateProject() {
     try{
       const api = setupAPIClient()
@@ -28,7 +30,7 @@ const Result = () => {
   }
 
   React.useEffect(() => {
-    valoresOcupacao.map((item) => {
+    valoresOcupacao?.map((item) => {
       if (item[0].compartimentacao === 'compartimentacaoNao') {
         item[1].map((item1) => {
           const valor = descricao[item1[0]][item1[1]][item1[2]].divisao;
@@ -52,7 +54,7 @@ const Result = () => {
     });
   }, []);
   let medidasFinal: string[] = [];
-  medidas1.map((item) => {
+  medidas1?.map((item) => {
     item.map((item1) => {
       medidasFinal.push(item1);
     });
@@ -60,7 +62,7 @@ const Result = () => {
   const final = [...new Set(medidasFinal)];
   return (
     <>
-      {valoresOcupacao.map((item, index) => {
+      {valoresOcupacao?.map((item, index) => {
         return (
           <div key={index}>
             {valoresOcupacao.length > 1 && <h1>Risco {index + 1}</h1>}

@@ -24,7 +24,7 @@ const ShowMedidas = ({ medidas, dados, ocupacao, ocupacoes }: showMedidasProps) 
   const { valoresOcupacao } = React.useContext(DataStorage);
     return (
       <ul>
-        {medidas.map((item, index) => {
+        {medidas?.map((item, index) => {
           const links = item
             .replaceAll(
               '(nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',

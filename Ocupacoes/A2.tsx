@@ -40,12 +40,10 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
       
     ) {
       const medFinal = [
-        'Acesso de viaturas (nos condomínios com arruamento interno, independente da área)',
         'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
-        'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
       return (edificacaoExistente(medFinal));
     }
