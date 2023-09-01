@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import  canSSRGuest  from '../utils/canSSRGuest';
 const SignIn = () => {
   const router = useRouter()
-  const {signInGoogle, login, userLogin} = React.useContext(DataStorage)
+  const {login, userLogin} = React.useContext(DataStorage)
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false)
@@ -47,7 +47,7 @@ const SignIn = () => {
             <Form.Control type="password" placeholder="" onChange={({target}) => setPassword(target.value)}/>
           </Form.Group>
           <Button disabled={loading} onClick={handleLogin} className="w-100 mt-2">Acessar</Button>
-          <Button  onClick={() => signInGoogle()} className="w-100 mt-2 d-flex justify-content-center align-items-center gap-3">
+          <Button className="w-100 mt-2 d-flex justify-content-center align-items-center gap-3">
             <span>Logar com o Google</span>
             <FaGoogle size={20}/>
           </Button>
