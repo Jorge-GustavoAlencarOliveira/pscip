@@ -11,7 +11,6 @@ export interface moduloProps {
 }
 
 const Pdf = (modulos: moduloProps[], total: number | undefined) => {
-  console.log(modulos);
   const dados = modulos.map((pavimento) => {
     return [
       { text: pavimento.pavimento, alignment: 'center' },

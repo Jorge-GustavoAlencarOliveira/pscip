@@ -2,55 +2,57 @@ import React from 'react';
 import OcupacaoModulo from './ocupacaomodulo';
 import { DataStorage } from '../dataContext';
 import Construcao from '../Bases/construcao';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify';
 import { UseDadosEdificação } from './Hooks/useDados';
 
-interface ocupacaoProps{
-  nextsection: () => void
+interface ocupacaoProps {
+  nextsection: () => void;
 }
 
-
-const Ocupacao = ({nextsection}:ocupacaoProps) => {
-  const {setDadosEdificação, resetDadosEdificação, dados} = UseDadosEdificação()
-  const {valoresOcupacoes} = React.useContext(DataStorage);
+const Ocupacao = ({ nextsection }: ocupacaoProps) => {
+  const { setDadosEdificação, resetDadosEdificação, dados } =
+    UseDadosEdificação();
+  const { valoresOcupacoes } = React.useContext(DataStorage);
   const [mista, setMista] = React.useState<string>('mistaNao');
-  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([0]);
-  const scrollToBottom = React.useRef<HTMLDivElement>(null)
+  const [numeroOcupacoes, setNumeroOcupacoes] = React.useState<Array<number>>([
+    0,
+  ]);
+  const scrollToBottom = React.useRef<HTMLDivElement>(null);
   const [count, setCount] = React.useState(1);
   const [valorOcupacao, setValorOcupacao] = React.useState([[0, 0, 0]]);
   const [areaTotal, setAreaTotal] = React.useState<number>(0);
   // console.log(dados)
- 
+
   React.useEffect(() => {
     setAreaTotal(Number(dados.areaAconstruir) + Number(dados.areaConstruida));
   }, [dados]);
 
   React.useEffect(() => {
-    setDadosEdificação('areaTotal', areaTotal)
+    setDadosEdificação('areaTotal', areaTotal);
   }, [areaTotal]);
-  
+
   React.useEffect(() => {
     setValorOcupacao([[0, 0, 0]]);
-    resetDadosEdificação()
-  },[, mista])
-  
+    resetDadosEdificação();
+  }, [, mista]);
 
-  function selecionarOcupacao (valorOcupacao: number[][]){
-     setValorOcupacao(valorOcupacao) 
+  function selecionarOcupacao(valorOcupacao: number[][]) {
+    setValorOcupacao(valorOcupacao);
   }
 
   function handleAdd() {
     setCount((item) => item + 1);
     setNumeroOcupacoes((item) => [...item, count]);
     setValorOcupacao((item) => [...item, [0, 0, 0]]);
-    if(scrollToBottom.current) scrollToBottom.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest'
-    })
+    if (scrollToBottom.current)
+      scrollToBottom.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
   }
 
-  function handleDelete(numero:number) {
+  function handleDelete(numero: number) {
     setNumeroOcupacoes(
       numeroOcupacoes.filter((item, index) => index !== numero),
     );
@@ -68,9 +70,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
       return toast.info('Preencha os dados');
     }
     valoresOcupacoes(dados, valorOcupacao);
-    nextsection()
+    nextsection();
   }
-  
+
   return (
     <div ref={scrollToBottom}>
       <div className="mb-4 mt-3">
@@ -103,7 +105,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
       {mista === 'mistaSim' && (
         <div className="d-flex flex-column">
           <div className="mb-4">
-            <span className="fw-bold">Há compartimentação entre as ocupações?</span>
+            <span className="fw-bold">
+              Há compartimentação entre as ocupações?
+            </span>
             <div className="d-flex gap-5 my-2">
               <div className="d-flex align-items-center gap-2">
                 <input
@@ -111,7 +115,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                   id="Sim"
                   value="compartimentacaoSim"
                   onChange={({ target }) => {
-                    setDadosEdificação('compartimentacao', target.value)
+                    setDadosEdificação('compartimentacao', target.value);
                   }}
                   checked={dados.compartimentacao === 'compartimentacaoSim'}
                 />
@@ -123,7 +127,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                   id="compartimentacaoNao"
                   value="compartimentacaoNao"
                   onChange={({ target }) => {
-                    setDadosEdificação('compartimentacao', target.value)
+                    setDadosEdificação('compartimentacao', target.value);
                   }}
                   checked={dados.compartimentacao === 'compartimentacaoNao'}
                 />
@@ -157,10 +161,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={dados.areaConstruida}
-                onChange={({ target }) => {            
-                  setDadosEdificação('areaConstruida', target.value)
-                }
-                }
+                onChange={({ target }) => {
+                  setDadosEdificação('areaConstruida', target.value);
+                }}
                 className="form-control"
               />
             </div>
@@ -170,10 +173,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={dados.areaAconstruir}
-                onChange={({ target }) =>{
-                  setDadosEdificação('areaAconstruir', target.value)
-                }
-                }
+                onChange={({ target }) => {
+                  setDadosEdificação('areaAconstruir', target.value);
+                }}
                 className="form-control"
               />
             </div>
@@ -183,7 +185,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={areaTotal}
-                onChange={({ target }) => setDadosEdificação('areaTotal', target.value)}
+                onChange={({ target }) =>
+                  setDadosEdificação('areaTotal', target.value)
+                }
                 className="form-control"
               />
             </div>
@@ -194,7 +198,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 placeholder="m"
                 value={dados.altura}
                 onChange={({ target }) =>
-                setDadosEdificação('altura', target.value)
+                  setDadosEdificação('altura', target.value)
                 }
                 className="form-control"
               />
@@ -208,7 +212,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 placeholder="Un"
                 value={dados.pavimentos}
                 onChange={({ target }) =>
-                setDadosEdificação('pavimentos', target.value)
+                  setDadosEdificação('pavimentos', target.value)
                 }
                 className="form-control"
               />
@@ -233,10 +237,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={dados.areaConstruida}
-                onChange={({ target }) => {            
-                  setDadosEdificação('areaConstruida', target.value.toString())
-                }
-                }
+                onChange={({ target }) => {
+                  setDadosEdificação('areaConstruida', target.value.toString());
+                }}
                 className="form-control"
               />
             </div>
@@ -246,10 +249,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={dados.areaAconstruir}
-                onChange={({ target }) =>{
-                  setDadosEdificação('areaAconstruir', target.value.toString())
-                }
-                }
+                onChange={({ target }) => {
+                  setDadosEdificação('areaAconstruir', target.value.toString());
+                }}
                 className="form-control"
               />
             </div>
@@ -259,7 +261,9 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 type="text"
                 placeholder="m²"
                 value={areaTotal}
-                onChange={({ target }) => setDadosEdificação('areaTotal', target.value)}
+                onChange={({ target }) =>
+                  setDadosEdificação('areaTotal', target.value)
+                }
                 className="form-control"
               />
             </div>
@@ -270,7 +274,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 placeholder="m"
                 value={dados.altura}
                 onChange={({ target }) =>
-                setDadosEdificação('altura', target.value)
+                  setDadosEdificação('altura', target.value)
                 }
                 className="form-control"
               />
@@ -284,7 +288,7 @@ const Ocupacao = ({nextsection}:ocupacaoProps) => {
                 placeholder="Un"
                 value={dados.pavimentos}
                 onChange={({ target }) =>
-                setDadosEdificação('pavimentos', target.value)
+                  setDadosEdificação('pavimentos', target.value)
                 }
                 className="form-control"
               />

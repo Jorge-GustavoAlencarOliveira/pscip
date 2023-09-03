@@ -13,8 +13,23 @@ const ocupacao = [
   'Especial'
 ];
 
+const grupo = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'L',
+  'M'
+];
+
 const TabelaOcupacao = () => {
-  return {ocupacao}
+  return {ocupacao, grupo}
 }
 
 export default TabelaOcupacao

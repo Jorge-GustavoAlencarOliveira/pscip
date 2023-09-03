@@ -13,7 +13,7 @@ const Sidebar = () => {
           Meus Projetos
           </span>
          </Link>
-         <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
+         <Link href='/minhaconta' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaUser /> 
           <span>
           Minha Conta

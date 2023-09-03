@@ -6,7 +6,7 @@ import ShowMedidas from './showMedidas';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const Result = () => {
   const { descricao } = TabelaDescricao();
@@ -192,6 +192,9 @@ const Result = () => {
               >
                 {pathname.startsWith('/projeto') ? "Salvar projeto" : "Atualizar projeto"}
               </button>
+            </div>
+            <div>
+              <button onClick={() => router.push('/quadroinformativo')}>Quadro informativo</button>
             </div>
           </div>
         );
