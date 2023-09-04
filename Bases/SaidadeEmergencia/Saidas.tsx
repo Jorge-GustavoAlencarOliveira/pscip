@@ -26,18 +26,19 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   function moduloAdd() {
     if (area === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-    if(typeof area !== "number"){
+    const numberArea = Number(area)
+    if(typeof numberArea !== "number"){
       return toast.info("Digite um número válido")
     }
       dispatch({
         type: 'add',
         id: id++,
         divisao: div,
-        text: +area,
-        populacao: handleCalcular(+area, div)?.populacao,
-        acesso: handleCalcular(+area, div)?.acesso,
-        porta: handleCalcular(+area, div)?.porta,
-        escada: handleCalcular(+area, div)?.escada,
+        text: numberArea,
+        populacao: handleCalcular(numberArea, div)?.populacao,
+        acesso: handleCalcular(numberArea, div)?.acesso,
+        porta: handleCalcular(numberArea, div)?.porta,
+        escada: handleCalcular(numberArea, div)?.escada,
         ambiente: ambiente,
       });
       setArea('');
@@ -48,19 +49,21 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   function moduloAdd1() {
     if (area === '' || dormitorio === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-      if(typeof area !== "number" || typeof dormitorio !== "number"){
+      const numberArea = Number(area)
+      const numberDormitorio = Number(dormitorio) 
+      if(typeof numberArea !== "number" || typeof numberDormitorio !== "number"){
         return toast.info("Digite um número válido")
       }
       dispatch({
         type: 'add1',
         id: id++,
         divisao: div,
-        text: +area,
-        text1: +dormitorio,
-        populacao: handleCalcular1(+area, +dormitorio, div)?.populacao,
-        acesso: handleCalcular1(+area, +dormitorio, div)?.acesso,
-        porta: handleCalcular1(+area, +dormitorio, div)?.porta,
-        escada: handleCalcular1(+area, +dormitorio, div)?.escada,
+        text: numberArea,
+        text1: numberDormitorio,
+        populacao: handleCalcular1(numberArea, numberDormitorio, div)?.populacao,
+        acesso: handleCalcular1(numberArea, numberDormitorio, div)?.acesso,
+        porta: handleCalcular1(numberArea, numberDormitorio, div)?.porta,
+        escada: handleCalcular1(numberArea, numberDormitorio, div)?.escada,
         ambiente: ambiente,
       });
       setArea('');
