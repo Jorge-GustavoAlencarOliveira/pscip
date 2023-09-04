@@ -3,6 +3,7 @@ import TabelaSaidaEmergencia from './tabelaSaidaEmergencia';
 import ModuloShow from './ModuloShow';
 import { moduloReducer, pavimentoReducer } from './ModuloReducer';
 import { handleCalcular, handleCalcular1 } from './Calculo';
+import { toast } from 'react-toastify';
 
 let id = 1;
 
@@ -25,43 +26,47 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   function moduloAdd() {
     if (area === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-    if (typeof area === 'number') {
+    if(typeof area !== "number"){
+      return toast.info("Digite um número válido")
+    }
       dispatch({
         type: 'add',
         id: id++,
         divisao: div,
-        text: area,
-        populacao: handleCalcular(area, div)?.populacao,
-        acesso: handleCalcular(area, div)?.acesso,
-        porta: handleCalcular(area, div)?.porta,
-        escada: handleCalcular(area, div)?.escada,
+        text: +area,
+        populacao: handleCalcular(+area, div)?.populacao,
+        acesso: handleCalcular(+area, div)?.acesso,
+        porta: handleCalcular(+area, div)?.porta,
+        escada: handleCalcular(+area, div)?.escada,
         ambiente: ambiente,
       });
       setArea('');
       setAmbiente('');
-    }
+    
   }
 
   function moduloAdd1() {
     if (area === '' || dormitorio === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-    if (typeof area === 'number' && typeof dormitorio === 'number') {
+      if(typeof area !== "number" || typeof dormitorio !== "number"){
+        return toast.info("Digite um número válido")
+      }
       dispatch({
         type: 'add1',
         id: id++,
         divisao: div,
-        text: area,
-        text1: dormitorio,
-        populacao: handleCalcular1(area, dormitorio, div)?.populacao,
-        acesso: handleCalcular1(area, dormitorio, div)?.acesso,
-        porta: handleCalcular1(area, dormitorio, div)?.porta,
-        escada: handleCalcular1(area, dormitorio, div)?.escada,
+        text: +area,
+        text1: +dormitorio,
+        populacao: handleCalcular1(+area, +dormitorio, div)?.populacao,
+        acesso: handleCalcular1(+area, +dormitorio, div)?.acesso,
+        porta: handleCalcular1(+area, +dormitorio, div)?.porta,
+        escada: handleCalcular1(+area, +dormitorio, div)?.escada,
         ambiente: ambiente,
       });
       setArea('');
       setAmbiente('');
       setDormitorio('');
-    }
+    
   }
 
   function moduloDelete(id: number) {
@@ -118,7 +123,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="Vagas"
-                  onChange={({ target }) => setArea(+target.value)}
+                  onChange={({ target }) => setArea(target.value)}
                   ref={ref}
                   value={area}
                   className="form-control"
@@ -151,7 +156,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="area"
-                  onChange={({ target }) => setArea(+target.value)}
+                  onChange={({ target }) => setArea(target.value)}
                   value={area}
                   ref={ref}
                   className="form-control"
@@ -188,7 +193,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
               type="text"
               placeholder="unidades"
               value={area}
-              onChange={({ target }) => setArea(+target.value)}
+              onChange={({ target }) => setArea(target.value)}
               ref={ref}
               className="form-control"
             />
@@ -223,7 +228,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="m²"
-                  onChange={({ target }) => setArea(+target.value)}
+                  onChange={({ target }) => setArea(target.value)}
                   ref={ref1}
                   value={area}
                   className="form-control"
@@ -234,7 +239,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="unidade"
-                  onChange={({ target }) => setDormitorio(+target.value)}
+                  onChange={({ target }) => setDormitorio(target.value)}
                   ref={ref}
                   value={dormitorio}
                   className="form-control"
@@ -268,7 +273,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="m²"
-                  onChange={({ target }) => setArea(+target.value)}
+                  onChange={({ target }) => setArea(target.value)}
                   ref={ref1}
                   value={area}
                   className="form-control"
@@ -279,7 +284,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="unidades"
-                  onChange={({ target }) => setDormitorio(+target.value)}
+                  onChange={({ target }) => setDormitorio(target.value)}
                   ref={ref}
                   value={dormitorio}
                   className="form-control"

@@ -10,16 +10,15 @@ const SaidasdeemergenciaPage = () => {
   const router = useRouter();
   const { altura, ocupacao } = router.query;
 
-  if (typeof ocupacao === 'string') {
+
     return (
       <ProtectedRoute>
         <Layout>
-          <Numerodesaidas ocupacao={ocupacao} altura='12'/>
+          {/* <Numerodesaidas ocupacao={ocupacao} altura='12'/> */}
           <Pavimento />
         </Layout>
       </ProtectedRoute>
     );   
-  }
 };
 
 export default SaidasdeemergenciaPage;
