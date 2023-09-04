@@ -10,9 +10,9 @@ export function handleCalcular(area: number, div: number) {
   const escada = Math.ceil(
     populacao / divisao[div][1][1],
   );
-  const porta = Math.ceil(
-    populacao / divisao[div][1][2],
-  );
+  const porta = 
+    populacao / divisao[div][1][2]
+  ;
   return { populacao, acesso, escada, porta };
 }
 
@@ -24,9 +24,9 @@ export function handleCalcular1(area: number, dormitorio: number, div: number) {
   const escada = Math.ceil(
     populacao / divisao[div][1][1],
   );
-  const porta = Math.ceil(
-    populacao / divisao[div][1][2],
-  );
+  const porta = 
+    populacao / divisao[div][1][2]
+  ;
   return { populacao, acesso, escada, porta };
 }
 
@@ -37,8 +37,29 @@ export function calculoSaidaPavimento (populacao: number, div: number){
   const escada = Math.ceil(
     populacao / divisao[div][1][1],
   );
-  const porta = Math.ceil(
-    populacao / divisao[div][1][2],
-  );
+  const porta = 
+    populacao / divisao[div][1][2]
+  ;
   return { acesso, escada, porta };
+}
+
+export function unidadePassagem (value: number){
+  const up = (value * 0.55).toFixed(2).toString().replace('.', ',')
+  return up
+}
+
+export function porta (value:number){
+  if(value <= 1){
+    return '0,80 m'
+  }
+  if(value > 1 && value <=2){
+    return '1,0 m'
+  }
+  if(value > 2 && value <=3){
+    return '1,5 m'
+  }
+  if(value > 3 && value <=4){
+    return '2,0 m'
+  }
+  return (Math.ceil(value)*0.55).toFixed(2).toString().replace(".", ",") + ' m'
 }

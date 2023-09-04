@@ -130,17 +130,6 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
           {div === 29 ? (
             <div className="d-flex flex-column gap-2">
               <div className="d-flex gap-2 form-group align-items-center">
-                <label>Vagas: </label>
-                <input
-                  type="text"
-                  placeholder="Vagas"
-                  onChange={({ target }) => setArea(formatarNumero(target.value))}
-                  ref={ref}
-                  value={area}
-                  className="form-control"
-                />
-              </div>
-              <div className="d-flex gap-2 form-group align-items-center">
                 <label>Ambiente: </label>
                 <input
                   type="text"
@@ -148,6 +137,17 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                   onChange={({ target }) => setAmbiente(target.value)}
                   value={ambiente}
                   ref={ref1}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Vagas: </label>
+                <input
+                  type="text"
+                  placeholder="Vagas"
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
+                  ref={ref}
+                  value={area}
                   className="form-control"
                 />
               </div>
@@ -163,17 +163,6 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
           ) : (
             <div className="d-flex flex-column gap-2">
               <div className="d-flex gap-2 form-group align-items-center">
-                <label>Área: </label>
-                <input
-                  type="text"
-                  placeholder="area"
-                  value={area}
-                  onChange={({ target }) => setArea(formatarNumero(target.value))}
-                  ref={ref}
-                  className="form-control"
-                />
-              </div>
-              <div className="d-flex gap-2 form-group align-items-center">
                 <label>Ambiente: </label>
                 <input
                   type="text"
@@ -181,6 +170,17 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                   onChange={({ target }) => setAmbiente(target.value)}
                   value={ambiente}
                   ref={ref1}
+                  className="form-control"
+                />
+              </div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Área: </label>
+                <input
+                  type="text"
+                  placeholder="area"
+                  value={area}
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
+                  ref={ref}
                   className="form-control"
                 />
               </div>
@@ -199,17 +199,6 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
       {(div === 0 || div === 1) && (
         <div className="d-flex flex-column gap-2">
           <div className="d-flex gap-2 form-group align-items-center">
-            <label>Dormitórios: </label>
-            <input
-              type="text"
-              placeholder="unidades"
-              value={area}
-              onChange={({ target }) => setArea(formatarNumero(target.value))}
-              ref={ref}
-              className="form-control"
-            />
-          </div>
-          <div className="d-flex gap-2 form-group align-items-center">
             <label>Ambiente: </label>
             <input
               type="text"
@@ -217,6 +206,17 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
               onChange={({ target }) => setAmbiente(target.value)}
               value={ambiente}
               ref={ref1}
+              className="form-control"
+            />
+          </div>
+          <div className="d-flex gap-2 form-group align-items-center">
+            <label>Dormitórios: </label>
+            <input
+              type="text"
+              placeholder="unidades"
+              value={area}
+              onChange={({ target }) => setArea(formatarNumero(target.value))}
+              ref={ref}
               className="form-control"
             />
           </div>
@@ -234,6 +234,17 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
         <div className="d-flex flex-column gap-2">
           {div === 36 ? (
             <div>
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref2}
+                  className="form-control"
+                />
+              </div>
               <div className="d-flex gap-2 form-group align-items-center">
                 <label>Área do ambulatório: </label>
                 <input
@@ -256,17 +267,6 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                   className="form-control"
                 />
               </div>
-              <div className="d-flex gap-2 form-group align-items-center">
-                <label>Ambiente: </label>
-                <input
-                  type="text"
-                  placeholder="Nome do Ambiente"
-                  onChange={({ target }) => setAmbiente(target.value)}
-                  value={ambiente}
-                  ref={ref2}
-                  className="form-control"
-                />
-              </div>
               <div>
                 <button
                   className="btn btn-primary float-end my-3"
@@ -279,6 +279,17 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
             </div>
           ) : (
             <div className="d-flex flex-column gap-2">
+              <div className="d-flex gap-2 form-group align-items-center">
+                <label>Ambiente: </label>
+                <input
+                  type="text"
+                  placeholder="Nome do Ambiente"
+                  onChange={({ target }) => setAmbiente(target.value)}
+                  value={ambiente}
+                  ref={ref2}
+                  className="form-control "
+                />
+              </div>
               <div className="d-flex gap-2 form-group align-items-center">
                 <label>Área de alojamento: </label>
                 <input
@@ -299,17 +310,6 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                   ref={ref}
                   value={dormitorio}
                   className="form-control"
-                />
-              </div>
-              <div className="d-flex gap-2 form-group align-items-center">
-                <label>Ambiente: </label>
-                <input
-                  type="text"
-                  placeholder="Nome do Ambiente"
-                  onChange={({ target }) => setAmbiente(target.value)}
-                  value={ambiente}
-                  ref={ref2}
-                  className="form-control "
                 />
               </div>
               <div>
