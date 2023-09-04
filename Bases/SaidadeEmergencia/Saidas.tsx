@@ -15,8 +15,8 @@ interface calculoSaidaProps {
 const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   const { divisao } = TabelaSaidaEmergencia();
   const [div, setDiv] = React.useState<number>(0);
-  const [area, setArea] = React.useState<number | string>('');
-  const [dormitorio, setDormitorio] = React.useState<number | string>('');
+  const [area, setArea] = React.useState<string>('');
+  const [dormitorio, setDormitorio] = React.useState<string>('');
   const [ambiente, setAmbiente] = React.useState('');
   const ref = React.useRef<HTMLInputElement>(null);
   const ref1 = React.useRef<HTMLInputElement>(null);
@@ -26,15 +26,15 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   function moduloAdd() {
     if (area === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-    const numberArea = Number(area)
-    if(typeof numberArea !== "number"){
+    const numberArea = Number(parseFloat(area.replace(/[^0-9,.]/g, '').replace(/[.]/g, '').replace(',', '.')))
+    if(typeof numberArea !== "number" || Number.isNaN(numberArea)){
       return toast.info("Digite um número válido")
     }
       dispatch({
         type: 'add',
         id: id++,
         divisao: div,
-        text: numberArea,
+        text: area,
         populacao: handleCalcular(numberArea, div)?.populacao,
         acesso: handleCalcular(numberArea, div)?.acesso,
         porta: handleCalcular(numberArea, div)?.porta,
@@ -49,9 +49,9 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   function moduloAdd1() {
     if (area === '' || dormitorio === '' || ambiente === '')
       return alert('Preencha todos os campos!');
-      const numberArea = Number(area)
-      const numberDormitorio = Number(dormitorio) 
-      if(typeof numberArea !== "number" || typeof numberDormitorio !== "number"){
+      const numberArea = Number(parseFloat(area.replace(/[^0-9,.]/g, '').replace(/[.]/g, '').replace(',', '.')))
+      const numberDormitorio = Number(parseFloat(dormitorio.replace(/[^0-9,.]/g, '').replace(/[.]/g, '').replace(',', '.'))) 
+      if(typeof numberArea !== "number" || typeof numberDormitorio !== "number" || Number.isNaN(numberArea) || Number.isNaN(numberDormitorio)){
         return toast.info("Digite um número válido")
       }
       dispatch({
@@ -94,6 +94,14 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
     }
   }, [div]);
 
+  function formatarNumero(value: string) {
+    var v = value.replace(/\D/g,'');
+    v = (+v/100).toFixed(2) + '';
+    v = v.replace(".", ",");
+    v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    return v;
+    }
+  
   return (
     <div className="d-flex flex-column gap-2 mt-4 bg-light px-2 py-4">
       <div className="d-flex justify-content-between align-items-center my-3">
@@ -126,7 +134,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="Vagas"
-                  onChange={({ target }) => setArea(target.value)}
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
                   ref={ref}
                   value={area}
                   className="form-control"
@@ -159,8 +167,8 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="area"
-                  onChange={({ target }) => setArea(target.value)}
                   value={area}
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
                   ref={ref}
                   className="form-control"
                 />
@@ -196,7 +204,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
               type="text"
               placeholder="unidades"
               value={area}
-              onChange={({ target }) => setArea(target.value)}
+              onChange={({ target }) => setArea(formatarNumero(target.value))}
               ref={ref}
               className="form-control"
             />
@@ -231,7 +239,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="m²"
-                  onChange={({ target }) => setArea(target.value)}
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
                   ref={ref1}
                   value={area}
                   className="form-control"
@@ -242,7 +250,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="unidade"
-                  onChange={({ target }) => setDormitorio(target.value)}
+                  onChange={({ target }) => setDormitorio(formatarNumero(target.value))}
                   ref={ref}
                   value={dormitorio}
                   className="form-control"
@@ -276,7 +284,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="m²"
-                  onChange={({ target }) => setArea(target.value)}
+                  onChange={({ target }) => setArea(formatarNumero(target.value))}
                   ref={ref1}
                   value={area}
                   className="form-control"
@@ -287,7 +295,7 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
                 <input
                   type="text"
                   placeholder="unidades"
-                  onChange={({ target }) => setDormitorio(target.value)}
+                  onChange={({ target }) => setDormitorio(formatarNumero(target.value))}
                   ref={ref}
                   value={dormitorio}
                   className="form-control"
