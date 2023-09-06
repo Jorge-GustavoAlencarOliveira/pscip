@@ -28,38 +28,13 @@ const SaidaPavimento = ({ populacao }: saidaPavimentoProps) => {
         </select>
       </div>
       {populacao !== 0 && populacao && (
-        // <Table striped bordered hover className="table-secondary my-3">
-        //   <tbody>
-        //     <tr>
-        //       <td>Acessos e descargas </td>
-        //       <td>
-        //         {calculoSaidaPavimento(populacao, div).acesso < 2 ? 2 : calculoSaidaPavimento(populacao, div).acesso}  unidade(s) de
-        //         passagem
-        //       </td>
-        //     </tr>
-        //     <tr>
-        //       <td>Escadas e rampas </td>
-        //       <td>
-        //         {calculoSaidaPavimento(populacao, div).escada < 2 ? 2 : calculoSaidaPavimento(populacao, div).escada} unidade(s) de
-        //         passagem
-        //       </td>
-        //     </tr>
-        //     <tr>
-        //       <td>Portas </td>
-        //       <td>
-        //         {calculoSaidaPavimento(populacao, div).porta} unidade(s) de
-        //         passagem
-        //       </td>
-        //     </tr>
-        //   </tbody>
-        // </Table>
         <div className="d-flex flex-column gap-2">
           <span>
             Acessos e Descargas: N = P/C = {populacao}/{divisao[div][1][0]} ={' '}
             {calculoSaidaPavimento(populacao, div).acesso < 2
               ? 2
               : calculoSaidaPavimento(populacao, div).acesso}{' '}
-            U.P.(s) ={' '}
+            U.P. ={' '}
             {calculoSaidaPavimento(populacao, div).acesso < 2
               ? unidadePassagem(2)
               : unidadePassagem(
@@ -72,7 +47,7 @@ const SaidaPavimento = ({ populacao }: saidaPavimentoProps) => {
             {calculoSaidaPavimento(populacao, div).escada < 2
               ? 2
               : calculoSaidaPavimento(populacao, div).escada}{' '}
-            U.P.(s) ={' '}
+            U.P. ={' '}
             {calculoSaidaPavimento(populacao, div).escada < 2
               ? unidadePassagem(2)
               : unidadePassagem(
@@ -87,7 +62,7 @@ const SaidaPavimento = ({ populacao }: saidaPavimentoProps) => {
                   .porta.toString()
                   .replace('.', ',')
               : Math.ceil(calculoSaidaPavimento(populacao, div).porta)}{' '}
-            U.P.(s) = {porta(calculoSaidaPavimento(populacao, div).porta)}
+            U.P. = {porta(calculoSaidaPavimento(populacao, div).porta)}
           </span>
         </div>
       )}

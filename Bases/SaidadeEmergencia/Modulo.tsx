@@ -28,7 +28,7 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
           <span>
             Acessos e Descargas: N = P/C = {modulo.populacao}/
             {divisao[div][1][0]} ={' '}
-            {modulo.acesso && modulo.acesso < 2 ? 2 : modulo.acesso} U.P.(s) ={' '}
+            {modulo.acesso && modulo.acesso < 2 ? 2 : modulo.acesso} U.P. ={' '}
             {modulo.acesso && modulo.acesso < 2
               ? unidadePassagem(2)
               : unidadePassagem(modulo.acesso)}{' '}
@@ -36,7 +36,7 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
           </span>
           <span>
             Escadas e Rampas: N = P/C = {modulo.populacao}/{divisao[div][1][1]}{' '}
-            = {modulo.escada && modulo.escada < 2 ? 2 : modulo.escada} U.P.(s) ={' '}
+            = {modulo.escada && modulo.escada < 2 ? 2 : modulo.escada} U.P. ={' '}
             {modulo.acesso && modulo.acesso < 2
               ? unidadePassagem(2)
               : unidadePassagem(modulo.escada)}{' '}
@@ -47,7 +47,7 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
             {modulo.porta <= 4
               ? modulo.porta.toString().replace('.', ',')
               : Math.ceil(modulo.porta)}{' '}
-            U.P.(s) = {porta(modulo.porta)}
+            U.P. = {porta(modulo.porta)}
           </span>
         </div>
         <div>

@@ -1,6 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { DataStorage } from '../../dataContext';
-import { useRouter } from 'next/router';
 import { tabelac1, valorestabelac1 } from './TabelaDeterministico';
 import { Table } from 'react-bootstrap';
 import {toast} from 'react-toastify'

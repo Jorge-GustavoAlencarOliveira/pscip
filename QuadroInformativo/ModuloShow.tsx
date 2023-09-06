@@ -25,7 +25,7 @@ const ModuloShow = ({
       <Table striped bordered hover className="table-primary">
         <thead>
           <tr>
-            <td className="text-center bg-secondary" colSpan={5}>
+            <td className="text-center bg-secondary" colSpan={6}>
               LEGISLAÇÃO
             </td>
           </tr>
@@ -33,21 +33,21 @@ const ModuloShow = ({
         <tbody>
           <tr>
             <td style={{width: '20%'}}>Norma adotada para definição de medidas</td>
-            <td colSpan={4}>Decreto nº 47.998/2020</td>
+            <td colSpan={5}>Decreto nº 47.998/2020</td>
           </tr>
           <tr>
             <td>Tabela</td>
-            <td colSpan={4}>Tabela 15 da IT 01 8ª Edição</td>
+            <td colSpan={5}>Tabela 15 da IT 01 8ª Edição</td>
           </tr>
           <tr>
             <td>Situação da Edificação</td>
-            <td colSpan={4}>Nova</td>
+            <td colSpan={5}>Nova</td>
           </tr>
         </tbody>
         <thead>
           <tr className="text-center">
             <td className="bg-secondary">MEDIDAS DE SEGURANÇA</td>
-            <td className="bg-secondary" colSpan={4}>
+            <td className="bg-secondary" colSpan={5}>
               REFERÊNCIAS NORMATIVAS E OBSERVAÇÕES
             </td>
           </tr>
@@ -66,7 +66,7 @@ const ModuloShow = ({
         </tbody>
         <thead>
           <tr>
-            <td className="text-center bg-secondary" colSpan={5}>
+            <td className="text-center bg-secondary" colSpan={6}>
               CLASSIFICAÇÃO DE OCUPAÇÃO E CARGA INCÊNDIO
             </td>
           </tr>
@@ -78,13 +78,14 @@ const ModuloShow = ({
             <td>DIVISÃO</td>
             <td>DESCRIÇÃO</td>
             <td>CARGA DE INCÊNDIO EM MJ/m²</td>
+            <td></td>
           </tr>
           {ocupacao?.map((item, index) => {
             return (
               <ShowOcupacao
                 key={index}
                 modulo={item.ocupacao}
-                onDelete={Delete}
+                onDelete={() => Delete(item.id)}
               />
             );
           })}

@@ -23,8 +23,7 @@ const Ocupacao = ({ add }: ocupacaoProps) => {
   }, [ocup]);
 
   return (
-    <div className="py-4 my-5">
-      <h4 className="fw-bold text-primary ">Ocupação</h4>
+    <>
       <div className="d-flex flex-column gap-3">
         <div className="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
           <span className="fw-bold">Ocupação: </span>
@@ -86,13 +85,13 @@ const Ocupacao = ({ add }: ocupacaoProps) => {
       </div>
       <div>
         <button
-          className="btn btn-primary float-end my-2"
+          className="btn btn-primary float-end my-3"
           onClick={() => add(ocup, div, desc)}
         >
           Adicionar
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
