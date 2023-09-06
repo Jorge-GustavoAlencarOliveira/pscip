@@ -4,13 +4,15 @@ import Modulo from './Modulo';
 import { Table } from 'react-bootstrap';
 import { ocupacaoModulosProps } from './QuadroReducer';
 import ShowOcupacao from '../Ocupacao/showOcupacao';
-
+import { FaPlus } from 'react-icons/fa';
 interface moduloShowProps {
   ocupacao: ocupacaoModulosProps[];
   modulos: modulosProps[];
   onDelete: (id: number) => void;
   referencia: (id: number, referencia: string) => void;
   Delete: (id: number) => void;
+  showModal: () => void;
+  showModal1: () => void;
 }
 
 const ModuloShow = ({
@@ -19,10 +21,12 @@ const ModuloShow = ({
   referencia,
   ocupacao,
   Delete,
+  showModal,
+  showModal1,
 }: moduloShowProps) => {
   return (
     <>
-      <Table striped bordered hover className="table-primary">
+      <Table bordered className="table-primary">
         <thead>
           <tr>
             <td className="text-center bg-secondary" colSpan={6}>
@@ -32,7 +36,9 @@ const ModuloShow = ({
         </thead>
         <tbody>
           <tr>
-            <td style={{width: '20%'}}>Norma adotada para definição de medidas</td>
+            <td style={{ width: '20%' }}>
+              Norma adotada para definição de medidas
+            </td>
             <td colSpan={5}>Decreto nº 47.998/2020</td>
           </tr>
           <tr>
@@ -47,8 +53,13 @@ const ModuloShow = ({
         <thead>
           <tr className="text-center">
             <td className="bg-secondary">MEDIDAS DE SEGURANÇA</td>
-            <td className="bg-secondary" colSpan={5}>
+            <td className="bg-secondary" colSpan={4}>
               REFERÊNCIAS NORMATIVAS E OBSERVAÇÕES
+            </td>
+            <td className="bg-primary">
+              <button onClick={showModal} className="btn btn-primary">
+                <FaPlus size={20} />
+              </button>
             </td>
           </tr>
         </thead>
@@ -78,7 +89,11 @@ const ModuloShow = ({
             <td>DIVISÃO</td>
             <td>DESCRIÇÃO</td>
             <td>CARGA DE INCÊNDIO EM MJ/m²</td>
-            <td></td>
+            <td className="bg-primary">
+              <button onClick={showModal1} className="btn btn-primary">
+                <FaPlus size={20} />
+              </button>
+            </td>
           </tr>
           {ocupacao?.map((item, index) => {
             return (

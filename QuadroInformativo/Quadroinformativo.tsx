@@ -18,9 +18,9 @@ const Quadroinformativo = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [modalShow1, setModalShow1] = React.useState(false);
 
-
   React.useEffect(() => {
-    medidas.map((item) => {
+    medidas.map((item, index) => {
+      if(index <= 3)
       dispatch({
         type: 'add',
         id: i++,
@@ -71,12 +71,12 @@ const Quadroinformativo = () => {
 
   return (
     <>
-      <h1 className='text-primary mb-3'>Quadro Informativo E.2</h1>
-      <div className='d-flex justify-content-between py-4'>
-        <button onClick={() => setModalShow(true)} className='btn btn-primary'>Adicionar Medida de Segurança</button>
-        <button onClick={() => setModalShow1(true)} className='btn btn-primary'>Adicionar Ocupacação</button>
-      </div>
-      <ModalCenter show={modalShow} onHide={() => setModalShow(false)} header='Medidas de Segurança'>
+      <h1 className="text-primary mb-3">E.2 - Quadro Informativo </h1>
+      <ModalCenter
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        header="Selecione a medida de segurança desejada:"
+      >
         <div>
           <div className="d-flex align-items-center gap-2">
             <label className="fw-bold">Medida:</label>
@@ -95,7 +95,10 @@ const Quadroinformativo = () => {
           </div>
           <div>
             <button
-              onClick={handleAdd}
+              onClick={() => {
+                handleAdd()
+                setModalShow(false)
+              }}
               className="btn btn-primary float-end my-2"
             >
               Adicionar
@@ -103,9 +106,13 @@ const Quadroinformativo = () => {
           </div>
         </div>
       </ModalCenter>
-      
-      <ModalCenter show={modalShow1} onHide={() => setModalShow1(false)} header='Ocupacao'>
-        <Ocupacao add={handleAddOcupacao} />
+
+      <ModalCenter
+        show={modalShow1}
+        onHide={() => setModalShow1(false)}
+        header="Selecione a ocupação/divisão desejada:"
+      >
+        <Ocupacao add={handleAddOcupacao} onHide={() => setModalShow1(false)}/>
       </ModalCenter>
       <ModuloShow
         onDelete={handleDelete}
@@ -113,15 +120,20 @@ const Quadroinformativo = () => {
         referencia={handleReferencia}
         ocupacao={ocupacao}
         Delete={handleDeleteOcupacao}
+        showModal={() => setModalShow(true)}
+        showModal1={() => setModalShow1(true)}
       />
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          pdfQuadroInformavitvo({ modulos, ocupacao1: ocupacao });
-        }}
-      >
-        Gerar Quadro Informativo
-      </button>
+      <div>
+        <button
+          disabled={ocupacao.length === 0 ? true : false}
+          className="btn btn-primary float-end"
+          onClick={() => {
+            pdfQuadroInformavitvo({ modulos, ocupacao1: ocupacao });
+          }}
+        >
+          Gerar Quadro Informativo
+        </button>
+      </div>
     </>
   );
 };

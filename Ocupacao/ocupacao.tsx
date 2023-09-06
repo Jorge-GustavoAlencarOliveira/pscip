@@ -5,9 +5,10 @@ import TabelaOcupacao from '../Tabelas/tabelaOcupacao';
 
 interface ocupacaoProps {
   add: (ocup: number, div:number, desc:number) => void;
+  onHide: () => void
 }
 
-const Ocupacao = ({ add }: ocupacaoProps) => {
+const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
 
   const { descricao } = TabelaDescricao();
   const { divisao } = TabelaDivisao();
@@ -86,7 +87,7 @@ const Ocupacao = ({ add }: ocupacaoProps) => {
       <div>
         <button
           className="btn btn-primary float-end my-3"
-          onClick={() => add(ocup, div, desc)}
+          onClick={() => {add(ocup, div, desc), onHide()}}
         >
           Adicionar
         </button>

@@ -15,7 +15,7 @@ const Modulo = ({onDelete, modulo,referencia}:moduloProps) => {
       <td colSpan={4}>
         <textarea className='w-100 flex-grow-1' value={modulo.referencia} onChange={({target}) => referencia(modulo.id, target.value)}/>
       </td>
-      <td style={{width: '5%'}}>
+      <td className='text-center' style={{width: '5%'}}>
         <button className='btn' onClick={() => onDelete(modulo.id)}>
           <FaTrash size={20} color='red'/>
         </button>
