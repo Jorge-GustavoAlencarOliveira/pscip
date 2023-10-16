@@ -1,17 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react';
-
-interface dadosProps {
-  areaConstruida: string;
-  areaAconstruir: string;
-  altura: string;
-  pavimentos: string;
-  areaTotal: number;
-  dataConstrucao: string;
-  compartimentacao: string;
-}
-
 type propsConstrucao = {
-  dados: dadosProps;
+  dados: string;
   setDadosEdificacao: (key: string, value: string | number) => void;
 };
 
@@ -25,7 +13,7 @@ const Construcao = ({ setDadosEdificacao, dados }: propsConstrucao) => {
             type="radio"
             id="existente"
             value="Existente"
-            checked={dados.dataConstrucao === 'Existente'}
+            checked={dados === 'Existente'}
             onChange={({ target }) => {
               setDadosEdificacao('dataConstrucao', target.value);
             }}
@@ -39,7 +27,7 @@ const Construcao = ({ setDadosEdificacao, dados }: propsConstrucao) => {
             type="radio"
             id="construida"
             value="Construída"
-            checked={dados.dataConstrucao === 'Construída'}
+            checked={dados === 'Construída'}
             onChange={({ target }) =>
               setDadosEdificacao('dataConstrucao', target.value)
             }
@@ -54,7 +42,7 @@ const Construcao = ({ setDadosEdificacao, dados }: propsConstrucao) => {
             type="radio"
             id="nova"
             value="Nova"
-            checked={dados.dataConstrucao === 'Nova'}
+            checked={dados === 'Nova'}
             onChange={({ target }) =>
               setDadosEdificacao('dataConstrucao', target.value)
             }

@@ -1,3 +1,5 @@
+import { edificacaoExistente } from '../Bases/edificacaoExistente';
+import { cleanNumber } from '../Bases/formatarNumero';
 const medidas = [
   'Acesso de viaturas',
   'Segurança Estrutural contra Incêndio',
@@ -17,38 +19,32 @@ interface a1Props {
   area: string;
   cargaIncendio: number;
   isolamento: number;
-  construcao: string
+  construcao: string;
 }
 
-const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) => {
+const A2 = ({
+  altura,
+  area,
+  cargaIncendio,
+  isolamento,
+  construcao,
+}: a1Props) => {
   const userAltura = Number(altura);
-  const userArea = Number(area);
- 
+  const userArea = cleanNumber(area)/100;
 
-  function edificacaoExistente(medidas: string[]){
-    if(construcao === 'Existente'){
-      const final =  medidas.filter(item => item !== 'Acesso de viaturas' 
-      ).filter(item1 => item1 !== 'Segurança Estrutural contra Incêndio').filter(item2 => item2 !== 'Compartimentação Horizontal').filter(item3 => item3 !== 'Compartimentação Vertical').filter(item4 => item4 !== 'Chuveiros Automáticos').filter(item5 => item5 !== 'Controle de Fumaça')
-      return final
-    } 
-    return medidas
-  }
+
   function showMedidas() {
-    if (
-      userAltura <= 12 &&
-      userArea <= 1200 
-      
-    ) {
+    if (userAltura <= 12 && userArea <= 1200) {
       const medFinal = [
         'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
       ];
-      return (edificacaoExistente(medFinal));
+      return edificacaoExistente(medFinal, construcao);
     }
 
-    if (userAltura <= 12 && userArea > 1200  ) {
+    if (userAltura <= 12 && userArea > 1200) {
       const medFinal = [
         'Acesso de viaturas (nos condomínios com arruamento interno, independente da área)',
         'Saídas de Emergencia',
@@ -58,7 +54,7 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
-      return (edificacaoExistente(medFinal));
+      return edificacaoExistente(medFinal, construcao);
     }
     if (userAltura > 12 && userAltura <= 30) {
       const medFinal = [
@@ -71,7 +67,7 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return edificacaoExistente(medFinal, construcao);
     }
     if (userAltura > 30 && userAltura <= 54) {
       const medFinal = [
@@ -86,7 +82,7 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return edificacaoExistente(medFinal, construcao);
     }
     if (userAltura > 54) {
       const medFinal = [
@@ -102,7 +98,7 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return edificacaoExistente(medFinal, construcao);
     }
   }
 
@@ -160,7 +156,7 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
   //   if (
   //     userAltura <= 12 &&
   //     userArea <= 1200 &&
-  //     salao === 'nao' && cond === 'sim'      
+  //     salao === 'nao' && cond === 'sim'
   //   ) {
   //     const medFinal = [
   //       'Acesso de viaturas',
@@ -245,17 +241,16 @@ const A2 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
 
 export default A2;
 
- // const [medFinal, setMediaFinal] = React.useState<string[]>([]);
-  // const [cond, setCond] = React.useState<string>('nao');
-  // const [salao, setSalao] = React.useState<string>('nao');
+// const [medFinal, setMediaFinal] = React.useState<string[]>([]);
+// const [cond, setCond] = React.useState<string>('nao');
+// const [salao, setSalao] = React.useState<string>('nao');
 
-  
+// React.useEffect(() => {
+//   showMedidas()
+// }, [ ,cond, salao]);
 
-  // React.useEffect(() => {
-  //   showMedidas()
-  // }, [ ,cond, salao]);
-
-{/* <div>
+{
+  /* <div>
       {userAltura <= 12 && userArea <= 1200 && construcao !== "Existente" && (
         <div>
           <span>Trata-se de condomínio com arruamento interno?</span>
@@ -348,5 +343,5 @@ export default A2;
           </ul>
         </div>
       )}
-    </div> */}
-
+    </div> */
+}

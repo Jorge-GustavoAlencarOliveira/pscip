@@ -43,11 +43,11 @@ const ModuloShow = ({
           </tr>
           <tr>
             <td>Tabela</td>
-            <td colSpan={5}>Tabela 15 da IT 01 8ª Edição</td>
+            <td colSpan={5}>Tabela 05 da IT 01 10ª Edição</td>
           </tr>
           <tr>
             <td>Situação da Edificação</td>
-            <td colSpan={5}>Nova</td>
+            <td colSpan={5}>Construída</td>
           </tr>
         </tbody>
         <thead>

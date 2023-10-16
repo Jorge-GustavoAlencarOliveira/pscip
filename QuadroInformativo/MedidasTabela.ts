@@ -24,4 +24,4 @@ export const medidas = [
 
 const normas = ['Decreto nº 47.998/2020'];
 
-const tabelas = ['Tabela 15 da IT 01 10ª Edição'];
+const tabelas = ['Tabela 05 da IT 01 10ª Edição'];

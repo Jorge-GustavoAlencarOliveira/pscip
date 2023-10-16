@@ -4,15 +4,15 @@ import { Modal, ModalHeader, Button } from 'react-bootstrap'
 interface ModalProps {
   children: React.ReactNode;
   show: boolean;
-  onHide: () => void;
+  onHide?: () => void;
   header?: string
-
+  size?: 'sm' | 'lg' | 'xl' 
 }
 
-const ModalCenter = ({children, show, onHide, header}: ModalProps) => { 
+const ModalCenter = ({children, show, onHide, header, size = 'lg'}: ModalProps) => { 
     return (
-      <Modal size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
+      <Modal 
+      size={size}
       centered
       onHide={onHide}
       show={show}

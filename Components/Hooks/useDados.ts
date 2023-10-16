@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface dadosProps {
+export interface dadosProps {
   areaConstruida: string;
   areaAconstruir: string;
   altura: string;

@@ -1,3 +1,5 @@
+import { cleanNumber } from "../Bases/formatarNumero";
+import { edificacaoExistente } from "../Bases/edificacaoExistente";
 const medidas = [
   'Acesso de viaturas',
   'Segurança Estrutural contra Incêndio',
@@ -22,17 +24,9 @@ interface a1Props {
 
 const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) => {
   const userAltura = Number(altura);
-  const userArea = Number(area);
- 
-
-  function edificacaoExistente(medidas: string[]){
-    if(construcao === 'Existente'){
-      const final =  medidas.filter(item => item !== 'Acesso de viaturas' 
-      ).filter(item1 => item1 !== 'Segurança Estrutural contra Incêndio').filter(item2 => item2 !== 'Compartimentação Horizontal').filter(item3 => item3 !== 'Compartimentação Vertical').filter(item4 => item4 !== 'Chuveiros Automáticos').filter(item5 => item5 !== 'Controle de Fumaça')
-      return final
-    } 
-    return medidas
-  }
+  const userArea = cleanNumber(area)/100;
+  
+  console.log(userArea)
   function showMedidas() {
     if (
       userAltura <= 12 &&
@@ -40,14 +34,12 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
       
     ) {
       const medFinal = [
-        'Acesso de viaturas (nos condomínios com arruamento interno, independente da área)',
         'Saídas de Emergencia',
         'Iluminação de Emergência',
         'Sinalização de Emergência',
         'Extintores',
-        'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
-      return (edificacaoExistente(medFinal));
+      return (edificacaoExistente(medFinal, construcao));
     }
 
     if (userAltura <= 12 && userArea > 1200  ) {
@@ -60,7 +52,7 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento (nos salões de festas e auditórios com previsão de população superior a 200 pessoas)',
       ];
-      return (edificacaoExistente(medFinal));
+      return (edificacaoExistente(medFinal, construcao));
     }
     if (userAltura > 12 && userAltura <= 30) {
       const medFinal = [
@@ -73,7 +65,7 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return (edificacaoExistente(medFinal, construcao));
     }
     if (userAltura > 30 && userAltura <= 54) {
       const medFinal = [
@@ -88,7 +80,7 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return (edificacaoExistente(medFinal, construcao));
     }
     if (userAltura > 54) {
       const medFinal = [
@@ -104,7 +96,7 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
         'Hidrantes e Mangotinhos',
         'Controle de Materiais de Acabamento e de Revestimento',
       ];
-      return (edificacaoExistente(medFinal));
+      return (edificacaoExistente(medFinal, construcao));
     }
   }
   return showMedidas();

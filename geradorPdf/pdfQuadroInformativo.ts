@@ -139,7 +139,7 @@ const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
             },
             {},
             {
-              text: 'Tabela 15 da IT 01 8ª Edição',
+              text: 'Tabela 05 da IT 01 10ª Edição',
               colSpan: 3,
               style: 'tableHeader',
             },
@@ -157,7 +157,7 @@ const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
             },
             {},
             {
-              text: 'Nova',
+              text: 'Construída',
               colSpan: 3,
               style: 'tableHeader',
             },

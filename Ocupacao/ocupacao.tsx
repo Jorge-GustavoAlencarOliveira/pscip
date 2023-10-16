@@ -4,19 +4,18 @@ import TabelaDivisao from '../Tabelas/tabelaDivisao';
 import TabelaOcupacao from '../Tabelas/tabelaOcupacao';
 
 interface ocupacaoProps {
-  add: (ocup: number, div:number, desc:number) => void;
-  onHide: () => void
+  add: (ocup: number, div: number, desc: number) => void;
+  onHide?: () => void;
 }
 
 const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
-
   const { descricao } = TabelaDescricao();
   const { divisao } = TabelaDivisao();
   const { ocupacao } = TabelaOcupacao();
 
-  const [ocup, setOcup] = React.useState<number>(0);
-  const [div, setDiv] = React.useState<number>(0);
-  const [desc, setDesc] = React.useState<number>(0);
+  const [ocup, setOcup] = React.useState(0);
+  const [div, setDiv] = React.useState(0);
+  const [desc, setDesc] = React.useState(0);
 
   React.useEffect(() => {
     setDiv(0);
@@ -31,7 +30,6 @@ const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
           <select
             onChange={({ target }) => {
               setOcup(+target.value);
-         
             }}
             value={ocup}
             className="form-select"
@@ -50,7 +48,6 @@ const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
           <select
             onChange={({ target }) => {
               setDiv(+target.value);
-            
             }}
             value={div}
             className="form-select"
@@ -69,7 +66,6 @@ const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
           <select
             onChange={({ target }) => {
               setDesc(+target.value);
-            
             }}
             value={desc}
             className="form-select "
@@ -83,14 +79,17 @@ const Ocupacao = ({ add, onHide }: ocupacaoProps) => {
             })}
           </select>
         </div>
-      </div>
-      <div>
-        <button
-          className="btn btn-primary float-end my-3"
-          onClick={() => {add(ocup, div, desc), onHide()}}
-        >
-          Adicionar
-        </button>
+        <div>
+          <button
+            className="btn btn-primary float-end m2-3"
+            onClick={() => {
+              add(ocup, div, desc);
+              if (onHide) onHide();
+            }}
+          >
+            Adicionar
+          </button>
+        </div>
       </div>
     </>
   );

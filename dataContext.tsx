@@ -13,7 +13,7 @@ import Router, { useRouter } from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 import { setupAPIClient } from '@/services/api';
 import { informacoesProps } from './Components/Hooks/useDados';
-
+import { RegiaomoduloProps } from './Components/Regiao-ocupacao/regiaoReducer';
 // const provider = new GoogleAuthProvider();
 
 // const auth = getAuth(app);
@@ -29,14 +29,13 @@ interface dadosProps {
 }
 
 type ContextData = {
-  valoresOcupacao: Array<array>;
+  valoresOcupacao: RegiaomoduloProps[];
   // signInGoogle: () => Promise<void>;
   // userLogout: () => Promise<void>;
   login: boolean;
   // data: User | null;
   // signed: boolean;
-  valoresOcupacoes: (dados: dadosProps, ocupacoes: number[][]) => void;
-  valoresRegiao: (valorRegiao: Array<array>) => void;
+  valoresRegiao: (valorRegiao: RegiaomoduloProps[]) => void;
   user: UserProps;
   isAuthenticated: boolean;
   userLogin: (credentials: LoginProps) => void;
@@ -90,17 +89,14 @@ export const Logout =  () => {
 export const DataStorage = React.createContext({} as ContextData);
 
 const DataContext = ({ children }: ProviderProps) => {
-  const router = useRouter();
   const [user, setUser] = React.useState<UserProps>();
   const isAuthenticated = !!user
   // const [data, setData] = React.useState<User>();
   const [login, setLogin] = React.useState(false);
-  const [valoresOcupacao, setValoresOcupacao] = React.useState<array[]>();
+  const [valoresOcupacao, setValoresOcupacao] = React.useState<RegiaomoduloProps[]>();
   const [informations, setInformations] = React.useState<informacoesProps>()
-  function valoresOcupacoes(dados: dadosProps, ocupacoes: number[][]) {
-    setValoresOcupacao([[dados, ocupacoes]]);
-  }
-  function valoresRegiao(valorRegiao: Array<array>) {
+ 
+  function valoresRegiao(valorRegiao: RegiaomoduloProps[]) {
     setValoresOcupacao(valorRegiao);
   }
   function valoresInformacoes (informacoes: informacoesProps){
@@ -166,7 +162,7 @@ const DataContext = ({ children }: ProviderProps) => {
       Router.push('/')
       toast.info('Usuário deslogado');
     }catch(err){
-      toast.error("Erro ao deslogar")
+      toast.error("Erro ao deslogar");
       throw new Error ("Erro ao deslogar");
     }
   }
@@ -202,7 +198,6 @@ const DataContext = ({ children }: ProviderProps) => {
         // userLogout,
         login,
         // data,
-        valoresOcupacoes,
         valoresRegiao,
         valoresInformacoes,
         informations
