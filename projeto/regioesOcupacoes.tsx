@@ -5,7 +5,7 @@ import { RegiaomoduloProps } from '../Components/Regiao-ocupacao/regiaoReducer';
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
-  edificacao: RegiaomoduloProps[]
+  edificacao?: RegiaomoduloProps[]
 }
 
 const RegioesOcupacoes = ({ isActive, onshow, edificacao }: pageProps) => {

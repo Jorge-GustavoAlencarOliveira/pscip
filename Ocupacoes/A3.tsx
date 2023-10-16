@@ -26,7 +26,6 @@ const A3 = ({ altura, area, cargaIncendio, isolamento, construcao }: a1Props) =>
   const userAltura = Number(altura);
   const userArea = cleanNumber(area)/100;
   
-  console.log(userArea)
   function showMedidas() {
     if (
       userAltura <= 12 &&
