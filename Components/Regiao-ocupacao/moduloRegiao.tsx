@@ -9,7 +9,7 @@ import { RegiaomoduloProps } from './regiaoReducer';
 
 type ModuloRegiaoProps = { 
   onShow: () => void;
-  edificacao: RegiaomoduloProps[]
+  edificacao?: RegiaomoduloProps[]
 }
 
 

@@ -6,6 +6,8 @@ interface pageProps {
   onshow: (index: number) => void;
 }
 
+
+
 const DadosEdificacao = ({ isActive, onshow }: pageProps) => {
   return (
     <div className={isActive ? 'd-block' : 'd-none'}>
