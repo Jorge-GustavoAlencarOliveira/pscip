@@ -14,6 +14,8 @@ const Result = () => {
   const router = useRouter();
   const { id } = router.query;
   const pathname = usePathname();
+
+
   async function handleCreateProject() {
     if (pathname.startsWith('/projeto')) {
       try {
@@ -89,7 +91,7 @@ const Result = () => {
         return (
           <>
             {compartimentacao === 'compartimentacaoSim' && (
-              <div key={id}>
+              <div>
                 {valoresOcupacao.length > 1 && <h1>Risco {index + 1}</h1>}
                 {dados[1].map((item1, index1) => {
                   const { divisao, cargaincendio, descricao } =
@@ -113,7 +115,7 @@ const Result = () => {
                       <p>Carga incêndio: {item1[3] || cargaincendio} MJ/m²</p>
                       <div>
                         {medidas && (
-                          <ShowMedidas medidas={medidas} dados={dados[0]} />
+                          <ShowMedidas medidas={medidas} dados={dados[0]} ocupacao={divisao}/>
                         )}
                       </div>
                     </div>
@@ -132,7 +134,7 @@ const Result = () => {
               </div>
             )}
             {compartimentacao === 'compartimentacaoNao' && (
-              <div key={id}>
+              <div>
                 {valoresOcupacao.length > 1 && <h1>Risco {index + 1}</h1>}
                 {dados[1].map((item1, index1) => {
                   const { divisao, cargaincendio, descricao } =
