@@ -1,73 +1,86 @@
 import React from 'react';
-import TabelaSaidaEmergencia from './tabelaSaidaEmergencia';
-import { calculoSaidaPavimento, porta, unidadePassagem } from './Calculo';
+import { moduloProps } from './ModuloReducer';
+import { transformarString, unidadePassagem, calculoPorta } from './Calculo';
 
 interface saidaPavimentoProps {
-  populacao: number | undefined;
+  modulos: moduloProps[];
 }
 
-const SaidaPavimento = ({ populacao }: saidaPavimentoProps) => {
-  const { divisao } = TabelaSaidaEmergencia();
-  const [div, setDiv] = React.useState<number>(0);
+const SaidaPavimento = ({ modulos }: saidaPavimentoProps) => {
+  const unidadePassagemTotal = modulos.reduce(
+    (acc, modulo) => {
+      const valores = {
+        ...acc,
+        acesso: acc.acesso + modulo.acesso,
+        escada: acc.escada + modulo.escada,
+        porta: acc.porta + modulo.porta,
+      };
+      return valores;
+    },
+    { acesso: 0, escada: 0, porta: 0 },
+  );
+
+  const { acesso, escada, porta } = unidadePassagemTotal;
+
   return (
-    <div className="d-flex flex-column gap-2 form-group my-4">
-      <h5>Selecionar divisão para cálculo de saídas do pavimento</h5>
-      <div className="d-flex align-items-center gap-2 ">
-        <span>Divisão: </span>
-        <select
-          onChange={({ target }) => setDiv(+target.value)}
-          className="form-select"
-        >
-          {divisao.map((item, index) => {
-            return (
-              <option key={index} value={index}>
-                {item[0]}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      {populacao !== 0 && populacao && (
-        <div className="d-flex flex-column gap-2">
-          <span>
-            Acessos e Descargas: N = P/C = {populacao}/{divisao[div][1][0]} ={' '}
-            {calculoSaidaPavimento(populacao, div).acesso < 2
-              ? 2
-              : calculoSaidaPavimento(populacao, div).acesso}{' '}
-            U.P. ={' '}
-            {calculoSaidaPavimento(populacao, div).acesso < 2
-              ? unidadePassagem(2)
-              : unidadePassagem(
-                  calculoSaidaPavimento(populacao, div).acesso,
-                )}{' '}
-            m
-          </span>
-          <span>
-            Escadas e Rampas: N = P/C = {populacao}/{divisao[div][1][1]} ={' '}
-            {calculoSaidaPavimento(populacao, div).escada < 2
-              ? 2
-              : calculoSaidaPavimento(populacao, div).escada}{' '}
-            U.P. ={' '}
-            {calculoSaidaPavimento(populacao, div).escada < 2
-              ? unidadePassagem(2)
-              : unidadePassagem(
-                  calculoSaidaPavimento(populacao, div).escada,
-                )}{' '}
-            m
-          </span>
-          <span>
-            Portas: N = P/C = {populacao}/{divisao[div][1][2]} ={' '}
-            {calculoSaidaPavimento(populacao, div).porta <= 4
-              ? calculoSaidaPavimento(populacao, div)
-                  .porta.toString()
-                  .replace('.', ',')
-              : Math.ceil(calculoSaidaPavimento(populacao, div).porta)}{' '}
-            U.P. = {porta(calculoSaidaPavimento(populacao, div).porta)}
-          </span>
+    <>
+      {modulos.length > 1 && (
+        <div className="d-flex flex-column  ">
+          <div>
+            <span className='fw-bold'>Acessos e Descargas:{' '}</span>
+            {modulos.map((ambiente, index) => (
+              <span>
+                {transformarString(ambiente.acesso)}{' '}
+                {index !== modulos.length - 1 ? ' + ' : ' = '}
+              </span>
+            ))}{' '}
+            <span>
+              {modulos.length > 1 && <span>{transformarString(acesso)} = {' '}</span>} 
+              {acesso && acesso < 2 ? 2 : Math.ceil(acesso)} U.P. ={' '}
+              {acesso && acesso < 2
+                ? unidadePassagem(2)
+                : unidadePassagem(Math.ceil(acesso))}{' '} m
+            </span> 
+          </div>
+          <div>
+            <span className='fw-bold'>Escadas e Rampas:{' '}</span>
+              {modulos.map((ambiente, index) => (
+                <span>
+                  {transformarString(ambiente.escada)}{' '}
+                  {index !== modulos.length - 1 ? ' + ' : ' = '}
+                </span>
+              ))}{' '}
+            <span>
+              {modulos.length > 1 && <span>{transformarString(escada)} = {' '}</span>}
+              {escada && escada < 2 ? 2 :  Math.ceil(escada)} U.P. ={' '}
+              {escada && escada < 2
+                ? unidadePassagem(2)
+                : unidadePassagem(Math.ceil(escada))}{' '}m
+            </span>
+          </div>
+          <div>
+              <span className='fw-bold'>
+                Portas:{' '}
+              </span>
+              {modulos.map((ambiente, index) => (
+                <span>
+                  {transformarString(ambiente.porta)}{' '}
+                  {index !== modulos.length - 1 ? ' + ' : ' = '}
+                </span>
+              ))}{' '}
+              <span>
+              {modulos.length > 1 && <span>{transformarString(porta)} = {' '}</span>}
+              {porta <= 4
+                ? transformarString(porta)
+                : Math.ceil(porta)}{' '}
+              U.P. = {calculoPorta(porta)}
+              </span>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
 export default SaidaPavimento;
+

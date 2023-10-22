@@ -18,8 +18,8 @@ const ModalCenter = ({children, show, onHide, header, size = 'lg'}: ModalProps) 
       show={show}
       scrollable={true}
       >
-        <ModalHeader closeButton>
-          {header}
+        <ModalHeader className='text-primary' closeButton>
+          <h5>{header}</h5>
         </ModalHeader>
         <Modal.Body>
           {children}

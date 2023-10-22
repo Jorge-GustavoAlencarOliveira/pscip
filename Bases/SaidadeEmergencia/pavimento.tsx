@@ -28,39 +28,40 @@ const Pavimento = () => {
 
   return (
     <div className="d-flex flex-column gap-2">
-      <h1 className="text-primary">Dimensionamento de saídas de emergencia</h1>
-      <button className='btn btn-primary' onClick={() => setModalShow(true)}>Adicionar Rota de Fuga</button>
-      <ModalCenter header='Adicione uma rota de fuga' show={modalShow} onHide={() => setModalShow(false)}>
-        <div className="d-flex flex-column gap-4">
+      <h3 className="text-primary">Dimensionamento de saídas de emergencia</h3>
+      <div>
+        <button className='btn btn-primary' onClick={() => setModalShow(true)}>Dimensionar rota de fuga</button>
+      </div>
+      <ModalCenter header='Dimensione a rota de fuga' show={modalShow} onHide={() => setModalShow(false)} size='xl'>
+        <div className="d-flex flex-column gap-2">
           <div className="d-flex align-items-center gap-2">
-            <label className="fw-bold">Nome: </label>
+            <label className="fw-bold text-nowrap">Rota de fuga: </label>
             <input
               type="text"
               onChange={({ target }) => setNomePavimento(target.value)}
               value={nomePavimento}
               className="form-control"
             />
-          </div>
-          <div>
-            <button className="btn btn-primary float-end" onClick={() => {
+            <button className="btn btn-primary ms-auto" onClick={() => {
               pavimentoAdd();
-              setModalShow(false)
               setNomePavimento('')
             }}>
-              Adicionar pavimento{' '}
+              Adicionar{' '}
             </button>
           </div>
+          <div>
+          </div>
         </div>
+        {pavimento.map((item) => {
+          return (
+            <CalculoSaidas
+              key={item.idPavimento}
+              pavimento={item.pavimento}
+              onDelete={() => pavimentoDelete(item.idPavimento)}
+            />
+          );
+        })}
       </ModalCenter>
-      {pavimento.map((item) => {
-        return (
-          <CalculoSaidas
-            key={item.idPavimento}
-            pavimento={item.pavimento}
-            onDelete={() => pavimentoDelete(item.idPavimento)}
-          />
-        );
-      })}
     </div>
   );
 };

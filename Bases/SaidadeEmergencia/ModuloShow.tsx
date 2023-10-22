@@ -3,17 +3,16 @@ import Modulo from './Modulo';
 import { moduloProps } from './ModuloReducer';
 import SaidaPavimento from './saidaPavimento';
 
-
 interface ModuloShowProps {
-  modulos: moduloProps[] | [];
+  modulos: moduloProps[];
   onDeleteModulos: (id: number) => void;
 }
 
 const ModuloShow = ({ modulos, onDeleteModulos }: ModuloShowProps) => {
-  const populaçãoTotal = modulos?.map((item) => item.populacao).reduce((acc, atual) => {
-      if (typeof acc === 'number' && typeof atual === 'number') {
-        return acc + atual;
-      }
+  const populaçãoTotal = modulos
+    ?.map((item) => item.populacao)
+    .reduce((acc, atual) => {
+      return acc + atual;
     }, 0);
   return (
     <div>
@@ -24,12 +23,13 @@ const ModuloShow = ({ modulos, onDeleteModulos }: ModuloShowProps) => {
           </div>
         );
       })}
-      <h2>
-        {populaçãoTotal !== 0 && (
-          <span>População total: {populaçãoTotal} pessoas</span>
-        )}
-      </h2>
-      <SaidaPavimento populacao={populaçãoTotal}/>
+      {populaçãoTotal !== 0 && modulos.length > 1 && (
+        <div>
+          <span className="fw-bold">População total: </span>
+          <span>{populaçãoTotal} pessoas</span>
+        </div>
+      )}
+      <SaidaPavimento modulos={modulos} />
     </div>
   );
 };

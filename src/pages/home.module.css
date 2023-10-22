@@ -74,6 +74,11 @@
   border-top: 1px solid  #0c63e4;
 }
 
+.accordionItem:last-of-type {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
 .accordionHeader {
   margin-bottom: 0;
 }

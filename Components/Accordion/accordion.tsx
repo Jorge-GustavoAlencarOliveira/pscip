@@ -32,7 +32,6 @@ const Accordion = ({ title = 'Accordion Title', show = false, children }: Accord
           {title}
         </button>
       </h2>
-
       <div
         id={`collapse-${randomId.current}`}
         aria-labelledby={`heading-${randomId.current}`}
@@ -40,7 +39,7 @@ const Accordion = ({ title = 'Accordion Title', show = false, children }: Accord
         style={
           collapse
             ? {
-                height: accordionBodyRef.current?.clientHeight,
+                height: accordionBodyRef.current?.clientHeight + 250,
                 transition: 'height 0.2s ease',
                 overflowY: 'auto'
               }

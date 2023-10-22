@@ -1,7 +1,8 @@
 import React from 'react';
 import TabelaSaidaEmergencia from './tabelaSaidaEmergencia';
 import { moduloProps } from './ModuloReducer';
-import { unidadePassagem, porta } from './Calculo';
+import { unidadePassagem, calculoPorta, transformarString } from './Calculo';
+
 interface ModuloProps {
   modulo: moduloProps;
   onDelete: (id: number) => void;
@@ -9,51 +10,99 @@ interface ModuloProps {
 
 const Modulo = ({ modulo, onDelete }: ModuloProps) => {
   const { divisao } = TabelaSaidaEmergencia();
-  const div = modulo.divisao;
+  const {
+    acesso,
+    escada,
+    porta,
+    text1,
+    text,
+    ambiente,
+    populacao,
+    id,
+    divisao: div,
+  } = modulo;
   if (typeof div === 'number') {
     return (
       <div className="d-flex justify-content-between mb-4 p-2 border border-secondary rounded-2">
         <div className="d-flex flex-column gap-2">
-          <span>{modulo.ambiente}</span>
-          <span>Divisão: {divisao[div][0]}</span>
+          <div>
+            <span className="fw-bold">Ambiente: </span>
+            <span>{ambiente}</span>
+          </div>
+          <div>
+            <span className="fw-bold">Divisão: </span>
+            <span>{divisao[div][0]}</span>
+          </div>
           {divisao[div][0] === 'A-1' || divisao[div][0] === 'A-2' ? (
-            <span>Dormitórios: {modulo.text} unidades</span>
+            <div>
+              <span className="fw-bold">Dormitórios: </span>
+              <span>{text} unidades</span>
+            </div>
           ) : (
-            <span>Área: {modulo.text} m²</span>
+            <div>
+              {divisao[div][0] === 'G-1' ? (
+                <div>
+                  <span className="fw-bold">Vagas: </span>
+                  <span>{text} </span>
+                </div>
+              ) : (
+                <div>
+                  <span className="fw-bold">Área: </span>
+                  <span>{text} m²</span>
+                </div>
+              )}
+            </div>
           )}
-          {modulo.text1 && (
-            <span>Dormitório/Leito: {modulo.text1} unidades</span>
+          {text1 && (
+            <div>
+              <span className="fw-bold">Dormitório/Leito: </span>
+              <span>{text1} unidades</span>
+            </div>
           )}
-          <span>População: {modulo.populacao} pessoas</span>
-          <span>
-            Acessos e Descargas: N = P/C = {modulo.populacao}/
-            {divisao[div][1][0]} ={' '}
-            {modulo.acesso && modulo.acesso < 2 ? 2 : modulo.acesso} U.P. ={' '}
-            {modulo.acesso && modulo.acesso < 2
-              ? unidadePassagem(2)
-              : unidadePassagem(modulo.acesso)}{' '}
-            m
-          </span>
-          <span>
-            Escadas e Rampas: N = P/C = {modulo.populacao}/{divisao[div][1][1]}{' '}
-            = {modulo.escada && modulo.escada < 2 ? 2 : modulo.escada} U.P. ={' '}
-            {modulo.acesso && modulo.acesso < 2
-              ? unidadePassagem(2)
-              : unidadePassagem(modulo.escada)}{' '}
-            m
-          </span>
-          <span>
-            Portas: N = P/C = {modulo.populacao}/{divisao[div][1][2]} ={' '}
-            {modulo.porta <= 4
-              ? modulo.porta.toString().replace('.', ',')
-              : Math.ceil(modulo.porta)}{' '}
-            U.P. = {porta(modulo.porta)}
-          </span>
+          <div>
+            <span className="fw-bold">População: </span>
+            <span>{populacao} pessoas</span>
+          </div>
+          <div>
+            <span className="fw-bold">Acessos e Descargas: </span>
+            <span>
+              N = P/C = {populacao}/{divisao[div][1][0]} ={' '}
+              {transformarString(acesso)} ={' '}
+              {acesso && acesso < 2 ? 2 : Math.ceil(acesso)} U.P. ={' '}
+              {acesso && acesso < 2
+                ? unidadePassagem(2)
+                : unidadePassagem(acesso)}{' '}
+              m
+            </span>
+          </div>
+          <div>
+            <span className="fw-bold">Escadas e Rampas: </span>
+            <span>
+              N = P/C = {populacao}/{divisao[div][1][1]} ={' '}
+              {transformarString(escada)} ={' '}
+              {escada && escada < 2 ? 2 : Math.ceil(escada)} U.P. ={' '}
+              {escada && escada < 2
+                ? unidadePassagem(2)
+                : unidadePassagem(escada)}{' '}
+              m
+            </span>
+          </div>
+          <div>
+            <span className="fw-bold">Portas: </span>
+            <span>
+              N = P/C = {populacao}/{divisao[div][1][2]} ={' '}
+              {transformarString(porta)} ={' '}
+              {porta <= 4
+                ? porta.toString().replace('.', ',')
+                : Math.ceil(porta)}{' '}
+              U.P. = {calculoPorta(porta)}
+            </span>
+          </div>
         </div>
         <div>
           <button
             className="btn btn-secondary float-end"
-            onClick={() => onDelete(modulo.id)}
+            onClick={() => onDelete(id)}
           >
             Excluir
           </button>
