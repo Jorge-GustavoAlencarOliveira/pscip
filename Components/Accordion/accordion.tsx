@@ -39,7 +39,7 @@ const Accordion = ({ title = 'Accordion Title', show = false, children }: Accord
         style={
           collapse
             ? {
-                height: accordionBodyRef.current?.clientHeight + 250,
+                height: accordionBodyRef.current?.clientHeight,
                 transition: 'height 0.2s ease',
                 overflowY: 'auto'
               }

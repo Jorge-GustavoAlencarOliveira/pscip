@@ -1,47 +1,37 @@
 import React from 'react';
 import { DataStorage } from '../dataContext';
 import Accordion from '../Components/Accordion/accordion';
-import Pavimento from '../Bases/SaidadeEmergencia/pavimento';
 import Isolamento from '../Bases/Isolamento/Isolamento';
 import { medidasSeguranca } from '../Bases/medidas';
-
-interface dadosProps {
-  areaConstruida?: string;
-  areaAconstruir?: string;
-  altura?: string;
-  pavimentos?: string;
-  areaTotal?: number;
-  dataConstrucao?: string;
-  compartimentacao?: string;
-}
+import { dadosProps } from '../Components/Hooks/useDados';
 
 interface showMedidasProps {
   medidas: string[];
   dados: dadosProps;
-  ocupacao?: string;
+  divisao?: number[];
   ocupacoes?: number[][];
 }
 
 const ShowMedidas = ({
   medidas,
   dados,
-  ocupacao,
   ocupacoes,
+  divisao,
 }: showMedidasProps) => {
   const { valoresOcupacao } = React.useContext(DataStorage);
-  
+
   return (
-    <div className='my-4'>
+    <div className="my-4">
       {medidas?.map((item, index) => {
-        return(
+        return (
           <Accordion key={index} title={item}>
-            {medidasSeguranca(item)}
+            {medidasSeguranca({ medida: item, dados, ocupacoes, divisao })}
           </Accordion>
-        )
+        );
       })}
       {valoresOcupacao && valoresOcupacao.length > 1 && (
         <Accordion title="Separação entre Edificações">
-          <Isolamento/>
+          <Isolamento />
         </Accordion>
       )}
     </div>
@@ -50,7 +40,8 @@ const ShowMedidas = ({
 
 export default ShowMedidas;
 
-{/* <li>
+{
+  /* <li>
           <Link
             href={{
               pathname: '/medidas/isolamentoderisco',
@@ -59,7 +50,8 @@ export default ShowMedidas;
             >
             Separação entre edificações
           </Link>
-        </li> */}
+        </li> */
+}
 
 // const links = item
 //   .replaceAll(
@@ -77,15 +69,15 @@ export default ShowMedidas;
 //   .replaceAll('í', 'i')
 //   .toLowerCase();
 // return (
-  //   <li key={index}>
-  //     <Link
-  //       className="text-decoration-none"
-  //       href={{
-    //         pathname: `/medidas/${links}`,
-    //         query: query1,
-    //       }}
-    //     >
-    //       {item}
+//   <li key={index}>
+//     <Link
+//       className="text-decoration-none"
+//       href={{
+//         pathname: `/medidas/${links}`,
+//         query: query1,
+//       }}
+//     >
+//       {item}
 //     </Link>
 //   </li>
 // );

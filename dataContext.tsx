@@ -103,7 +103,6 @@ const DataContext = ({ children }: ProviderProps) => {
     setInformations(informacoes)
   }
 
-
   React.useEffect(() =>{
     async function checkLogin () {
       const {'@pscip.token': token} = parseCookies()

@@ -4,7 +4,7 @@ import Layout from '../../Components/layout';
 import { useRouter } from 'next/router';
 import canSSRAuth from './utils/canSSRAuth';
 import ModuloRegiao from '../../Components/Regiao-ocupacao/moduloRegiao';
-
+import ReservaTecnica from '../../Bases/ReservaTecnica/reserva';
 export default function Home() {
   const router = useRouter();
   return (

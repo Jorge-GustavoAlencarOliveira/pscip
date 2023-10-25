@@ -5,7 +5,7 @@ import { unidadePassagem, calculoPorta, transformarString } from './Calculo';
 
 interface ModuloProps {
   modulo: moduloProps;
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 const Modulo = ({ modulo, onDelete }: ModuloProps) => {
@@ -23,7 +23,7 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
   } = modulo;
   if (typeof div === 'number') {
     return (
-      <div className="d-flex justify-content-between mb-4 p-2 border border-secondary rounded-2">
+      <div className="d-flex justify-content-between mb-4 p-2 border border-primary rounded-2">
         <div className="d-flex flex-column gap-2">
           <div>
             <span className="fw-bold">Ambiente: </span>
@@ -93,7 +93,7 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
               N = P/C = {populacao}/{divisao[div][1][2]} ={' '}
               {transformarString(porta)} ={' '}
               {porta <= 4
-                ? porta.toString().replace('.', ',')
+                ? transformarString(porta)
                 : Math.ceil(porta)}{' '}
               U.P. = {calculoPorta(porta)}
             </span>

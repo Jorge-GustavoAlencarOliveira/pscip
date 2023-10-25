@@ -1,50 +1,56 @@
 import React from 'react';
 import { divisao, saidasEscadas } from './TabelaNumeroSaidas';
+import { dadosOcupacao } from '../finddados';
 
-interface numerosaidasProps {
-  ocupacao: string;
-  altura?: string;
+type numeroSaidaProps = {
+  altura: string;
+  ocupacoes: number[][];
+  divisao: number[]
+};
+
+function acharSaida(altura: number, div: number) {
+  if (altura <= 12) return saidasEscadas[div][0];
+  else if (altura > 12 && altura <= 30) return saidasEscadas[div][1];
+  else if (altura > 30 && altura <= 54) return saidasEscadas[div][2];
+  else if (altura > 54) return saidasEscadas[div][3];
 }
 
-const Numerodesaidas = ({ ocupacao, altura }: numerosaidasProps) => {
-  if (ocupacao) {
-    const div = divisao.indexOf(ocupacao);
-    if (div !== -1) {
-      if (Number(altura) <= 12) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas && saidasEscadas[div][0]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 12 && Number(altura) <= 30) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][1]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 30 && Number(altura) <= 54) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][2]}</p>
-          </div>
-        );
-      }
-      if (Number(altura) > 54) {
-        return (
-          <div>
-            <h1>Número de saídas</h1>
-            <p>{saidasEscadas[div][3]}</p>
-          </div>
-        );
-      }
-    }
+const Numerodesaidas = ({ altura, ocupacoes, divisao: ocup }: numeroSaidaProps) => {
+  if(ocup){
+    const {divisao: div1} = dadosOcupacao(ocup)
+    const div = divisao.indexOf(div1)
+    return (
+      <>
+        {ocup && (  
+            <div>
+              <h5 className='text-primary'>Número de saídas</h5>
+              <p>Divisão: {div1}</p>
+              <p>{acharSaida(Number(altura), div)}</p>
+            </div>
+         )}
+      </>
+    )
+  } else {
+    return (
+      <> 
+        {ocupacoes && ocupacoes?.map((item) => {
+          const {divisao: ocupacao} = dadosOcupacao(item);
+          const div = divisao.indexOf(ocupacao);
+          if (div !== -1) {
+            return (
+              <div>
+                <h5 className='text-primary'>Número de saídas</h5>
+              <p>Divisão: {ocupacao}</p>
+                <p>{acharSaida(Number(altura), div)}</p>
+              </div>
+            );
+          }
+        })}
+      </>
+    );
   }
-  return null;
 };
 
 export default Numerodesaidas;
+
+

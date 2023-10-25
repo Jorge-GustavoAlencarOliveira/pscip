@@ -5,7 +5,7 @@ import SaidaPavimento from './saidaPavimento';
 
 interface ModuloShowProps {
   modulos: moduloProps[];
-  onDeleteModulos: (id: number) => void;
+  onDeleteModulos?: (id: number) => void;
 }
 
 const ModuloShow = ({ modulos, onDeleteModulos }: ModuloShowProps) => {

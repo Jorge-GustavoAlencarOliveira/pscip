@@ -1,12 +1,14 @@
 export interface PavimentoProps {
   idPavimento: number;
   pavimento?: string;
+  dados?: moduloProps[]
 }
 
 type actionPavimento = {
   type: 'add' | 'delete';
   idPavimento: number;
   pavimento?: string;
+  dados?: moduloProps[]
 };
 
 export interface moduloProps {
@@ -42,6 +44,7 @@ export function pavimentoReducer( pavimento: PavimentoProps[], action: actionPav
         {
           idPavimento: action.idPavimento,
           pavimento: action.pavimento,
+          dados: action.dados
         },
       ];
     }

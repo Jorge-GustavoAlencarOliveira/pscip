@@ -115,7 +115,7 @@ const Result = () => {
                       <p>Carga incêndio: {item1[3] || cargaincendio} MJ/m²</p>
                       <div>
                         {medidas && (
-                          <ShowMedidas medidas={medidas} dados={dados[0]} ocupacao={divisao}/>
+                          <ShowMedidas medidas={medidas} dados={dados[0]} divisao={item1}/>
                         )}
                       </div>
                     </div>
@@ -150,6 +150,7 @@ const Result = () => {
                 <ShowMedidas
                   medidas={compartimentacaoCheck()}
                   dados={dados[0]}
+                  ocupacoes={dados[1]}
                 />
                 <p>Área construída: {areaConstruida} m²</p>
                 <p>

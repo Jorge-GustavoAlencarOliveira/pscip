@@ -1,7 +1,7 @@
 import React from 'react';
 import TabelaSaidaEmergencia from './tabelaSaidaEmergencia';
 import ModuloShow from './ModuloShow';
-import { moduloReducer } from './ModuloReducer';
+import { moduloReducer, moduloProps } from './ModuloReducer';
 import { handleCalcular, handleCalcular1 } from './Calculo';
 import { toast } from 'react-toastify';
 import ModalCenter from '../../Components/Modal/Modal';
@@ -10,11 +10,12 @@ import { somenteInteiro, formatarNumero } from '../formatarNumero';
 let id = 1;
 
 interface calculoSaidaProps {
-  pavimento: string | undefined;
-  onDelete: () => void;
+  pavimentoAdd: (value: moduloProps[]) => void
+  pavimento?: (value: string) => void;
+  nomePavimento: string
 }
 
-const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
+const CalculoSaidas = ({ pavimento, pavimentoAdd, nomePavimento }: calculoSaidaProps) => {
   const [modalShow, setModalShow] = React.useState(false);
   const { divisao } = TabelaSaidaEmergencia();
   const [div, setDiv] = React.useState<number>(0);
@@ -86,21 +87,26 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
   }
 
   return (
-    <div className="d-flex flex-column gap-2 mt-4 bg-light px-2 py-4">
+    <div className="d-flex flex-column gap-2 bg-light px-2 pb-4">
       <div className="d-flex justify-content-between align-items-center my-3">
-        <h5 className="fw-bold">Rota de fuga: {pavimento} </h5>
+        <div className="d-flex align-items-center gap-2 w-75">
+          <label className="fw-bold text-nowrap">Nome da rota de fuga: </label>
+          <input
+            type="text"
+            onChange={({ target }) => pavimento(target.value)}
+            value={nomePavimento}
+            className="form-control"
+          />
+        </div>
         <div>
           <button
-            className="btn btn-primary me-2"
+            className="btn btn-primary"
             onClick={() => {
               setModalShow(true);
               setDiv(0);
             }}
           >
             Adicionar ambiente
-          </button>
-          <button className="btn btn-secondary" onClick={onDelete}>
-            Excluir
           </button>
         </div>
       </div>
@@ -342,6 +348,11 @@ const CalculoSaidas = ({ pavimento, onDelete }: calculoSaidaProps) => {
       <div className="my-4">
         <ModuloShow modulos={modulo} onDeleteModulos={moduloDelete} />
       </div>
+      {modulo.length > 0 && (
+        <div>
+          <button className='btn btn-primary float-end' onClick={() => pavimentoAdd(modulo)}>Adicionar Rota</button>
+        </div>
+      )}
     </div>
   );
 };
