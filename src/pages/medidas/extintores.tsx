@@ -8,7 +8,6 @@ const ExtintoresPage = () => {
   if(typeof carga === "string"){
     return (
       <>
-        <Extintor cargaIncendio={carga}/>
       </>
     )
   }
