@@ -16,3 +16,15 @@ export function cleanNumber (number: string){
   const updateNumber = Number(number.replace('.', '').replace(',',''))
   return updateNumber
 }
+
+export function cleanNumberInteiro(value: string) {
+  const numero = Number(
+    parseFloat(
+      value
+        .replace(/[^0-9,.]/g, '')
+        .replace(/[.]/g, '')
+        .replace(',', '.'),
+    ),
+  );
+  return numero;
+}

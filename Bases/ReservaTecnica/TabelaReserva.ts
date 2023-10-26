@@ -46,46 +46,97 @@ export const reservaTecnica = [
 export const metodos = [
   {
     area: (area: number) => {
-      if (area <= 3000) return ['Tipo 1 R.I. 6m³', 'Tipo 2 R.I. 8m³'];
+      if (area <= 3000) return [['Tipo 1','R.I. 6m³',],['Tipo 2', 'R.I. 8m³']];
       if (area > 3000 && area <= 6000)
-        return ['Tipo 1 R.I. 8m³', 'Tipo 2 R.I. 12m³'];
+        return [['Tipo 1','R.I. 8m³',],['Tipo 2', 'R.I. 12m³']];
       if (area > 6000 && area <= 10000)
-        return ['Tipo 1 R.I. 12m³', 'Tipo 2 R.I. 16m³'];
+        return [['Tipo 1','R.I. 12m³'],['Tipo 2', 'R.I. 16m³']];
       if (area > 10000 && area <= 15000)
-        return ['Tipo 1 R.I. 16m³', 'Tipo 2 R.I. 20m³'];
+        return [['Tipo 1','R.I. 16m³'],['Tipo 2', 'R.I. 20m³']];
       if (area > 15000 && area <= 30000)
-        return ['Tipo 1 R.I. 25m³', 'Tipo 2 R.I. 35m³'];
-      if (area > 30000) return ['Tipo 1 R.I. 35m³', 'Tipo 2 R.I. 47m³'];
+        return [['Tipo 1','R.I. 25m³'],['Tipo 2', 'R.I. 35m³']];
+      if (area > 30000) return [['Tipo 1','R.I. 35m³'],['Tipo 2', 'R.I. 47m³']];
     },
   },
   {
     area: (area: number) => {
-      if (area < 3000) return ['Tipo 3 R.I. 12m³'];
-      if (area > 3000 && area <= 6000) return ['Tipo 3 R.I. 18m³'];
-      if (area > 6000 && area <= 10000) return ['Tipo 3 R.I. 25m³'];
-      if (area > 10000 && area <= 15000) return ['Tipo 3 R.I. 30m³'];
-      if (area > 15000 && area <= 30000) return ['Tipo 3 R.I. 40m³'];
-      if (area > 30000) return ['Tipo 3 R.I. 60m³'];
+      if (area < 3000) return [['Tipo 3', 'R.I. 12m³']];
+      if (area > 3000 && area <= 6000) return [['Tipo 3', 'R.I. 18m³']];
+      if (area > 6000 && area <= 10000) return [['Tipo 3', 'R.I. 25m³']];
+      if (area > 10000 && area <= 15000) return [['Tipo 3', 'R.I. 30m³']];
+      if (area > 15000 && area <= 30000) return [['Tipo 3', 'R.I. 40m³']];
+      if (area > 30000) return [['Tipo 3', 'R.I. 60m³']];
     },
   },
   {
     area: (area: number) => {
-      if (area < 3000) return ['Tipo 3 R.I. 20m³'];
-      if (area > 3000 && area <= 6000) return ['Tipo 4 R.I. 20m³'];
-      if (area > 6000 && area <= 10000) return ['Tipo 4 R.I. 30m³'];
-      if (area > 10000 && area <= 15000) return ['Tipo 5 R.I. 45m³'];
-      if (area > 15000 && area <= 30000) return ['Tipo 5 R.I. 50m³'];
-      if (area > 30000) return ['Tipo 5 R.I. 90m³'];
+      if (area < 3000) return [['Tipo 3', 'R.I. 20m³']];
+      if (area > 3000 && area <= 6000) return [['Tipo 4', 'R.I. 20m³']];
+      if (area > 6000 && area <= 10000) return [['Tipo 4', 'R.I. 30m³']];
+      if (area > 10000 && area <= 15000) return [['Tipo 5', 'R.I. 45m³']];
+      if (area > 15000 && area <= 30000) return [['Tipo 5', 'R.I. 50m³']];
+      if (area > 30000) return [['Tipo 5', 'R.I. 90m³']];
     },
   },
   {
     area: (area: number) => {
-      if (area < 3000) return ['Tipo 3 R.I. 20m³'];
-      if (area > 3000 && area <= 6000) return ['Tipo 4 R.I. 30m³'];
-      if (area > 6000 && area <= 10000) return ['Tipo 5 R.I. 50m³'];
-      if (area > 10000 && area <= 15000) return ['Tipo 5 R.I. 80m³'];
-      if (area > 15000 && area <= 30000) return ['Tipo 5 R.I. 110m³'];
-      if (area > 30000) return ['Tipo 5 R.I. 140m³'];
+      if (area < 3000) return [['Tipo 3', 'R.I. 20m³']];
+      if (area > 3000 && area <= 6000) return [['Tipo 4', 'R.I. 30m³']];
+      if (area > 6000 && area <= 10000) return [['Tipo 5', 'R.I. 50m³']];
+      if (area > 10000 && area <= 15000) return [['Tipo 5', 'R.I. 80m³']];
+      if (area > 15000 && area <= 30000) return [['Tipo 5', 'R.I. 110m³']];
+      if (area > 30000) return [['Tipo 5', 'R.I. 140m³']];
     },
   },
 ];
+
+export function definirReserva(
+  metodo: number,
+  cargaincendio: number,
+  area: number,
+  ocupacao: string,
+):(string[] | string[][]) {
+  if (metodo === 4 && ocupacao === 'F-1' && cargaincendio > 300) {
+    return metodos[2]?.area(area);
+  } else if (
+    (metodo === 4 && cargaincendio <= 300 && ocupacao === 'D-1') ||
+    ocupacao === 'D-3' ||
+    ocupacao === 'D-4' ||
+    ocupacao === 'F-1' ||
+    ocupacao === 'F-10' ||
+    ocupacao === 'F-11 ' ||
+    ocupacao === 'G-4' ||
+    ocupacao === 'M-3'
+  ) {
+    return metodos[0]?.area(area);
+  } else if (
+    (metodo === 4 && cargaincendio > 300 && ocupacao === 'D-1') ||
+    ocupacao === 'D-3' ||
+    ocupacao === 'D-4' ||
+    ocupacao === 'F-11' ||
+    ocupacao === 'G-4'
+  ) {
+    return metodos[1]?.area(area);
+  } else if (
+    (metodo === 4 && cargaincendio > 800 && ocupacao === 'C-2') ||
+    ocupacao === 'F-10' ||
+    ocupacao === 'I-2' ||
+    ocupacao === 'J-3' ||
+    ocupacao === 'M-3'
+  ) {
+    return metodos[2]?.area(area);
+  } else if (
+    (metodo === 4 &&
+      cargaincendio > 300 &&
+      cargaincendio <= 800 &&
+      ocupacao === 'C-2') ||
+    ocupacao === 'F-10' ||
+    ocupacao === 'I-2' ||
+    ocupacao === 'J-3' ||
+    ocupacao === 'M-3'
+  ) {
+    return metodos[1]?.area(area);
+  } else {
+    return metodos[metodo]?.area(area);
+  }
+}

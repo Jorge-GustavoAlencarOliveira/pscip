@@ -10,9 +10,8 @@ interface ModuloProps {
 }
 
 const Modulo = ({ modulo, onDelete }: ModuloProps) => {
+  const {pavimento, divisao: div, populacao, brigadistas} = modulo
   const { tabelaBrigada } = TabelaBrigada();
-  if (typeof modulo.divisao === 'number') {
-    const descricao = tabelaBrigada[modulo.divisao].descricao;
     return (
       <div>
         <button className='btn btn-secondary float-end my-2' onClick={() => onDelete(modulo.id)}>
@@ -22,39 +21,36 @@ const Modulo = ({ modulo, onDelete }: ModuloProps) => {
           <thead>
             <tr>
               <th>Pavimento:</th>
-              <th>{modulo.pavimento}</th>
+              <th>{pavimento}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Divisão</td>
-              <td>{divisao[modulo.divisao]}</td>
+              <td>{divisao[div]}</td>
             </tr>
             <tr>
               <td>População fixa</td>
-              <td>{modulo.populacao}</td>
+              <td>{populacao}</td>
             </tr>
             <tr>
               <td>Numero de Brigadistas</td>
-              <td>{modulo.brigadistas}</td>
+              <td>{brigadistas}</td>
             </tr>
             <tr>
               <td>Nivel de Treinamento exigido</td>
-              <td>{tabelaBrigada[modulo.divisao].exigido}</td>
+              <td>{tabelaBrigada[div].exigido}</td>
             </tr>
             <tr>
               <td>Nivel de Treinamento recomendado:</td>
-              <td>{tabelaBrigada[modulo.divisao].recomendado}</td>
+              <td>{tabelaBrigada[div].recomendado}</td>
             </tr>
           </tbody>
         </Table>
-        {descricao?.map((item, index) => {
-          return <li key={index}>{item}</li>;
-        })}
+ 
       </div>
     );
   }
-  return null;
-};
+
 
 export default Modulo;

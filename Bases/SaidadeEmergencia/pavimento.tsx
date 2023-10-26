@@ -27,6 +27,10 @@ const Pavimento = () => {
     setModalShow(false);
   }
 
+  function resetNomePavimento (){
+    setNomePavimento('')
+  }
+
   function pavimentoNome(value: string) {
     setNomePavimento(value);
   }
@@ -58,6 +62,7 @@ const Pavimento = () => {
           nomePavimento={nomePavimento}
           pavimento={pavimentoNome}
           pavimentoAdd={pavimentoAdd}
+          resetNomePavimento={resetNomePavimento}
         />
       </ModalCenter>
       {pavimento.length > 0 &&

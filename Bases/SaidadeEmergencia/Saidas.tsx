@@ -10,12 +10,18 @@ import { somenteInteiro, formatarNumero } from '../formatarNumero';
 let id = 1;
 
 interface calculoSaidaProps {
-  pavimentoAdd: (value: moduloProps[]) => void
+  pavimentoAdd: (value: moduloProps[]) => void;
   pavimento?: (value: string) => void;
-  nomePavimento: string
+  nomePavimento: string;
+  resetNomePavimento: () => void;
 }
 
-const CalculoSaidas = ({ pavimento, pavimentoAdd, nomePavimento }: calculoSaidaProps) => {
+const CalculoSaidas = ({
+  pavimento,
+  pavimentoAdd,
+  nomePavimento,
+  resetNomePavimento,
+}: calculoSaidaProps) => {
   const [modalShow, setModalShow] = React.useState(false);
   const { divisao } = TabelaSaidaEmergencia();
   const [div, setDiv] = React.useState<number>(0);
@@ -350,7 +356,15 @@ const CalculoSaidas = ({ pavimento, pavimentoAdd, nomePavimento }: calculoSaidaP
       </div>
       {modulo.length > 0 && (
         <div>
-          <button className='btn btn-primary float-end' onClick={() => pavimentoAdd(modulo)}>Adicionar Rota</button>
+          <button
+            className="btn btn-primary float-end"
+            onClick={() => {
+              pavimentoAdd(modulo);
+              resetNomePavimento();
+            }}
+          >
+            Adicionar Rota
+          </button>
         </div>
       )}
     </div>

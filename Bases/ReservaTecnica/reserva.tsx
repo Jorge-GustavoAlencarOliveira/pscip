@@ -1,92 +1,106 @@
 import React from 'react';
-import { reservaTecnica, metodos } from './TabelaReserva';
+import { reservaTecnica, metodos, definirReserva } from './TabelaReserva';
 import { dadosOcupacao } from '../finddados';
-
+import { Table } from 'react-bootstrap';
 interface reservaProps {
   area: string;
   ocupacoes: number[][];
   divisao: number[];
 }
 
-function definirReserva(
-  metodo: number,
-  cargaincendio: number,
-  area: number,
-  ocupacao: string,
-) {
-  if (metodo === 4 && ocupacao === 'F-1' && cargaincendio > 300) {
-    return metodos[2]?.area(area);
-  } else if (
-    (metodo === 4 && cargaincendio <= 300 && ocupacao === 'D-1') ||
-    ocupacao === 'D-3' ||
-    ocupacao === 'D-4' ||
-    ocupacao === 'F-1' ||
-    ocupacao === 'F-10' ||
-    ocupacao === 'F-11 ' ||
-    ocupacao === 'G-4' ||
-    ocupacao === 'M-3'
-  ) {
-    return metodos[0]?.area(area);
-  } else if (
-    (metodo === 4 && cargaincendio > 300 && ocupacao === 'D-1') ||
-    ocupacao === 'D-3' ||
-    ocupacao === 'D-4' ||
-    ocupacao === 'F-11' ||
-    ocupacao === 'G-4'
-  ) {
-    return metodos[1]?.area(area);
-  } else if (
-    (metodo === 4 && cargaincendio > 800 && ocupacao === 'C-2') ||
-    ocupacao === 'F-10' ||
-    ocupacao === 'I-2' ||
-    ocupacao === 'J-3' ||
-    ocupacao === 'M-3'
-  ) {
-    return metodos[2]?.area(area);
-  } else if (
-    (metodo === 4 &&
-      cargaincendio > 300 &&
-      cargaincendio <= 800 &&
-      ocupacao === 'C-2') ||
-    ocupacao === 'F-10' ||
-    ocupacao === 'I-2' ||
-    ocupacao === 'J-3' ||
-    ocupacao === 'M-3'
-  ) {
-    return metodos[1]?.area(area);
-  } else {
-    return metodos[metodo]?.area(area);
-  }
-}
-
 const ReservaTecnica = ({ area, ocupacoes, divisao }: reservaProps) => {
+  const numero = Number(
+    parseFloat(
+      area
+        .replace(/[^0-9,.]/g, '')
+        .replace(/[.]/g, '')
+        .replace(',', '.'),
+    ),
+  );
   if (divisao) {
     const { divisao: ocupacao, cargaincendio } = dadosOcupacao(divisao);
     const metodo = reservaTecnica
       .map((item) => item.includes(ocupacao))
       .findIndex((item) => item === true);
-    const numero = Number(
-      parseFloat(
-        area
-          .replace(/[^0-9,.]/g, '')
-          .replace(/[.]/g, '')
-          .replace(',', '.'),
-      ),
-    )
     return (
       <>
-        <h5 className='text-primary'>Reserva Técnica</h5>
-        {
-          definirReserva(metodo, cargaincendio, numero, ocupacao)?.map(
-            (item, index) => {
-              return <span className='d-block' key={index}>{item}</span>;
-            },
-          )
-        }
-          </>
+        <h5 className="text-primary">Reserva Técnica</h5>
+        <h6 className="fw-bold text-primary text-center">
+                Divisão: {ocupacao}
+              </h6>
+        <Table className="table-primary text-center" striped bordered>
+          <thead>
+            <tr className="fw-bold">
+              <td>Tipo de hidrante</td>
+              <td>Volume Reserva Técnica</td>
+            </tr>
+          </thead>
+          <tbody>
+            {definirReserva(metodo, cargaincendio, numero, ocupacao)?.map(
+              (item, index) => {
+                if(metodo !== 0){
+                  return (
+                    <tr>
+                      <td>{item[0]}</td>
+                      <td>{item[1]}</td>
+                    </tr>
+                  );
+                } else {
+                  return (
+                    <tr>
+                      <td>{item[0]}</td>
+                      <td>{item[1]}</td>
+                    </tr>
+                  );
+                }
+              },
+            )}
+          </tbody>
+        </Table>
+      </>
     );
   }
-  return null
+  if (ocupacoes) {
+    return (
+      <>
+        <h5 className="text-primary">Reserva Técnica</h5>
+        {ocupacoes.map((item) => {
+          const { divisao: ocupacao, cargaincendio } = dadosOcupacao(item);
+          const metodo = reservaTecnica
+            .map((item) => item.includes(ocupacao))
+            .findIndex((item) => item === true);
+          return (
+            <>
+              <h6 className="fw-bold text-primary text-center">
+                Divisão: {ocupacao}
+              </h6>
+              <Table className="table-primary text-center" striped bordered>
+                <thead>
+                  <tr className="fw-bold">
+                    <td>Tipo de hidrante</td>
+                    <td>Volume Reserva Técnica</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {definirReserva(metodo, cargaincendio, numero, ocupacao)?.map(
+                    (item, index) => {
+                      return (
+                        <tr>
+                          <td>{item[0]}</td>
+                          <td>{item[1]}</td>
+                        </tr>
+                      );
+                    },
+                  )}
+                </tbody>
+              </Table>
+            </>
+          );
+        })}
+      </>
+    );
+  }
+  return null;
 };
 
 export default ReservaTecnica;
