@@ -1,73 +1,17 @@
 import React from 'react';
-import { QuadroinformativoReducer } from './QuadroReducer';
 import ModuloShow from './ModuloShow';
-import { medidas } from './MedidasTabela';
-import { OcupacaoReducer } from './QuadroReducer';
+import { TabelasQuadro } from './MedidasTabela';
 import Ocupacao from '../Ocupacao/ocupacao';
 import { pdfQuadroInformavitvo } from '../geradorPdf/pdfQuadroInformativo';
 import ModalCenter from '../Components/Modal/Modal';
-
-let i = 0;
-let id = 0;
+import { QuadroInformativoContext } from './useContext';
 
 const Quadroinformativo = () => {
-  const [selectMedidas, setSelectMedidas] = React.useState(0);
-  const [selectNorma, setSelectNorma] = React.useState(0);
-  const [modulos, dispatch] = React.useReducer(QuadroinformativoReducer, []);
-  const [ocupacao, dispatchOcupacao] = React.useReducer(OcupacaoReducer, []);
+  const { selecionarMedidas, handleAdd, handleAddOcupacao, ocupacao, modulos, norma, tabela, construcao } =
+    React.useContext(QuadroInformativoContext);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalShow1, setModalShow1] = React.useState(false);
-
-  React.useEffect(() => {
-    medidas.map((item, index) => {
-      if(index <= 3)
-      dispatch({
-        type: 'add',
-        id: i++,
-        medida: item[0],
-        referencia: item[1],
-      });
-    });
-  }, []);
-
-  function handleAddOcupacao(ocup: number, div: number, desc: number) {
-    dispatchOcupacao({
-      type: 'add',
-      id: id++,
-      ocupacao: [ocup, div, desc],
-    });
-  }
-
-  function handleDeleteOcupacao(id: number) {
-    dispatchOcupacao({
-      type: 'delete',
-      id: id,
-    });
-  }
-
-  function handleAdd() {
-    dispatch({
-      type: 'add',
-      id: i++,
-      medida: medidas[selectMedidas][0],
-      referencia: medidas[selectMedidas][1],
-    });
-  }
-
-  function handleReferencia(id: number, referencia: string) {
-    dispatch({
-      type: 'referencia',
-      id: id,
-      referencia: referencia,
-    });
-  }
-
-  function handleDelete(id: number) {
-    dispatch({
-      type: 'delete',
-      id: id,
-    });
-  }
+  const { medidas } = TabelasQuadro();
 
   return (
     <>
@@ -82,7 +26,7 @@ const Quadroinformativo = () => {
             <label className="fw-bold">Medida:</label>
             <select
               className="form-select"
-              onChange={({ target }) => setSelectMedidas(+target.value)}
+              onChange={({ target }) => selecionarMedidas(+target.value)}
             >
               {medidas.map((item, index) => {
                 return (
@@ -96,8 +40,8 @@ const Quadroinformativo = () => {
           <div>
             <button
               onClick={() => {
-                handleAdd()
-                setModalShow(false)
+                handleAdd();
+                setModalShow(false);
               }}
               className="btn btn-primary float-end my-2"
             >
@@ -106,20 +50,14 @@ const Quadroinformativo = () => {
           </div>
         </div>
       </ModalCenter>
-
       <ModalCenter
         show={modalShow1}
         onHide={() => setModalShow1(false)}
         header="Selecione a ocupação/divisão desejada:"
       >
-        <Ocupacao add={handleAddOcupacao} onHide={() => setModalShow1(false)}/>
+        <Ocupacao add={handleAddOcupacao} onHide={() => setModalShow1(false)} />
       </ModalCenter>
       <ModuloShow
-        onDelete={handleDelete}
-        modulos={modulos}
-        referencia={handleReferencia}
-        ocupacao={ocupacao}
-        Delete={handleDeleteOcupacao}
         showModal={() => setModalShow(true)}
         showModal1={() => setModalShow1(true)}
       />
@@ -128,7 +66,7 @@ const Quadroinformativo = () => {
           disabled={ocupacao.length === 0 ? true : false}
           className="btn btn-primary float-end"
           onClick={() => {
-            pdfQuadroInformavitvo({ modulos, ocupacao1: ocupacao });
+            pdfQuadroInformavitvo({ modulos, ocupacao1: ocupacao, norma, tabela, construcao });
           }}
         >
           Gerar Quadro Informativo

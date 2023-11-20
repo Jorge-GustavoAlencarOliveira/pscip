@@ -124,7 +124,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco1?.maiorDimensao,
+        text: modulos.risco1?.maiorDimensao.toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -138,7 +138,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco1?.menorDimensao,
+        text: modulos.risco1?.menorDimensao.toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -152,7 +152,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco1?.areaFachada?.toFixed(2),
+        text: modulos.risco1?.areaFachada?.toFixed(2).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -194,7 +194,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco1?.x?.toFixed(2)),
+        text: String(modulos.risco1?.x?.toFixed(2)).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -208,7 +208,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco1?.abertura),
+        text: String(modulos.risco1?.abertura).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -222,7 +222,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco1?.y?.toFixed(2)),
+        text: String(modulos.risco1?.y?.toFixed(2)).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -236,7 +236,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco1?.alfa),
+        text: String(modulos.risco1?.alfa).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -250,7 +250,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: 'ß = ' + String(modulos.risco1?.bombeiro),
+        text: 'ß = ' + String(modulos.risco1?.bombeiro).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -264,7 +264,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco1?.distancia?.toFixed(2)),
+        text: String(modulos.risco1?.distancia?.toFixed(2)).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -292,7 +292,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(distancia1),
+        text: String(distancia1).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -406,7 +406,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco2?.maiorDimensao,
+        text: modulos.risco2?.maiorDimensao.toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -420,7 +420,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco2?.menorDimensao,
+        text: modulos.risco2?.menorDimensao.toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -434,7 +434,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: modulos.risco2?.areaFachada?.toFixed(2),
+        text: modulos.risco2?.areaFachada?.toFixed(2).toString().replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -476,7 +476,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.x?.toFixed(2)),
+        text: String(modulos.risco2?.x?.toFixed(2)).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -490,7 +490,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.abertura),
+        text: String(modulos.risco2?.abertura).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -504,7 +504,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.y?.toFixed(2)),
+        text: String(modulos.risco2?.y?.toFixed(2)).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -518,7 +518,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.alfa),
+        text: String(modulos.risco2?.alfa).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -532,7 +532,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: 'ß = ' + String(modulos.risco2?.bombeiro),
+        text: 'ß = ' + String(modulos.risco2?.bombeiro).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -546,7 +546,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.distancia?.toFixed(2)),
+        text: String(modulos.risco2?.distancia?.toFixed(2)).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],
@@ -560,7 +560,7 @@ const PdfIsolamento = (modulos: moduloProps) => {
         style: 'valorTabela',
       },
       {
-        text: String(modulos.risco2?.Dprojeto),
+        text: String(modulos.risco2?.Dprojeto).replaceAll('.',','),
         style: 'valorModulo',
       },
     ],

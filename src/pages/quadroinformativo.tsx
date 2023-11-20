@@ -2,6 +2,7 @@ import React from 'react'
 import Quadroinformativo from '../../QuadroInformativo/Quadroinformativo'
 import Layout from '../../Components/layout'
 import canSSRAuth from './utils/canSSRAuth'
+import ContextQuadroInformativo from '../../QuadroInformativo/useContext'
 interface MedidasProps{
   medidas: string
 }
@@ -10,7 +11,9 @@ const QuadroinformativoPage = ({medidas}:MedidasProps) => {
   return (
     <>
       <Layout>
-        <Quadroinformativo/>
+        <ContextQuadroInformativo>
+          <Quadroinformativo/>
+        </ContextQuadroInformativo>
       </Layout>
     </>
   )

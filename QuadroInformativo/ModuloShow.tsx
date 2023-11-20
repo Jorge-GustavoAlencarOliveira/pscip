@@ -1,29 +1,20 @@
 import React from 'react';
-import { modulosProps } from './QuadroReducer';
 import Modulo from './Modulo';
 import { Table } from 'react-bootstrap';
-import { ocupacaoModulosProps } from './QuadroReducer';
 import ShowOcupacao from '../Ocupacao/showOcupacao';
 import { FaPlus } from 'react-icons/fa';
+import { TabelasQuadro } from './MedidasTabela';
+import { QuadroInformativoContext } from './useContext';
+
 interface moduloShowProps {
-  ocupacao: ocupacaoModulosProps[];
-  modulos: modulosProps[];
-  onDelete: (id: number) => void;
-  referencia: (id: number, referencia: string) => void;
-  Delete: (id: number) => void;
   showModal: () => void;
   showModal1: () => void;
 }
 
-const ModuloShow = ({
-  modulos,
-  onDelete,
-  referencia,
-  ocupacao,
-  Delete,
-  showModal,
-  showModal1,
-}: moduloShowProps) => {
+const ModuloShow = ({showModal, showModal1}:moduloShowProps) => {
+  const {normas, tabelas, dataconstrucao} = TabelasQuadro()
+  const {norma, selecionarNorma, modulos, ocupacao, handleDeleteOcupacao, tabela, selecionarTabela, construcao, selecionarConstrucao} = React.useContext(QuadroInformativoContext)
+
   return (
     <>
       <Table bordered className="table-primary">
@@ -39,15 +30,37 @@ const ModuloShow = ({
             <td style={{ width: '20%' }}>
               Norma adotada para definição de medidas
             </td>
-            <td colSpan={5}>Decreto nº 47.998/2020</td>
+            <td colSpan={5}>
+              <select value={norma} onChange={({target}) => selecionarNorma(+target.value)}>
+                 {normas.map((item, index) => 
+                  <option key={index} value={index}>
+                     {item}
+                  </option>
+                 )}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Tabela</td>
-            <td colSpan={5}>Tabela 05 da IT 01 10ª Edição</td>
+            <td colSpan={5}>
+              <select value={tabela} onChange={({target}) => selecionarTabela(+target.value)}>
+                {tabelas.map((item, index) => 
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                )}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Situação da Edificação</td>
-            <td colSpan={5}>Construída</td>
+            <td colSpan={5}><select value={construcao} onChange={({target}) => selecionarConstrucao(+target.value)}>
+                {dataconstrucao.map((item, index) => 
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                )}
+              </select></td>
           </tr>
         </tbody>
         <thead>
@@ -69,8 +82,6 @@ const ModuloShow = ({
               <Modulo
                 key={item.id}
                 modulo={item}
-                onDelete={onDelete}
-                referencia={referencia}
               />
             );
           })}
@@ -100,7 +111,7 @@ const ModuloShow = ({
               <ShowOcupacao
                 key={index}
                 modulo={item.ocupacao}
-                onDelete={() => Delete(item.id)}
+                onDelete={() => handleDeleteOcupacao(item.id)}
               />
             );
           })}

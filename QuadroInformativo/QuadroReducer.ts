@@ -41,10 +41,9 @@ export const QuadroinformativoReducer = (
       return modulos.filter((item) => item.id !== action.id);
     }
     case 'referencia': {
-      modulos.filter((item) => {
-        if (item.id === action.id) item.referencia = action.referencia;
-      });
-      return [...modulos];
+        const index = modulos.findIndex(item => item.id === action.id)
+        modulos[index].referencia = action.referencia;
+        return [...modulos]
     }
     default: {
       throw Error('Ação desconhecida');

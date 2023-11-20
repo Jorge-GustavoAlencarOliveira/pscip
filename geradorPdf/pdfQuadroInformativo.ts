@@ -3,19 +3,22 @@ import { modulosProps } from '../QuadroInformativo/QuadroReducer';
 import { ocupacaoModulosProps } from '../QuadroInformativo/QuadroReducer';
 import TabelaDescricao from '../Tabelas/tabelaDescricao';
 import TabelaOcupacao from '../Tabelas/tabelaOcupacao';
-
+import { TabelasQuadro } from '../QuadroInformativo/MedidasTabela';
 const pdfMake = require('pdfmake/build/pdfmake');
 
 interface DadosProps {
   modulos: modulosProps[],
-  ocupacao1: ocupacaoModulosProps[]
+  ocupacao1: ocupacaoModulosProps[],
+  norma: number, 
+  tabela: number,
+  construcao: number 
 }
 
 const {descricao} = TabelaDescricao();
 const {ocupacao, grupo} = TabelaOcupacao()
-
-const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
-
+const {normas, tabelas, dataconstrucao} = TabelasQuadro()
+const pdfQuadroInformavitvo = ({modulos, ocupacao1, norma, tabela, construcao}:DadosProps) => {
+  
   const medidas = modulos?.map(item => {
     return [
       {text: item?.medida,
@@ -121,7 +124,7 @@ const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
             },
             {},
             {
-              text: 'Decreto nº 47.998/2020',
+              text: normas[norma],
               colSpan: 3,
               style: 'tableHeader',
             },
@@ -139,7 +142,7 @@ const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
             },
             {},
             {
-              text: 'Tabela 05 da IT 01 10ª Edição',
+              text: tabelas[tabela],
               colSpan: 3,
               style: 'tableHeader',
             },
@@ -157,7 +160,7 @@ const pdfQuadroInformavitvo = ({modulos, ocupacao1}:DadosProps) => {
             },
             {},
             {
-              text: 'Construída',
+              text: dataconstrucao[construcao],
               colSpan: 3,
               style: 'tableHeader',
             },

@@ -2,6 +2,9 @@ import React from 'react';
 import Layout from '../../Components/layout';
 import { useRouter } from 'next/router';
 import canSSRAuth from './utils/canSSRAuth';
+import Isolamento from '../../Bases/Isolamento/Isolamento';
+import Brigada from '../../Bases/Brigada/Brigada';
+import NivelDeRisco from '../../Bases/NiveldeRisco';
 
 export default function Home() {
   const router = useRouter();
@@ -15,6 +18,9 @@ export default function Home() {
           >
             Iniciar Projeto
           </button>
+          {/* <Isolamento />
+          <Brigada /> */}
+          <NivelDeRisco/>
         </div>
       </Layout>
     </>
