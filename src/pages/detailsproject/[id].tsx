@@ -6,7 +6,6 @@ import { setupAPIClient } from '@/services/api';
 import { Table } from 'react-bootstrap';
 import TabelaDescricao from '../../../Tabelas/tabelaDescricao';
 import { listaOcupacao } from '../../../Ocupacoes/ListaOcupacoes';
-import ShowMedidas from '../../../result/showMedidas';
 import { informacoesProps } from '../../../Components/Hooks/useDados';
 import { RegiaomoduloProps } from '../../../Components/Regiao-ocupacao/regiaoReducer';
 
@@ -52,7 +51,7 @@ const DetailsProject = ({ project }: projectProps) => {
             </tr>
           </tbody>
         </Table>
-        {project?.edificacao?.map(({ id, dados }, index) => {
+        {/* {project?.edificacao?.map(({ id, dados }, index) => {
           const {
             altura,
             areaTotal,
@@ -109,7 +108,6 @@ const DetailsProject = ({ project }: projectProps) => {
                         <p>Carga incêndio: {item1[3] || cargaincendio} MJ/m²</p>
                         <div>
                           {medidas && (
-                            <ShowMedidas medidas={medidas} dados={dados[0]} />
                           )}
                         </div>
                       </div>
@@ -161,7 +159,7 @@ const DetailsProject = ({ project }: projectProps) => {
               )}
             </>
           );
-        })}
+        })} */}
       </Layout>
     </>
   );
