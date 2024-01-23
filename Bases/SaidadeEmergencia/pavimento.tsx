@@ -5,16 +5,13 @@ import CalculoSaidas from './Saidas';
 import ModalCenter from '../../Components/Modal/Modal';
 import { moduloProps } from './ModuloReducer';
 import ModuloShow from './ModuloShow';
-import Accordion from '../../Components/Accordion/accordion';
 let idPavimento = 1;
 
-const Pavimento = () => {
+const Pavimento = ({ calculadora }: { calculadora?: boolean }) => {
   const [pavimento, dispatchPavimento] = React.useReducer(pavimentoReducer, []);
   const [nomePavimento, setNomePavimento] = React.useState('');
   const [modalShow, setModalShow] = React.useState(false);
   const [modalRotaShow, setModalRotaShow] = React.useState(false);
-
-  console.log(pavimento);
 
   function pavimentoAdd(modulo: moduloProps[]) {
     if (nomePavimento === '') return toast.info('Dê um nome ao pavimento');
@@ -27,8 +24,8 @@ const Pavimento = () => {
     setModalShow(false);
   }
 
-  function resetNomePavimento (){
-    setNomePavimento('')
+  function resetNomePavimento() {
+    setNomePavimento('');
   }
 
   function pavimentoNome(value: string) {
@@ -44,27 +41,43 @@ const Pavimento = () => {
 
   return (
     <div className="d-flex flex-column gap-2">
-      <div className='d-flex justify-content-between align-items-center mb-4'>
-        <h5 className="text-primary">Dimensionamento de saídas de emergencia</h5>
-        <div>
-          <button className="btn btn-primary float-end" onClick={() => setModalShow(true)}>
-            Dimensionar rota de fuga
-          </button>
-        </div>
-      </div>
-      <ModalCenter
-        header="Dimensione a rota de fuga"
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        size="xl"
-      >
+      {calculadora ? (
         <CalculoSaidas
           nomePavimento={nomePavimento}
           pavimento={pavimentoNome}
           pavimentoAdd={pavimentoAdd}
           resetNomePavimento={resetNomePavimento}
         />
-      </ModalCenter>
+      ) : (
+        <div>
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h5 className="text-primary">
+              Dimensionamento de saídas de emergencia
+            </h5>
+            <div>
+              <button
+                className="btn btn-primary float-end"
+                onClick={() => setModalShow(true)}
+              >
+                Dimensionar rota de fuga
+              </button>
+            </div>
+          </div>
+          <ModalCenter
+            header="Dimensione a rota de fuga"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            size="xl"
+          >
+            <CalculoSaidas
+              nomePavimento={nomePavimento}
+              pavimento={pavimentoNome}
+              pavimentoAdd={pavimentoAdd}
+              resetNomePavimento={resetNomePavimento}
+            />
+          </ModalCenter>
+        </div>
+      )}
       {pavimento.length > 0 &&
         pavimento.map((item) => {
           return (

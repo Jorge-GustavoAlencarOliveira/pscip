@@ -6,13 +6,7 @@ import styles from '../../src/pages/home.module.css'
 const Sidebar = () => {
   return (
     <div className={`bg-primary px-3 ${styles.SideBar}`}>
-      <nav className='d-flex flex-column gap-3 py-5 '>
-        <Link href='/meusprojetos' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
-          <FaReadme /> 
-          <span>
-          Meus Projetos
-          </span>
-         </Link>
+      <nav className='d-flex flex-column gap-3 pt-5 '>
          <Link href='/minhaconta' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaUser /> 
           <span>
@@ -28,10 +22,10 @@ const Sidebar = () => {
          <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaBook /> 
           <span>
-          Memoriais de incêndio
+          Memoriais
           </span>
          </Link>
-         <Link href='#' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
+         <Link href='/calculadoras' className='d-flex gap-2 align-items-center text-decoration-none text-white'>
           <FaCalculator /> 
           <span>
           Calculadoras

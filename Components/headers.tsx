@@ -19,10 +19,9 @@ const Header = () => {
         <span className='d-none d-sm-block'>Bem vindo <strong>{user?.name}</strong></span>
         <button
           onClick={userSignOut}
-          className="d-none d-sm-block btn btn-primary d-flex justify-content-between align-items-center gap-2"
+          className="d-none d-sm-block btn btn-secondary d-flex justify-content-between align-items-center gap-2"
         >
-          <FaSignOutAlt size={20} color="text-primary" />
-          <span>Sair</span>
+          Sair
         </button>
         <button
           onClick={userSignOut}

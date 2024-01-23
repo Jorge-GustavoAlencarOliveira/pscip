@@ -40,25 +40,26 @@ const Cnae = () => {
             <li key={index}>{item}</li>
           )
         })}
-        {/* {result.length > 0 && 
-          <Table bordered >
-            <thead>
-              <tr>
-                <td>CNAE</td>
-                <td>DENOMINAÇÃO</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{resultapi[0]?.id}</td>
-                <td>{resultapi[0]?.descricao}</td>
-              </tr>
-            </tbody>
-          </Table>
-        } */}
       </ul>
     </div>
   );
 };
 
 export default Cnae;
+
+{/* {result.length > 0 && 
+  <Table bordered >
+    <thead>
+      <tr>
+        <td>CNAE</td>
+        <td>DENOMINAÇÃO</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{resultapi[0]?.id}</td>
+        <td>{resultapi[0]?.descricao}</td>
+      </tr>
+    </tbody>
+  </Table>
+} */}

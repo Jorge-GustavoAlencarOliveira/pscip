@@ -40,14 +40,14 @@ const ReservaTecnica = ({ area, ocupacoes, divisao }: reservaProps) => {
               (item, index) => {
                 if(metodo !== 0){
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{item[0]}</td>
                       <td>{item[1]}</td>
                     </tr>
                   );
                 } else {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{item[0]}</td>
                       <td>{item[1]}</td>
                     </tr>
@@ -85,7 +85,7 @@ const ReservaTecnica = ({ area, ocupacoes, divisao }: reservaProps) => {
                   {definirReserva(metodo, cargaincendio, numero, ocupacao)?.map(
                     (item, index) => {
                       return (
-                        <tr>
+                        <tr key={index}>
                           <td>{item[0]}</td>
                           <td>{item[1]}</td>
                         </tr>

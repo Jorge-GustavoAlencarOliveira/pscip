@@ -1,9 +1,9 @@
 import React from 'react';
 import Layout from '../../../Components/layout';
 import Navbar from '../../../projeto/Navbar/navbar';
-import InformacoesProjeto from '../../../projeto/informacoesProjeto';
-import RegioesOcupacoes from '../../../projeto/regioesOcupacoes';
-import MedidasSeguranca from '../../../projeto/medidasSeguranca';
+import InformacoesProjeto from '../../../projeto/Abas/informacoesProjeto';
+import RegioesOcupacoes from '../../../projeto/Abas/regioesOcupacoes';
+import MedidasSeguranca from '../../../projeto/Abas/medidasSeguranca';
 import canSSRAuth from '../utils/canSSRAuth';
 import { setupAPIClient } from '@/services/api';
 import { informacoesProps } from '../../../Components/Hooks/useDados';

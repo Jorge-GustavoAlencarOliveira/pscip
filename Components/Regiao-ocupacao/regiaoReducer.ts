@@ -5,7 +5,7 @@ export type RegiaomoduloProps = {
   dados?: [dadosProps, number[][]]
 };
 
-type RegiaoActionProps = {
+export type RegiaoActionProps = {
   type: 'add' | 'delete';
   id: number;
   dados?: [dadosProps, number[][]]

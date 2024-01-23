@@ -1,49 +1,68 @@
 import { setupAPIClient } from '@/services/api';
-import { useRouter } from 'next/router';
-import React from 'react'
-import {FaEye, FaTrash, FaEdit} from 'react-icons/fa'
+import React from 'react';
 import { toast } from 'react-toastify';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ButtonDropdown, { useItemProject } from './useItemProject';
 
 interface ProjectProps {
   name: string;
-  id: string
+  id: string;
+  uptadeList: () => void;
 }
 
-const ItemProject = ({name, id}: ProjectProps) => {
-  const router = useRouter()
-  function handleDetailsProject (){
-    router.push(`/detailsproject/${id}`)
-  }
-  function handleEditProject(){
-    router.push(`/editproject/${id}`)
-  }
-  async function handleDeleteProject(idProject: string){
-      try{
-        const api = setupAPIClient()
-        if (typeof id === 'string'){
-          await api.delete('/project', {
-            params:{
-              id: idProject
-            }
-          })
-          toast.success('Projeto deletado com sucesso')
-          router.reload()
-        }
-      }catch(err){
-        console.log(err)
+const ItemProject = ({ name, id, uptadeList }: ProjectProps) => {
+  const {handleDetailsProject, handleEditProject} = useItemProject()
+
+  async function handleDeleteProject(idProject: string) {
+    try {
+      const api = setupAPIClient();
+      if (typeof id === 'string') {
+        await api.delete('/project', {
+          params: {
+            id: idProject,
+          },
+        });
+        toast.success('Projeto deletado com sucesso');
+        uptadeList();
       }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
+  
   return (
-    <div className='bg-primary d-flex justify-content-between align-items-center mt-2 py-2 ps-3 rounded-4'>
-        <span className='fw-bold text-light'>{name}</span>
-        <ul style={{listStyle: 'none'}} className='d-flex align-items-center my-0'>
-          <li onClick={handleDetailsProject} className='btn text-dark'><FaEye size={20}/></li>
-          <li onClick={handleEditProject}className='btn text-light'><FaEdit size={20}/></li>
-          <li onClick={() => handleDeleteProject(id)} className='btn text-danger'><FaTrash size={20}/></li>              
-        </ul>
-    </div>
-  )
-}
+    <tr className="position-static">
+      <td
+        onClick={() => handleDetailsProject(id)}
+        className="fw-bold text-primary hover"
+        style={{ width: '50%' }}
+      >
+        <button className="btn p-0 text-primary">{name}</button>
+      </td>
+      <td className="text-center" style={{ width: '20%' }}>
+        <span>09 Dez, 2023</span>
+      </td>
+      <td className="text-center" style={{ width: '25%' }}>
+        <span>Aprovado em análise</span>
+      </td>
+      <td style={{ width: '5%' }}>
+        <Dropdown drop='start'>
+          <Dropdown.Toggle as={ButtonDropdown} id="dropdown-custom-components"/> 
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleEditProject(id)}>Editar</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item
+              className="text-danger"
+              onClick={() => handleDeleteProject(id)}
+            >
+              Deletar
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </td>
+    </tr>
+  );
+};
 
-export default ItemProject
+export default ItemProject;

@@ -3,7 +3,7 @@ import A3 from "./A3";
 
 type listaProps = {
   [key: string]: (
-    alt: string,
+    alt: number,
     area: string,
     carga: number,
     isolamento: number,
@@ -13,7 +13,7 @@ type listaProps = {
 
 export const listaOcupacao: listaProps = {
   'A-2': (
-    alt: string,
+    alt: number,
     area: string,
     carga: number,
     isolamento: number,
@@ -27,7 +27,7 @@ export const listaOcupacao: listaProps = {
       construcao: construcao,
     }),
     'A-3': (
-      alt: string,
+      alt: number,
       area: string,
       carga: number,
       isolamento: number,

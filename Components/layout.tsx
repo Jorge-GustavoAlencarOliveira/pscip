@@ -7,20 +7,19 @@ import Header from './headers';
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className={`d-flex w-100 ${styles.dashboard}`}>
-        <div className={`d-none d-sm-block ${styles.SideBar}`}>
-          <Sidebar />
+      <div className={`d-flex ${styles.dashboard}`}>
+          <div className={`d-none d-sm-block ${styles.SideBar}`}>
+            <Sidebar />
+          </div>
+          <div className={`d-block d-sm-none ${styles.SideBar}`}>
+            <SidebarMobile />
+          </div>
+          <div style={{minHeight: '100vh'}} className={`flex-grow-1 px-3 d-flex flex-column ${styles.content}`}
+          >
+            <Header />
+            <div className="my-4 flex-grow-1">{children}</div>
+          </div>
         </div>
-        <div className={`d-block d-sm-none ${styles.SideBar}`}>
-          <SidebarMobile />
-        </div>
-        <div
-          className={`px-2 px-sm-3 d-flex flex-column flex-grow-1 ${styles.content}`}
-        >
-          <Header />
-          <div className="my-2">{children}</div>
-        </div>
-      </div>
     </>
   );
 };

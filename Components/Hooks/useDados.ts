@@ -1,4 +1,7 @@
 import React from 'react';
+import z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface dadosProps {
   areaConstruida: string;
@@ -16,13 +19,84 @@ export interface informacoesProps {
   cpf: string;
   razaoSocial: string;
   cnpj: string;
-  tipo: string;
-  logradouro: string;
-  numero: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
+  endereco: {
+    tipo: string;
+    logradouro: string;
+    numero: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+  };
 }
+
+const capitalizeWord = (value: string) => {
+  if (value) {
+    const valueCapitalize = value
+      .trim()
+      .split(' ')
+      .map((word) => {
+        word[0].toLocaleLowerCase();
+        return word[0].toLocaleUpperCase().concat(word.substring(1));
+      })
+      .join(' ');
+    return valueCapitalize;
+  }
+};
+
+const informationsSchema = z.object({
+  projeto: z
+    .string()
+    .nonempty({ message: 'Dê um nome ao seu projeto' })
+    .min(5, 'Dê um nome de no mínimo 5 caracteres'),
+  proprietario: z.string().nonempty('Esse campo é obrigatório').transform(capitalizeWord),
+  cpf: z.string().min(11, 'Insira um CPF válido').regex(new RegExp(/^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/), 'Valor do CPF inválido'),
+  razaoSocial: z.string().nonempty('Esse campo é obrigatório'),
+  cnpj: z.string().min(14, 'Insira um CNPJ válido').regex(new RegExp(/^([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})/), 'Valor do CNPJ inválido'),
+  endereco: z.object({
+    tipo: z.string().nonempty('Esse campo é obrigatório'),
+    logradouro: z.string().nonempty('Esse campo é obrigatório').transform(capitalizeWord),
+    numero: z.string().nonempty('Esse campo é obrigatório'),
+    bairro: z.string().nonempty('Esse campo é obrigatório').transform(capitalizeWord),
+    cidade: z.string().nonempty('Esse campo é obrigatório'),
+    estado: z.string().nonempty('Esse campo é obrigatório'),
+  }),
+});
+
+export const useInformation = () => {
+  type TinformationsSchema = z.infer<typeof informationsSchema>;
+
+  const {
+    register,
+    formState: { errors},
+    setValue,
+    handleSubmit,
+  } = useForm<TinformationsSchema>({
+    defaultValues: {
+      projeto: '',
+      proprietario: '',
+      cpf: '',
+      razaoSocial: '',
+      cnpj: '',
+      endereco: {
+        tipo: '',
+        logradouro: '',
+        numero: '',
+        bairro: '',
+        cidade: '',
+        estado: '',
+      },
+    },
+    mode: 'onBlur',
+    resolver: zodResolver(informationsSchema),
+  });
+
+  return {
+    register,
+    errors,
+    handleSubmit,
+    setValue
+  };
+};
 
 export const UseDadosEdificação = () => {
   const [dados, setDados] = React.useState<dadosProps>({
@@ -34,51 +108,10 @@ export const UseDadosEdificação = () => {
     dataConstrucao: 'Nova',
     compartimentacao: 'compartimentacaoNao',
   });
-  const [information, setInformation] = React.useState<informacoesProps>({
-    projeto: '',
-    proprietario: '',
-    cpf: '',
-    razaoSocial: '',
-    cnpj: '',
-    tipo: '',
-    logradouro: '',
-    numero: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-  });
 
-  function setAllInformacoesEdificacao(dados: informacoesProps){
-    setInformation(dados)
-  }
-
-  function setInformacoesEdificacao(key: string, value: string | number) {
-    setInformation((item) => ({ ...item, [key]: value }));
-  }
-
-  function resetInformacoesEdificacao() {
-    setInformation({
-      projeto: '',
-      proprietario: '',
-      cpf: '',
-      razaoSocial: '',
-      cnpj: '',
-      tipo: '',
-      logradouro: '',
-      numero: '',
-      bairro: '',
-      cidade: '',
-      estado: '',
-    });
-  }
-
-  function setDadosEdificação(
-    key: string,
-    value: string | number,
-  ) {
+  function setDadosEdificação(key: string, value: string | number) {
     setDados((item) => ({ ...item, [key]: value }));
   }
-
 
   function resetDadosEdificação() {
     setDados({
@@ -96,9 +129,5 @@ export const UseDadosEdificação = () => {
     setDadosEdificação,
     resetDadosEdificação,
     dados,
-    setInformacoesEdificacao,
-    information,
-    resetInformacoesEdificacao,
-    setAllInformacoesEdificacao
   };
 };

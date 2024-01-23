@@ -1,13 +1,22 @@
 import React from 'react';
 
 interface buttonNextProps {
-  onclick: () => void;
+  onclick?: () => void;
+  enabled?: boolean;
+  type?: 'button' | 'submit' | 'reset'
 }
 
-const ButtonNext = ({ onclick }: buttonNextProps) => {
+const ButtonNext = ({ onclick, enabled, type }: buttonNextProps) => {
   return (
     <>
-      <button className='btn btn-primary' onClick={onclick}>Próximo</button>
+      <button
+        disabled={enabled}
+        className="btn btn-primary float-end"
+        onClick={onclick}
+        type={type}
+      >
+        Próximo
+      </button>
     </>
   );
 };

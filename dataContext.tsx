@@ -18,15 +18,6 @@ import { RegiaomoduloProps } from './Components/Regiao-ocupacao/regiaoReducer';
 
 // const auth = getAuth(app);
 
-interface dadosProps {
-  areaConstruida: string;
-  areaAconstruir: string;
-  altura: string;
-  pavimentos: string;
-  areaTotal: number;
-  dataConstrucao: string;
-  compartimentacao: string;
-}
 
 type ContextData = {
   valoresOcupacao: RegiaomoduloProps[];
@@ -72,7 +63,6 @@ interface SignUpProps{
   cpf: string
 }
 
-export type array = [dadosProps, number[][]];
 
 type ProviderProps = {
   children: ReactNode;

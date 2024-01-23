@@ -10,9 +10,11 @@ const SignIn = () => {
   const {userLogin} = React.useContext(DataStorage)
   const {handleSubmit, errors, isSubmitting, register } = UseFormSignIn()
 
-  async function handleLogin({name, email, password, cpf}){   
+  async function handleLogin({email, password}: {email: string, password: string}){   
     await userLogin({email, password})
   }
+
+
   
   return (
     <div

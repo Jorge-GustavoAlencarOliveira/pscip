@@ -1,16 +1,26 @@
 .App{
   height: 100vh;
-  width: 100%;
+}
+
+.dashboard{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
 }
 
 .SideBar{
-  height: 100vh;
   position: fixed;
-  max-width: 220px;
+  min-height: 100vh;
+  max-width: 200px;
 }
 
-.content {
-  margin-left: 220px;
+.content{
+  margin-left: 194px;
+}
+
+.checkboxComponent > input, .checkboxComponent > label{
+  cursor: pointer;
+}
+.checkboxComponent input[type=checkbox] {
+  border: 1px solid #333
 }
 
 .accordionButton {
@@ -88,7 +98,7 @@
   min-height: min-content;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .content {
     margin-left: 34px;
   }

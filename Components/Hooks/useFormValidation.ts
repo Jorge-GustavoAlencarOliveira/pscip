@@ -19,13 +19,15 @@ export const UseFormSignUp = () => {
         return word[0].toLocaleUpperCase().concat(word.substring(1))
       }).join(' ')
     }),
-    cpf: z.string().min(11, 'Valor do CPF inválido').regex(new RegExp(/^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/), 'Valor do CPF inválido')
+    cpf: z.string().min(11, 'Insira um CNP inválido').regex(new RegExp(/^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/), 'Valor do CPF inválido')
   }).refine(fields => fields.password === fields.confirmPassword, {path: ['confirmPassword'], message: 'As senhas precisam ser iguais'});
+
+  
 
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting},
   } = useForm<CreateUserFormProps>({
     mode: 'onBlur',
     resolver: zodResolver(createUserSchema),
@@ -64,7 +66,7 @@ export const UseFormSignIn = () =>{
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
   } = useForm<UserFormProps>({
     mode: 'all',
     resolver: zodResolver(UserSchema),

@@ -3,7 +3,7 @@ import { divisao, saidasEscadas } from './TabelaNumeroSaidas';
 import { dadosOcupacao } from '../finddados';
 
 type numeroSaidaProps = {
-  altura: string;
+  altura: number;
   ocupacoes: number[][];
   divisao: number[]
 };
@@ -25,7 +25,7 @@ const Numerodesaidas = ({ altura, ocupacoes, divisao: ocup }: numeroSaidaProps) 
             <div>
               <h5 className='text-primary'>Número de saídas</h5>
               <p>Divisão: {div1}</p>
-              <p>{acharSaida(Number(altura), div)}</p>
+              <p>{acharSaida(altura, div)}</p>
             </div>
          )}
       </>
@@ -41,7 +41,7 @@ const Numerodesaidas = ({ altura, ocupacoes, divisao: ocup }: numeroSaidaProps) 
               <div>
                 <h5 className='text-primary'>Número de saídas</h5>
               <p>Divisão: {ocupacao}</p>
-                <p>{acharSaida(Number(altura), div)}</p>
+                <p>{acharSaida(altura, div)}</p>
               </div>
             );
           }

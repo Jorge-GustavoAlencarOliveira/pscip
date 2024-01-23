@@ -15,7 +15,7 @@ const medidas = [
 ];
 
 interface a1Props {
-  altura: string;
+  altura: number;
   area: string;
   cargaIncendio: number;
   isolamento: number;

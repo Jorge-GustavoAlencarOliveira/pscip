@@ -46,8 +46,8 @@ const medidasInitial = [
 
 type ProviderProps = { children: React.ReactNode };
 export const QuadroInformativoContext = React.createContext<
-  QuadroInformativoProps | undefined
->(undefined);
+  QuadroInformativoProps | null
+>(null);
 
 let i = 4;
 let id = 0;

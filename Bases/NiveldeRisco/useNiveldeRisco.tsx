@@ -1,5 +1,6 @@
 import React from 'react';
 import { CNAE } from './cnaeTabela';
+import { cleanNumber, cleanNumberInteiro, formatarNumero } from '../formatarNumero';
 
 type NiveldeRiscoProps = {
   area: string;
@@ -26,7 +27,7 @@ export function useNiveldeRisco() {
   }
 
   const [niveldeRiscoDados, setNiveldeRiscoDados] = React.useState({
-    area: 'menos que 200',
+    area: '',
     patrimonioHistorico: false,
     alturaPavimento: false,
     maisdeCem: false,
@@ -36,12 +37,26 @@ export function useNiveldeRisco() {
     empresa: false,
   });
 
-  function setInformation(key: string, value: string | boolean) {
-    setNiveldeRiscoDados({
-      ...niveldeRiscoDados,
+  function setInformation(key: keyof NiveldeRiscoProps, value: string | boolean) {
+    setNiveldeRiscoDados(prev => ({...prev,
       [key]: value,
-    });
+    }));
   }
+
+  
+  ;
+  const nivelderisco = {
+    area: (area: number) => {
+      if (area <= 200) return setInformation('area', 'menos que 200');
+      else if (area > 200 && area <= 930)
+       return setInformation('area', 'entre 200 e 930');
+      else if (area > 930) return setInformation('area', 'mais de 930');
+    },
+    alturaPavimento: (pavimentos: number, altura: string) => {
+      if (pavimentos > 3 || cleanNumberInteiro(altura) > 12)
+        setInformation('alturaPavimento', true);
+    },
+  };
 
   const filterCNAE = (query: string) => {
     const result = CNAE.filter(
@@ -56,5 +71,6 @@ export function useNiveldeRisco() {
     niveldeRiscoDados,
     niveldeRiscoChecked,
     filterCNAE,
+    nivelderisco
   };
 }

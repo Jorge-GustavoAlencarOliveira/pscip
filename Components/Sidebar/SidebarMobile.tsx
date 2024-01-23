@@ -7,9 +7,6 @@ const SidebarMobile = () => {
   return (
     <div className={`bg-primary px-2 ${styles.SideBar}`}>
       <nav className='d-flex flex-column gap-4 py-5 justify-content-center'>
-        <Link href='#' className='d-flex gap-2 justify-content-center  text-decoration-none text-white'>
-          <FaReadme size={18} /> 
-         </Link>
          <Link href='#' className='d-flex gap-2 justify-content-center  text-decoration-none text-white'>
           <FaUser size={18}/> 
 
