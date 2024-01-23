@@ -26,7 +26,7 @@ const EditProject = ({ project }: projectProps) => {
   }
   return (
     <Layout>
-      <Navbar isActive={activeIndex} onshow={onShow} />
+      <Navbar activeIndex={activeIndex} onshow={onShow} />
       <InformacoesProjeto
         dados={project.dados}
         onshow={onShow}
@@ -37,7 +37,7 @@ const EditProject = ({ project }: projectProps) => {
         onshow={onShow}
         isActive={activeIndex === 1}
       />
-      <MedidasSeguranca isActive={activeIndex === 2} />
+      {/* <MedidasSeguranca isActive={activeIndex === 2} /> */}
     </Layout>
   );
 };
