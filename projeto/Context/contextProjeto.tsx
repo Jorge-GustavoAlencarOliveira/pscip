@@ -26,6 +26,8 @@ type allDataBuildingProps = {
     props: NiveldeRiscoProps
   };
   medidasSeguranca: string[];
+  status: string;
+  observacoes: string
 };
 
 interface ContextProjetoProps {
@@ -35,7 +37,7 @@ interface ContextProjetoProps {
   valoresInformacoes: (credentials: informacoesProps) => void;
   addAllDataBuilding: (
     key: keyof allDataBuildingProps,
-    value: informacoesProps | {nivel: string, props: NiveldeRiscoProps} | RegiaomoduloProps[] | string[],
+    value: informacoesProps | {nivel: string, props: NiveldeRiscoProps} | RegiaomoduloProps[] | string[] | string,
   ) => void;
   allDataBuilding: allDataBuildingProps;
   regioes: RegiaomoduloProps[];
@@ -62,10 +64,9 @@ export const ContextProjeto = ({ children }: React.PropsWithChildren) => {
     React.useState<allDataBuildingProps>({} as allDataBuildingProps);
   const [regioes, dispatchRegioes] = React.useReducer(RegiaoReducer, []);
    
-  console.log(allDataBuilding)
   function addAllDataBuilding(
     key: keyof allDataBuildingProps,
-    value: informacoesProps | {nivel: string, props: NiveldeRiscoProps} | RegiaomoduloProps[] | string[],
+    value: informacoesProps | {nivel: string, props: NiveldeRiscoProps} | RegiaomoduloProps[] | string[] | string,
   ) {
     setAllDataBuilding((item) => ({
       ...item,

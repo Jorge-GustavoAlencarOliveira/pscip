@@ -68,7 +68,6 @@ export const useInformation = () => {
   const {
     register,
     formState: { errors},
-    setValue,
     handleSubmit,
   } = useForm<TinformationsSchema>({
     defaultValues: {
@@ -94,8 +93,8 @@ export const useInformation = () => {
     register,
     errors,
     handleSubmit,
-    setValue
   };
+
 };
 
 export const UseDadosEdificação = () => {

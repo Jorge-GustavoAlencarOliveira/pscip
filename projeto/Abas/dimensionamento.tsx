@@ -1,7 +1,6 @@
 import React from 'react'
 import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { dadosOcupacao } from '../../Bases/finddados';
 import { cleanNumberInteiro } from '../../Bases/formatarNumero';
 import { medidasSeguranca as DimensionarMedida } from '../../Bases/medidas';
 import Accordion from '../../Components/Accordion/accordion';

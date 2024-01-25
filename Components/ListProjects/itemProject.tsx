@@ -3,16 +3,18 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonDropdown, { useItemProject } from './useItemProject';
+import { informacoesProps } from '../Hooks/useDados';
 
 interface ProjectProps {
-  name: string;
   id: string;
+  created_at: string;
+  dados: informacoesProps;
   uptadeList: () => void;
 }
 
-const ItemProject = ({ name, id, uptadeList }: ProjectProps) => {
+const ItemProject = ({  id, uptadeList, dados, created_at }: ProjectProps) => {
   const {handleDetailsProject, handleEditProject} = useItemProject()
-
+  console.log(created_at);
   async function handleDeleteProject(idProject: string) {
     try {
       const api = setupAPIClient();
@@ -29,7 +31,27 @@ const ItemProject = ({ name, id, uptadeList }: ProjectProps) => {
       console.log(err);
     }
   }
+ 
+  const listMonths = {
+    '01': 'Jan',
+    '02': 'Fev',
+    '03': 'Mar',
+    '04': 'Abr',
+    '05': 'Maio',
+    '06': 'Jun',
+    '07': 'Jul',
+    '08': 'Ago',
+    '09': 'Set',
+    '10': 'Out',
+    '11': 'Nov',
+    '12': 'Dez',
+  }
 
+  function dateTreament (value: string) {
+    const newDate = value.split('-')
+    const day = newDate[2].substring(0,2)
+    return `${day}, ${listMonths[newDate[1]]}/${newDate[0]}`
+  }
   
   return (
     <tr className="position-static">
@@ -38,10 +60,10 @@ const ItemProject = ({ name, id, uptadeList }: ProjectProps) => {
         className="fw-bold text-primary hover"
         style={{ width: '50%' }}
       >
-        <button className="btn p-0 text-primary">{name}</button>
+        <button className="btn p-0 text-primary">{dados?.projeto}</button>
       </td>
       <td className="text-center" style={{ width: '20%' }}>
-        <span>09 Dez, 2023</span>
+        <span>{dateTreament(created_at)}</span>
       </td>
       <td className="text-center" style={{ width: '25%' }}>
         <span>Aprovado em análise</span>

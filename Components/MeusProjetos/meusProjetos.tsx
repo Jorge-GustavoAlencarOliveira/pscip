@@ -4,12 +4,13 @@ import Table from 'react-bootstrap/Table';
 import { api } from '@/services/apiClient';
 import Link from 'next/link';
 import Loading from '../Loading/loading';
+import { informacoesProps } from '../Hooks/useDados';
 
 interface ListProjectsProps {
   id: string;
-  name: string;
+  created_at: string;
   status: boolean;
-  dados: unknown;
+  dados: informacoesProps;
 }
 
 const Meusprojetos = () => {
@@ -84,11 +85,13 @@ const Meusprojetos = () => {
           </thead>
           <tbody>
             {listProjects && listProjects.map((item) => {
+              console.log(item);
               return (
                 <ItemProject
                   key={item.id}
-                  name={item.name}
+                  dados={item.dados}
                   id={item.id}
+                  created_at={item.created_at}
                   uptadeList={() => uptadeList(item.id)}
                 />
               );

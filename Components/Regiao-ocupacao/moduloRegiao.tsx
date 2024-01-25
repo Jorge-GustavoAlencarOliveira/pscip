@@ -1,12 +1,10 @@
 import React from 'react';
-import { RegiaoReducer } from './regiaoReducer';
 import ModuloOcupacao from './moduloOcupacao';
 import { dadosProps } from '../Hooks/useDados';
 import ShowRegioes from './showRegioes';
 import { RegiaomoduloProps } from './regiaoReducer';
 import ModalCenter from '../Modal/Modal';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
-import { toast } from 'react-toastify';
 
 type ModuloRegiaoProps = {
   onShow: () => void;
@@ -20,7 +18,8 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
   const [showModal, setShowModal] = React.useState(false);
   const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes } =
     useContextProjeto();
-
+  
+  
   function handleAddRegiao(dados: dadosProps, ocupacoes: number[][]) {
     dispatchRegioes({
       type: 'add',
@@ -74,7 +73,7 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
         size="xl"
         header="Insira as regiões e ocupações desejadas"
       >
-        <ModuloOcupacao addRegiao={handleAddRegiao} />
+        <ModuloOcupacao addRegiao={handleAddRegiao}/>
       </ModalCenter>
       <div className="flex-grow-1">
         <ShowRegioes regioes={regioes} OnDelete={handleDeleteRegiao} />

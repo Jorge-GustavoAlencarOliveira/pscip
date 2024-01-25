@@ -2,10 +2,13 @@ import React from 'react';
 import ButtonNext from '../Navbar/buttonNext';
 import { Form } from 'react-bootstrap';
 import {
+  dadosProps,
   informacoesProps,
   useInformation,
 } from '../../Components/Hooks/useDados';
 import { useContextProjeto } from '../Context/contextProjeto';
+import { toast } from 'react-toastify';
+import { setupAPIClient } from '@/services/api';
 
 interface pageProps {
   isActive: boolean;
@@ -18,6 +21,19 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
     useContextProjeto();
   const { handleSubmit, errors, register } = useInformation();
 
+  async function handleCreateProject(data: informacoesProps) {
+    try {
+      const api = setupAPIClient();
+      await api.post('/project', {
+        dados: data,
+      });
+      toast.success('Projeto salvo com sucesso');
+    } catch (err) {
+      console.log(err);
+      toast.error('Seja premium para salvar mais este projeto');
+    }
+  }
+
   // React.useEffect(() => {
   //   if (dados) {
   //     setAllInformacoesEdificacao(dados);
@@ -27,6 +43,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
   function handleInformations(data: informacoesProps) {
     addAllDataBuilding('informacoes', data);
     valoresInformacoes(data), onshow(1);
+    handleCreateProject(data)
   }
 
   if (isActive) {
@@ -39,7 +56,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
         <Form onSubmit={handleSubmit(handleInformations)}>
           <Form.Group className="mb-2">
             <Form.Label className="fw-bold">Nome do projeto</Form.Label>
-            <Form.Control type="text" placeholder="" {...register('projeto')} />
+            <Form.Control type="text" {...register('projeto')} />
           </Form.Group>
           {errors.projeto && (
             <div className="mb-2">
@@ -52,11 +69,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
                 <Form.Label className="fw-bold">
                   Proprietário / Responsável pelo Uso
                 </Form.Label>
-                <Form.Control
-                  type="text"
-                  {...register('proprietario')}
-                  placeholder=""
-                />
+                <Form.Control type="text" {...register('proprietario')} />
               </Form.Group>
               {errors.proprietario && (
                 <div className="mb-2">
@@ -69,7 +82,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">CPF</Form.Label>
-                <Form.Control type="text" placeholder="" {...register('cpf')} />
+                <Form.Control type="text" {...register('cpf')} />
               </Form.Group>
               {errors.cpf && (
                 <div className="mb-2">
@@ -82,11 +95,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">Razão Social</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('razaoSocial')}
-                />
+                <Form.Control type="text" {...register('razaoSocial')} />
               </Form.Group>
               {errors.razaoSocial && (
                 <div className="mb-2">
@@ -99,11 +108,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">CNPJ</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('cnpj')}
-                />
+                <Form.Control type="text" {...register('cnpj')} />
               </Form.Group>
               {errors.cnpj && (
                 <div className="mb-2">
@@ -120,11 +125,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">Tipo</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('endereco.tipo')}
-                />
+                <Form.Control type="text" {...register('endereco.tipo')} />
               </Form.Group>
               {errors.endereco?.tipo && (
                 <div className="mb-2">
@@ -139,7 +140,6 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
                 <Form.Label className="fw-bold">Nome do logradouro</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder=""
                   {...register('endereco.logradouro')}
                 />
               </Form.Group>
@@ -158,11 +158,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
                 <Form.Label className="fw-bold">
                   Número do logradouro
                 </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('endereco.numero')}
-                />
+                <Form.Control type="text" {...register('endereco.numero')} />
               </Form.Group>
               {errors.endereco?.numero && (
                 <div className="mb-2">
@@ -175,11 +171,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">Bairro</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('endereco.bairro')}
-                />
+                <Form.Control type="text" {...register('endereco.bairro')} />
               </Form.Group>
               {errors.endereco?.bairro && (
                 <div className="mb-2">
@@ -194,11 +186,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">Cidade</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('endereco.cidade')}
-                />
+                <Form.Control type="text" {...register('endereco.cidade')} />
               </Form.Group>
               {errors.endereco?.cidade && (
                 <div className="mb-2">
@@ -211,11 +199,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
             <div className="col-sm-6">
               <Form.Group className="mb-2">
                 <Form.Label className="fw-bold">Estado</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  {...register('endereco.estado')}
-                />
+                <Form.Control type="text" {...register('endereco.estado')} />
               </Form.Group>
               {errors.endereco?.estado && (
                 <div className="mb-2">

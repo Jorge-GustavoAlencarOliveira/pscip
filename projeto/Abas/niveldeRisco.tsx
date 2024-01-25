@@ -45,10 +45,8 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
             type="checkbox"
             name="area"
             id="area1"
-            // value="menos que 200"
             checked={niveldeRiscoDados.area === 'menos que 200'}
             readOnly
-            // onChange={({ target }) => setInformation('area', target.value)}
           />
           <label htmlFor="area1">
             Edificação ou espaço destinado ao uso coletivo com área construída
@@ -58,11 +56,9 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
         <div className="d-flex gap-2 align-items-center mb-2 cursor-pointer">
           <input
             type="checkbox"
-            // value="entre 200 e 930"
             id="area2"
             checked={niveldeRiscoDados.area === 'entre 200 e 930'}
             readOnly
-            // onChange={({ target }) => setInformation('area', target.value)}
           />
           <label htmlFor="area2">
             Edificação ou espaço destinado ao uso coletivo com área construída
@@ -72,11 +68,9 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
         <div className="d-flex gap-2 align-items-center mb-2 cursor-pointer">
           <input
             type="checkbox"
-            // value="mais de 930"
             id="area3"
             checked={niveldeRiscoDados.area === 'mais de 930'}
             readOnly
-            // onChange={({ target }) => setInformation('area', target.value)}
           />
           <label htmlFor="area3">
             Edificação ou espaço destinado ao uso coletivo com área construída
@@ -102,9 +96,6 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
             type="checkbox"
             id="alturaPavimento"
             checked={niveldeRiscoDados.alturaPavimento}
-            // onChange={({ target }) =>
-            //   setInformation('alturaPavimento', target.checked)
-            // }
             readOnly
           />
           <label htmlFor="alturaPavimento">

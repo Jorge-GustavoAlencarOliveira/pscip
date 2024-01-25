@@ -1,8 +1,6 @@
 import React from 'react';
-import styles from '../src/pages/home.module.css';
 import Deterministico from '../Bases/CargaIncendio/deterministico';
 import Probabilistico from '../Bases/CargaIncendio/probabilistico';
-import { Dispatch, SetStateAction } from 'react';
 
 interface ocupacaoProps {
   numero: number;

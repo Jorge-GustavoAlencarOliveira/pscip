@@ -24,7 +24,6 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
     setDadosEdificacao('areaTotal', formatarNumero(areaTotal.toString()));
   }, [dados.areaAconstruir, dados.areaConstruida]);
 
-
   return (
     <>
       <div className="d-flex flex-column  gap-2">
@@ -32,7 +31,7 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
           <div className="row">
             <div className="col-6">
               <Form.Group className="mb-3">
-                <Form.Label className='fw-bold'>Área construída</Form.Label>
+                <Form.Label className="fw-bold">Área construída</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="m²"
@@ -48,7 +47,7 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
             </div>
             <div className="col-6">
               <Form.Group className="mb-3">
-                <Form.Label className='fw-bold'>Área a construir</Form.Label>
+                <Form.Label className="fw-bold">Área a construir</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="m²"
@@ -66,7 +65,7 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
           <div className="row">
             <div className="col-6">
               <Form.Group className="mb-3">
-                <Form.Label className='fw-bold'>Área Total</Form.Label>
+                <Form.Label className="fw-bold">Área Total</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="m²"
@@ -77,13 +76,13 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
             </div>
             <div className="col-6">
               <Form.Group className="mb-3">
-                <Form.Label className='fw-bold'>
+                <Form.Label className="fw-bold">
                   Altura da edificação
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="m"
-                  value={dados.altura}
+                  value={`${dados.altura} m`}
                   onChange={({ target }) =>
                     setDadosEdificacao('altura', formatarNumero(target.value))
                   }
@@ -94,7 +93,7 @@ const DadosRegiao = ({ dados, setDadosEdificacao }: DadosProps) => {
           <div className="row">
             <div className="col-6">
               <Form.Group className="mb-3">
-                <Form.Label className='fw-bold'>
+                <Form.Label className="fw-bold">
                   Número de pavimentos
                 </Form.Label>
                 <Form.Control
