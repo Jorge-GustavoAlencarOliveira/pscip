@@ -14,44 +14,44 @@ interface ListProjectsProps {
 }
 
 const Meusprojetos = () => {
-  const [listProjects, setListProjects] = React.useState<ListProjectsProps[] | null>(null);
+  const [listProjects, setListProjects] = React.useState<
+    ListProjectsProps[] | null
+  >(null);
   const [count, setCount] = React.useState<number | null>(null);
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     async function listProject() {
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await api.get('/projects');
         const responde1 = await api.get('/projects/count');
-        setListProjects(response.data)
-        setCount(responde1.data)
+        setListProjects(response.data);
+        setCount(responde1.data);
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    listProject()
-  },[])
+    listProject();
+  }, []);
 
   function uptadeList(id: string) {
     const newList = listProjects.filter((item) => item.id !== id);
     setListProjects(newList);
-    setCount(count - 1)
+    setCount(count - 1);
   }
 
-  if(loading){
-    return(
-      <Loading/>
-    )
+  if (loading) {
+    return <Loading />;
   }
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <h3 className='text-primary'>Meus Projetos</h3>
+          <h3 className="text-primary">Meus Projetos</h3>
           <p>
             {count === 0
               ? 'Você ainda não possui projetos'
@@ -59,11 +59,8 @@ const Meusprojetos = () => {
           </p>
         </div>
         <div>
-          <Link href='/projeto'>
-            <button className='btn btn-primary'
-            >
-              Iniciar um novo projeto
-            </button>
+          <Link href="/projeto">
+            <button className="btn btn-primary">Iniciar um novo projeto</button>
           </Link>
         </div>
       </div>
@@ -84,18 +81,18 @@ const Meusprojetos = () => {
             </tr>
           </thead>
           <tbody>
-            {listProjects && listProjects.map((item) => {
-              console.log(item);
-              return (
-                <ItemProject
-                  key={item.id}
-                  dados={item.dados}
-                  id={item.id}
-                  created_at={item.created_at}
-                  uptadeList={() => uptadeList(item.id)}
-                />
-              );
-            })}
+            {listProjects &&
+              listProjects.map((item) => {
+                return (
+                  <ItemProject
+                    key={item.id}
+                    dados={item.dados}
+                    id={item.id}
+                    created_at={item.created_at}
+                    uptadeList={() => uptadeList(item.id)}
+                  />
+                );
+              })}
           </tbody>
         </Table>
       )}
@@ -104,4 +101,3 @@ const Meusprojetos = () => {
 };
 
 export default Meusprojetos;
-

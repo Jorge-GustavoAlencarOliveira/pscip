@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 // import {
 //   getAuth,
 //   signInWithPopup,
@@ -18,7 +18,6 @@ import { RegiaomoduloProps } from './Components/Regiao-ocupacao/regiaoReducer';
 
 // const auth = getAuth(app);
 
-
 type ContextData = {
   valoresOcupacao: RegiaomoduloProps[];
   // signInGoogle: () => Promise<void>;
@@ -33,7 +32,7 @@ type ContextData = {
   userSignUp: (credentials: SignUpProps) => void;
   userSignOut: () => void;
   informations: informacoesProps;
-  valoresInformacoes: (credentials: informacoesProps) => void
+  valoresInformacoes: (credentials: informacoesProps) => void;
 };
 
 interface SubscriptionsProps {
@@ -53,125 +52,131 @@ interface UserProps {
 
 interface LoginProps {
   email: string;
-  password: string
+  password: string;
 }
 
-interface SignUpProps{
+interface SignUpProps {
   name: string;
   email: string;
   password: string;
-  cpf: string
+  cpf: string;
 }
-
 
 type ProviderProps = {
   children: ReactNode;
 };
 
-export const Logout =  () => {
-  try{
-    destroyCookie(null, '@pscip.token', {path: '/'});
-    Router.push('/login/signin')
-  }catch(err){
-    toast.error('Erro ao deslogar')
+export const Logout = () => {
+  try {
+    destroyCookie(null, '@pscip.token', { path: '/' });
+    Router.push('/login/signin');
+  } catch (err) {
+    toast.error('Erro ao deslogar');
   }
-}
+};
 export const DataStorage = React.createContext({} as ContextData);
 
 const DataContext = ({ children }: ProviderProps) => {
   const [user, setUser] = React.useState<UserProps>();
-  const isAuthenticated = !!user
+  const isAuthenticated = !!user;
   // const [data, setData] = React.useState<User>();
   const [login, setLogin] = React.useState(false);
-  const [valoresOcupacao, setValoresOcupacao] = React.useState<RegiaomoduloProps[]>();
-  const [informations, setInformations] = React.useState<informacoesProps>()
- 
+  const [valoresOcupacao, setValoresOcupacao] =
+    React.useState<RegiaomoduloProps[]>();
+  const [informations, setInformations] = React.useState<informacoesProps>();
+
   function valoresRegiao(valorRegiao: RegiaomoduloProps[]) {
     setValoresOcupacao(valorRegiao);
   }
-  function valoresInformacoes (informacoes: informacoesProps){
-    setInformations(informacoes)
+  function valoresInformacoes(informacoes: informacoesProps) {
+    setInformations(informacoes);
   }
 
-  React.useEffect(() =>{
-    async function checkLogin () {
-      const {'@pscip.token': token} = parseCookies()
-      if(token){
-        const api = setupAPIClient()
-        await api.get('/me').then(response => {
-          const {id, name, endereco, email, subscriptions, cpf} = response.data
-          setUser({
-            id,
-            email, 
-            name,
-            cpf,
-            endereco,
-            subscriptions
+  React.useEffect(() => {
+    async function checkLogin() {
+      const { '@pscip.token': token } = parseCookies();
+      if (token) {
+        const api = setupAPIClient();
+        await api
+          .get('/me')
+          .then((response) => {
+            const { id, name, endereco, email, subscriptions, cpf } =
+              response.data;
+            setUser({
+              id,
+              email,
+              name,
+              cpf,
+              endereco,
+              subscriptions,
+            });
           })
-        })
-        .catch((err) => {
-          toast.error('Usuário deslogado')
-          Logout()
-        })
+          .catch((err) => {
+            toast.error('Usuário deslogado');
+            Logout();
+          });
       }
     }
-    checkLogin()
-  },[])
-
-  
+    checkLogin();
+  }, []);
 
   const userLogin = async ({ email, password }: LoginProps) => {
-    try{
-      const api = setupAPIClient()
+    try {
+      const api = setupAPIClient();
       const response = await api.post('/session', {
         email,
-        password
-      })
-      const {id, name, token, subscriptions, endereco, cpf} = response.data;
+        password,
+      });
+      const { id, name, token, subscriptions, endereco, cpf } = response.data;
       setCookie(undefined, '@pscip.token', token, {
-        maxAge: 60*60*24*30,
-        path: '/'
-      })
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/',
+      });
       setUser({
-        id, name, email, endereco, cpf, subscriptions
-      })
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      toast.success("Usuário logado com sucesso")
-      Router.push('/dashboard')
-    }catch(err){
-       toast.error('Usuário ou senha inválido')
+        id,
+        name,
+        email,
+        endereco,
+        cpf,
+        subscriptions,
+      });
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      toast.success('Usuário logado com sucesso');
+      Router.push('/dashboard');
+    } catch (err) {
+      toast.error('Usuário ou senha inválido');
     }
   };
-   
+
   const userSignOut = async () => {
-    try{
-      destroyCookie(null, '@pscip.token', {path: '/'});
-      setUser(null)
-      setLogin(false)
-      Router.push('/')
+    try {
+      destroyCookie(null, '@pscip.token', { path: '/' });
+      setUser(null);
+      setLogin(false);
+      Router.push('/');
       toast.info('Usuário deslogado');
-    }catch(err){
-      toast.error("Erro ao deslogar");
-      throw new Error ("Erro ao deslogar");
+    } catch (err) {
+      toast.error('Erro ao deslogar');
+      throw new Error('Erro ao deslogar');
     }
-  }
-   
-  const userSignUp = async ({name, email, password, cpf}:SignUpProps) => {
-    try{
-      const api = setupAPIClient()
+  };
+
+  const userSignUp = async ({ name, email, password, cpf }: SignUpProps) => {
+    try {
+      const api = setupAPIClient();
       await api.post('/users', {
-        name, 
+        name,
         email,
         password,
-        cpf
-      })
-      toast.success("Usuário cadastrado")
-      Router.push('/login/signin')
-    }catch(err){
-      toast.error("Erro ao cadastrar")
-      throw new Error('Erro ao cadastrar')
+        cpf,
+      });
+      toast.success('Usuário cadastrado');
+      Router.push('/login/signin');
+    } catch (err) {
+      toast.error('Erro ao cadastrar');
+      throw new Error('Erro ao cadastrar');
     }
-  }
+  };
 
   return (
     <DataStorage.Provider
@@ -189,7 +194,7 @@ const DataContext = ({ children }: ProviderProps) => {
         // data,
         valoresRegiao,
         valoresInformacoes,
-        informations
+        informations,
       }}
     >
       {children}
@@ -199,48 +204,48 @@ const DataContext = ({ children }: ProviderProps) => {
 
 export default DataContext;
 
-  // async function signInGoogle() {
-  //   await signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       if (credential) {
-  //         const token = credential.accessToken;
-  //         const user = result.user;
-  //         toast.success('Usuário logado com sucesso');
-  //         setData(user);
-  //         setLogin(true);
-  //         router.push('/dashboard');
-  //         localStorage.setItem('userPSCIP', JSON.stringify({ token: token }));
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       const email = error.customData.email;
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       toast.error('Login e senha inválidos');
-  //     });
-  // }
+// async function signInGoogle() {
+//   await signInWithPopup(auth, provider)
+//     .then((result) => {
+//       const credential = GoogleAuthProvider.credentialFromResult(result);
+//       if (credential) {
+//         const token = credential.accessToken;
+//         const user = result.user;
+//         toast.success('Usuário logado com sucesso');
+//         setData(user);
+//         setLogin(true);
+//         router.push('/dashboard');
+//         localStorage.setItem('userPSCIP', JSON.stringify({ token: token }));
+//       }
+//     })
+//     .catch((error) => {
+//       const errorCode = error.code;
+//       const errorMessage = error.message;
+//       const email = error.customData.email;
+//       const credential = GoogleAuthProvider.credentialFromError(error);
+//       toast.error('Login e senha inválidos');
+//     });
+// }
 
-  // React.useEffect(() => {
-  //   async function checkLogin() {
-  //     onAuthStateChanged(auth, (user) => {
-  //       if (user) {
-  //         console.log(user)
-  //         setData(user);
-  //         setLogin(true);
-  //       } else {
-  //         setLogin(false);
-  //       }
-  //     });
-  //   }
-  //   checkLogin();
-  // }, []);
+// React.useEffect(() => {
+//   async function checkLogin() {
+//     onAuthStateChanged(auth, (user) => {
+//       if (user) {
+//         console.log(user)
+//         setData(user);
+//         setLogin(true);
+//       } else {
+//         setLogin(false);
+//       }
+//     });
+//   }
+//   checkLogin();
+// }, []);
 
-  // async function userLogout() {
-  //   await signOut(auth);
-  //   setLogin(false);
-  //   setData(null);
-  //   localStorage.clear();
-  //   toast.info('Usuário deslogado');
-  // }
+// async function userLogout() {
+//   await signOut(auth);
+//   setLogin(false);
+//   setData(null);
+//   localStorage.clear();
+//   toast.info('Usuário deslogado');
+// }

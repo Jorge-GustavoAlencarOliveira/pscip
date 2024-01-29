@@ -12,8 +12,8 @@ interface ProjectProps {
   uptadeList: () => void;
 }
 
-const ItemProject = ({  id, uptadeList, dados, created_at }: ProjectProps) => {
-  const {handleDetailsProject, handleEditProject} = useItemProject()
+const ItemProject = ({ id, uptadeList, dados, created_at }: ProjectProps) => {
+  const { handleDetailsProject, handleEditProject } = useItemProject();
   console.log(created_at);
   async function handleDeleteProject(idProject: string) {
     try {
@@ -31,7 +31,7 @@ const ItemProject = ({  id, uptadeList, dados, created_at }: ProjectProps) => {
       console.log(err);
     }
   }
- 
+
   const listMonths = {
     '01': 'Jan',
     '02': 'Fev',
@@ -45,14 +45,14 @@ const ItemProject = ({  id, uptadeList, dados, created_at }: ProjectProps) => {
     '10': 'Out',
     '11': 'Nov',
     '12': 'Dez',
+  };
+
+  function dateTreament(value: string) {
+    const newDate = value.split('-');
+    const day = newDate[2].substring(0, 2);
+    return `${day}, ${listMonths[newDate[1]]}/${newDate[0]}`;
   }
 
-  function dateTreament (value: string) {
-    const newDate = value.split('-')
-    const day = newDate[2].substring(0,2)
-    return `${day}, ${listMonths[newDate[1]]}/${newDate[0]}`
-  }
-  
   return (
     <tr className="position-static">
       <td
@@ -69,10 +69,15 @@ const ItemProject = ({  id, uptadeList, dados, created_at }: ProjectProps) => {
         <span>Aprovado em análise</span>
       </td>
       <td style={{ width: '5%' }}>
-        <Dropdown drop='start'>
-          <Dropdown.Toggle as={ButtonDropdown} id="dropdown-custom-components"/> 
+        <Dropdown drop="start">
+          <Dropdown.Toggle
+            as={ButtonDropdown}
+            id="dropdown-custom-components"
+          />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleEditProject(id)}>Editar</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleEditProject(id)}>
+              Editar
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item
               className="text-danger"

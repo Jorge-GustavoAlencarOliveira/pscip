@@ -42,8 +42,8 @@ const GerenciamentoProjeto = ({ isActive }: pageProps) => {
             onHide={() => setShowModal(false)}
             show={showModal}
           >
-            <div className='d-flex align-items-center gap-2'>
-              <span className='fw-bold mb-2 d-block'>Status:</span>
+            <div className="d-flex align-items-center gap-2">
+              <span className="fw-bold mb-2 d-block">Status:</span>
               <FormSelect
                 onChange={({ target }) => setStatusSelect(+target.value)}
                 value={statusSelect}
@@ -58,14 +58,19 @@ const GerenciamentoProjeto = ({ isActive }: pageProps) => {
                 })}
               </FormSelect>
             </div>
-            <div className='d-flex justify-content-end gap-2 mt-4'>
+            <div className="d-flex justify-content-end gap-2 mt-4">
               <button
                 className="btn btn-success"
                 onClick={() => setShowModal(false)}
               >
                 Atualizar
               </button>
-              <button className='btn btn-danger' onClick={() => setShowModal(false)}>Fechar</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => setShowModal(false)}
+              >
+                Fechar
+              </button>
             </div>
           </ModalCenter>
         </div>

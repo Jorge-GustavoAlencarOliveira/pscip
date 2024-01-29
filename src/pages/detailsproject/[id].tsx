@@ -194,7 +194,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     console.log(err);
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/calculadoras',
         permanent: false,
       },
     };

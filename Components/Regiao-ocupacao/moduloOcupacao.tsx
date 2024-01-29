@@ -12,7 +12,7 @@ type addRegiaoProps = {
   addRegiao: (dados: dadosProps, ocupacoes: number[][]) => void;
 };
 
-const ModuloOcupacao = ({ addRegiao}: addRegiaoProps) => {
+const ModuloOcupacao = ({ addRegiao }: addRegiaoProps) => {
   const [ocupacoes, dispatchOcupacao] = React.useReducer(OcupacaoReducer, []);
   const { dados, setDadosEdificação, resetDadosEdificação } =
     UseDadosEdificação();

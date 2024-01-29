@@ -1,14 +1,14 @@
-import { dadosProps } from "../Hooks/useDados";
+import { dadosProps } from '../Hooks/useDados';
 
 export type RegiaomoduloProps = {
   id: number;
-  dados?: [dadosProps, number[][]]
+  dados?: [dadosProps, number[][]];
 };
 
 export type RegiaoActionProps = {
   type: 'add' | 'delete';
   id: number;
-  dados?: [dadosProps, number[][]]
+  dados?: [dadosProps, number[][]];
 };
 
 export const RegiaoReducer = (
@@ -21,7 +21,7 @@ export const RegiaoReducer = (
         ...modulos,
         {
           id: action.id,
-          dados: action.dados
+          dados: action.dados,
         },
       ];
     }

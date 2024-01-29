@@ -9,7 +9,7 @@ export interface riscoProps {
   x?: number;
   y?: number;
   z?: number;
-  pavimentos?: string;
+  pavimentos?: number;
   unidadeAutonoma?: string;
   compartimentacaohorizontal?: string;
   compartimentacaovertical?: string;

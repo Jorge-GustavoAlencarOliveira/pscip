@@ -18,8 +18,7 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
   const [showModal, setShowModal] = React.useState(false);
   const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes } =
     useContextProjeto();
-  
-  
+
   function handleAddRegiao(dados: dadosProps, ocupacoes: number[][]) {
     dispatchRegioes({
       type: 'add',
@@ -73,7 +72,7 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
         size="xl"
         header="Insira as regiões e ocupações desejadas"
       >
-        <ModuloOcupacao addRegiao={handleAddRegiao}/>
+        <ModuloOcupacao addRegiao={handleAddRegiao} />
       </ModalCenter>
       <div className="flex-grow-1">
         <ShowRegioes regioes={regioes} OnDelete={handleDeleteRegiao} />
@@ -89,7 +88,6 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
           Proximo
         </button>
       </div>
-     
     </div>
   );
 };

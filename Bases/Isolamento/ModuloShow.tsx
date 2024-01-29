@@ -11,15 +11,15 @@ interface ModuloProps {
 
 const ModuloShow = ({ modulos, onDelete }: ModuloProps) => {
   return (
-    <div>
+    <div className='py-5'>
       {modulos.map((item) => {
         return (
-          <div key={item.id}>
+          <div key={item.id} className='pb-5'>
             <Modulo modulo={item} onDelete={onDelete} />
-            <Table striped bordered className='table-success'>
-              <tbody className='fw-bold'>
+            <Table striped bordered className='table'>
+              <tbody>
                 <tr>
-                  <td className='w-50'>Edificação expositora</td>
+                  <td className='w-50 fw-bold'>Edificação expositora</td>
                   <td>
                     {item.risco1?.distancia &&
                     item.risco2?.distancia &&
@@ -29,7 +29,7 @@ const ModuloShow = ({ modulos, onDelete }: ModuloProps) => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Edificação em exposição</td>
+                  <td className='fw-bold' >Edificação em exposição</td>
                   <td>
                     {item.risco1?.distancia &&
                     item.risco2?.distancia &&
@@ -40,7 +40,9 @@ const ModuloShow = ({ modulos, onDelete }: ModuloProps) => {
                 </tr>
               </tbody>
             </Table>
-            <button onClick={() => PdfIsolamento(item)} className='btn btn-primary btn-lg'>Gerar Memorial</button>
+            <div>
+              <button onClick={() => PdfIsolamento(item)} className='btn btn-primary float-end'>Gerar memorial</button>
+            </div>
           </div>
         );
       })}

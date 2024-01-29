@@ -7,8 +7,8 @@ function severidade(cargaincendio: number) {
 }
 
 function valorXY(altura: number, largura: number, abertura: number): { x: number; y: number; z: number; } {
-  let x;
-  let z;
+  let x: number;
+  let z: number;
   if (altura >= largura) {
     x = altura / largura;
     z = largura;

@@ -27,7 +27,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
       await api.post('/project', {
         dados: data,
       });
-      toast.success('Projeto salvo com sucesso');
+      toast.success('Projeto criado com sucesso');
     } catch (err) {
       console.log(err);
       toast.error('Seja premium para salvar mais este projeto');
@@ -43,7 +43,7 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
   function handleInformations(data: informacoesProps) {
     addAllDataBuilding('informacoes', data);
     valoresInformacoes(data), onshow(1);
-    handleCreateProject(data)
+    handleCreateProject(data);
   }
 
   if (isActive) {
