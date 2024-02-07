@@ -11,7 +11,7 @@ interface ModuloProps {
 
 const ModuloShow = ({ modulos, onDelete }: ModuloProps) => {
   return (
-    <div className='py-5'>
+    <div className='pt-5'>
       {modulos.map((item) => {
         return (
           <div key={item.id} className='pb-5'>
