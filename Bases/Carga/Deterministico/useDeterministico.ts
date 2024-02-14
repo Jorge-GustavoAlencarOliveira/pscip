@@ -47,8 +47,23 @@ export const somasValores = (materiais: MateriaisDeterministicoProps[]) => {
 
 export const definicaoCargaIncendio = (modulos: ModuloDeterministicoProps[]) => {
   let resultados: number[] = []
-  modulos.map(({resultado}) => {
-    resultados.push(resultado)
+  modulos?.map((item) => {
+    resultados.push(item?.resultado)
   })
   return resultados.sort((a,b) => a - b).reverse()
+}
+
+export const maioresModulos = (modulos: ModuloDeterministicoProps[]) => {
+  const maioresValores = [...modulos].sort((a,b) => a.resultado - b.resultado).reverse()
+  return [maioresValores[0], maioresValores[1]]
+}
+
+export function numberFormat (value: number){
+  if(typeof value === 'number'){  
+    const newNumber = new Intl.NumberFormat('pt-BR').format(
+      value,
+    )
+    return (newNumber)
+  }
+  else return value
 }

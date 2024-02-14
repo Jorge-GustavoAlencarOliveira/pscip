@@ -2,6 +2,7 @@ import React from 'react';
 import canSSRAuth from '../utils/canSSRAuth';
 import MetodoDeterministico from '../../../Bases/Carga/Deterministico/metodoDeterministico';
 import Layout from '../../../Components/layout';
+import MetodoProbabilistico from '../../../Bases/Carga/Probabilistico/metodoProbabilistico';
 
 type MetodoProps = 'deterministico' | 'probabilistico';
 
@@ -11,9 +12,9 @@ const CargaincendioPage = () => {
     <>
       <Layout>
         <div className="mb-4">
-          <h4 className="text-primary mb-2">Cálculo de carga incêndio</h4>
+          <h4 className="text-primary mb-4">Cálculo de carga incêndio</h4>
           <span>Escolha o método que deseja calcular a carga incêndio.</span>
-          <div className="d-flex gap-3 mt-4">
+          <div className="d-flex gap-3 mt-2">
             <div className="d-flex gap-2">
               <input
                 id="probabilistico"
@@ -39,7 +40,7 @@ const CargaincendioPage = () => {
           </div>
         </div>
         {metodo === 'probabilistico' ? (
-          'Probabilistico'
+          <MetodoProbabilistico />
         ) : (
           <MetodoDeterministico />
         )}

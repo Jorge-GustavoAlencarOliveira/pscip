@@ -1,24 +1,21 @@
 import React from 'react';
-import { useDeterministico } from './useDeterministico';
+import { somasValores, numberFormat} from './useDeterministico';
 import { tabelac1 } from '../../CargaIncendio/TabelaDeterministico';
 import {
-  MateriaisDeterministicoProps,
   materiaisDeterministicoReducer,
   moduloDeterministicoReducer,
 } from './useReducerDeterministico';
 import Formula from '../../../public/formula_deterministico.png';
 import Image from 'next/image';
 import ShowModulosDeterministico from './showModulosDeterministico';
-import { somasValores } from './useDeterministico';
 import { valorestabelac1 } from '../../CargaIncendio/TabelaDeterministico';
 import { toast } from 'react-toastify';
-import { FaTrash } from 'react-icons/fa';
+import { formatarNumero, cleanNumber } from '../../formatarNumero';
 
 let idModulos = 0;
 let idMateriais = 1;
 
 const MetodoDeterministico = () => {
-  const { register, handleSubmit, errors, reset } = useDeterministico();
   const [modulos, dispatchModulos] = React.useReducer(
     moduloDeterministicoReducer,
     [],
@@ -27,10 +24,9 @@ const MetodoDeterministico = () => {
     materiaisDeterministicoReducer,
     [],
   );
-  const [tipo, setTipo] = React.useState('');
+  const [tipo, setTipo] = React.useState('Escolha um material');
   const [massa, setMassa] = React.useState('');
   const [area, setArea] = React.useState('');
-  console.log(modulos);
 
   function handleAddModulos() {
     if (area === '') return toast.error('Dê um valor para a área do piso.');
@@ -40,8 +36,8 @@ const MetodoDeterministico = () => {
       type: 'add',
       id: idModulos++,
       materiais: materiais,
-      area: area,
-      resultado: Number((somasValores(materiais) / +area).toFixed(2)),
+      area: (cleanNumber(area)/100).toString(),
+      resultado: Number((somasValores(materiais) / (cleanNumber(area)/100)).toFixed(2)),
     });
     dispatchMateriais({
       type: 'reset',
@@ -55,10 +51,10 @@ const MetodoDeterministico = () => {
       type: 'add',
       id: idMateriais++,
       tipo: tipo,
-      massa: massa,
+      massa: (cleanNumber(massa)/100).toString(),
     });
     setMassa('');
-    setTipo('0');
+    setTipo('Escolha um material');
   }
 
   function handleDeleteModulo(id: number) {
@@ -89,7 +85,7 @@ const MetodoDeterministico = () => {
           className="mt-2"
         />
       </div>
-      <div className="row  mx-auto bg-light py-3 px-2 rounded-3">
+      <div className="row mx-auto bg-light py-3 px-2 rounded-3">
         <div className="col-6 d-flex justify-content-center align-items-center gap-5 my-4 fs-5">
           <div className="d-flex justify-content-center">
             𝑞𝑓𝑖=
@@ -99,26 +95,18 @@ const MetodoDeterministico = () => {
                 {materiais?.map(({ id, tipo, massa }) => {
                   return (
                     <span key={id}>
-                      ({massa}x{valorestabelac1[+tipo]})
+                      ({numberFormat(+massa)}x{valorestabelac1[+tipo]})
                       {materiais.length !== id ? '+' : null}
                     </span>
                   );
                 })}
-                {/* {materiais.length > 0 ? (
-                  <button
-                    className="btn"
-                    onClick={() => dispatchMateriais({ type: 'reset' })}
-                  >
-                    <FaTrash size={12} className="mt-3 ms-3" />
-                  </button>
-                ) : null} */}
               </span>
               <span
                 style={{ width: '100%', height: '1px', background: '#000' }}
               ></span>
               <input
                 type="text"
-                onChange={({ target }) => setArea(target.value)}
+                onChange={({ target }) => setArea(formatarNumero(target.value))}
                 className="form-control my-1 text-center fs-5"
                 value={area}
                 placeholder="m²"
@@ -126,7 +114,7 @@ const MetodoDeterministico = () => {
             </span>
             <span>
               {materiais.length > 0 && area !== ''
-                ? `= ${(somasValores(materiais) / +area)
+                ? `= ${(somasValores(materiais) / +(cleanNumber(area)/100))
                     .toFixed(2)
                     .replace('.', ',')} MJ/m²`
                 : null}
@@ -144,7 +132,7 @@ const MetodoDeterministico = () => {
               onChange={({ target }) => setTipo(target.value)}
               value={tipo}
             >
-              <option selected>Escolha um material</option>
+              <option value='Escolha um material'>Escolha um material</option>
               {tabelac1.map((item, index) => {
                 return (
                   <option value={index} key={index}>
@@ -158,8 +146,8 @@ const MetodoDeterministico = () => {
             <span className="fw-bold">Massa:</span>
             <input
               type="text"
-              onChange={({ target }) => setMassa(target.value)}
-              value={massa}
+              onChange={({ target }) => setMassa(formatarNumero(target.value))}
+              value={`${massa} Kg`}
               className="form-control"
               placeholder="Kg"
             />

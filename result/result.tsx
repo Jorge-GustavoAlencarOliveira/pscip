@@ -15,8 +15,7 @@ const Result = () => {
   const { descricao: descricao1 } = TabelaDescricao();
   const { valoresOcupacao, informations } = useContextProjeto();
   const router = useRouter();
-  const { id } = router.query;
-  const pathname = usePathname();
+  
 
   // async function handleCreateProject() {
   //   if (pathname.startsWith('/projeto')) {

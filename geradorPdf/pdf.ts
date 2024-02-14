@@ -1,5 +1,4 @@
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
 const pdfMake = require('pdfmake/build/pdfmake');
 
 export interface moduloProps {

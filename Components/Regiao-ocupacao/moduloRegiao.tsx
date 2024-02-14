@@ -19,6 +19,8 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
   const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes } =
     useContextProjeto();
 
+    console.log(regioes);
+
   function handleAddRegiao(dados: dadosProps, ocupacoes: number[][]) {
     dispatchRegioes({
       type: 'add',
