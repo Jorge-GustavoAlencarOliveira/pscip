@@ -21,7 +21,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
     niveldeRiscoChecked,
     niveldeRiscoDados,
     nivelderisco,
-  } = useNiveldeRisco(newNiveldeRisco);
+  } = useNiveldeRisco({lista: newNiveldeRisco});
   const [showModal, setShowModal] = React.useState(false);
   const niveldeRisco = niveldeRiscoChecked(niveldeRiscoDados);
 

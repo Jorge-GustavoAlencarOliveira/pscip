@@ -4,7 +4,7 @@ import { InputGroup, Table } from 'react-bootstrap';
 
 const Cnae = () => {
   const [query, setQuery] = React.useState('');
-  const { filterCNAE } = useNiveldeRisco();
+  const { filterCNAE } = useNiveldeRisco({});
 
   const [dados, setDados] = React.useState([]);
   const result = filterCNAE(query);
@@ -35,7 +35,7 @@ const Cnae = () => {
         />
       </InputGroup>
       <ul className="mt-4 px-3">
-        {query && result?.map((item, index) => {
+        {query && typeof result !== 'string' && result?.map((item, index) => {
           return (
             <li key={index}>{item}</li>
           )

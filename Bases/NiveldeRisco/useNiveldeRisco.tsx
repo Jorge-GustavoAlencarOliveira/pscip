@@ -17,7 +17,11 @@ type NiveldeRiscoProps = {
   empresa: boolean;
 };
 
-export function useNiveldeRisco(lista: NiveldeRiscoProps) {
+type listaprops = {
+  lista?: NiveldeRiscoProps
+}
+
+export function useNiveldeRisco({lista}: listaprops) {
   function niveldeRiscoChecked(form: NiveldeRiscoProps) {
     Object.values(form);
     if (
