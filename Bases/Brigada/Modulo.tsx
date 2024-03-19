@@ -1,6 +1,6 @@
 import React from 'react';
 import { moduloProps } from './BrigadaReducer';
-import TabelaBrigada from './TabelaBrigada';
+import {tabelaBrigada} from './TabelaBrigada';
 import { Table } from 'react-bootstrap';
 import { divisao } from '../NumeroSaidas/TabelaNumeroSaidas';
 
@@ -11,7 +11,6 @@ interface ModuloProps {
 
 const Modulo = ({ modulo, onDelete }: ModuloProps) => {
   const {pavimento, divisao: div, populacao, brigadistas} = modulo
-  const { tabelaBrigada } = TabelaBrigada();
     return (
       <div>
         <button className='btn btn-secondary float-end my-2' onClick={() => onDelete(modulo.id)}>
