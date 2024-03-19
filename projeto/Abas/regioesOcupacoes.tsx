@@ -5,13 +5,12 @@ import { RegiaomoduloProps } from '../../Components/Regiao-ocupacao/regiaoReduce
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
-  edificacao?: RegiaomoduloProps[];
 }
 
-const RegioesOcupacoes = ({ isActive, onshow, edificacao }: pageProps) => {
+const RegioesOcupacoes = ({ isActive, onshow}: pageProps) => {
   return (
     <div className={isActive ? 'd-block' : 'd-none'}>
-      <ModuloRegiao onShow={() => onshow(2)} edificacao={edificacao} />
+      <ModuloRegiao onShow={() => onshow(2)}  />
     </div>
   );
 };

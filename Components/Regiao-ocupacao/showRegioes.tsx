@@ -12,7 +12,7 @@ const ShowRegioes = ({ regioes, OnDelete }: regiaoProps) => {
   const { descricao: descricao1 } = TabelaDescricao();
   const [showModalDeleteRegiao, setShowModalDeleteRegiao] =
     React.useState(false);
-
+  const [selectId, setSelectId] = React.useState(0)
   if (regioes.length !== 0) {
     return (
       <>
@@ -29,8 +29,32 @@ const ShowRegioes = ({ regioes, OnDelete }: regiaoProps) => {
           } = informacoes;
           return (
             <div key={id}>
+                <ModalCenter
+                show={showModalDeleteRegiao}
+                onHide={() => setShowModalDeleteRegiao(false)}
+                size="sm"
+              >
+                <div>
+                  <span>Deseja realmente excluir essa região?</span>
+                  <div className='d-flex gap-2 justify-content-end mt-3'>
+                    <button
+                      onClick={() => {
+                        OnDelete(selectId);
+                        setShowModalDeleteRegiao(false);
+                        console.log(selectId);
+                      }}
+                      className="btn btn-success"
+                    >
+                      Sim
+                    </button>
+                    <button onClick={() => setShowModalDeleteRegiao(false)} className="btn btn-danger">Não</button>
+                  </div>
+                </div>
+              </ModalCenter>
               <button
-                onClick={() => setShowModalDeleteRegiao(true)}
+                onClick={() =>{ setShowModalDeleteRegiao(true)
+                setSelectId(id)}
+                }
                 className="btn btn-secondary float-end mb-2 rounded-2"
               >
                 Excluir
@@ -94,27 +118,6 @@ const ShowRegioes = ({ regioes, OnDelete }: regiaoProps) => {
                   );
                 })}
               </Table>
-              <ModalCenter
-                show={showModalDeleteRegiao}
-                onHide={() => setShowModalDeleteRegiao(false)}
-                size="sm"
-              >
-                <div>
-                  <span>Deseja realmente excluir essa região?</span>
-                  <div className='d-flex gap-2 justify-content-end mt-3'>
-                    <button
-                      onClick={() => {
-                        OnDelete(id);
-                        setShowModalDeleteRegiao(false);
-                      }}
-                      className="btn btn-success"
-                    >
-                      Sim
-                    </button>
-                    <button onClick={() => setShowModalDeleteRegiao(false)} className="btn btn-danger">Não</button>
-                  </div>
-                </div>
-              </ModalCenter>
             </div>
           );
         })}

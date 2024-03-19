@@ -1,50 +1,41 @@
 import React from 'react';
 import ItemProject from '../ListProjects/itemProject';
 import Table from 'react-bootstrap/Table';
+import { MyprojectsProps } from '@/pages/dashboard';
 import { api } from '@/services/apiClient';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Loading from '../Loading/loading';
-import { informacoesProps } from '../Hooks/useDados';
 
-interface ListProjectsProps {
-  id: string;
-  created_at: string;
-  status: boolean;
-  dados: informacoesProps;
-}
+const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
+  const router = useRouter();
+  const listProjects = projects;
+  const count = projectsNumber;
 
-const Meusprojetos = () => {
-  const [listProjects, setListProjects] = React.useState<
-    ListProjectsProps[] | null
-  >(null);
-  const [count, setCount] = React.useState<number | null>(null);
-  const [loading, setLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    async function listProject() {
-      try {
-        setLoading(true);
-        const response = await api.get('/projects');
-        const responde1 = await api.get('/projects/count');
-        setListProjects(response.data);
-        setCount(responde1.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
+  async function deleteProject(id: string) {
+    try {
+      await api.delete('/project', {
+        params: {
+          id: id,
+        },
+      });
+      toast.success('Projeto deletado com sucesso')
+      router.reload();
+    } catch (err) {
+      return toast.error('Não foi possível apagar o projeto');
     }
-    listProject();
-  }, []);
-
-  function uptadeList(id: string) {
-    const newList = listProjects.filter((item) => item.id !== id);
-    setListProjects(newList);
-    setCount(count - 1);
   }
 
-  if (loading) {
-    return <Loading />;
+  async function createProject() {
+    try{
+      const user = await api.post('/project',{
+        data: {}
+      })
+      router.push(`/projeto/${user.data.id}`)
+      toast.success('Projeto criado com sucesso')
+    }catch(err){
+      console.log(err);
+    }
   }
 
   return (
@@ -59,9 +50,7 @@ const Meusprojetos = () => {
           </p>
         </div>
         <div>
-          <Link href="/projeto">
-            <button className="btn btn-primary">Iniciar um novo projeto</button>
-          </Link>
+            <button onClick={createProject} className="btn btn-primary">Iniciar um novo projeto</button>
         </div>
       </div>
       {count > 0 && (
@@ -89,7 +78,7 @@ const Meusprojetos = () => {
                     dados={item.dados}
                     id={item.id}
                     created_at={item.created_at}
-                    uptadeList={() => uptadeList(item.id)}
+                    uptadeList={async () => await deleteProject(item.id)}
                   />
                 );
               })}

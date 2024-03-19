@@ -1,5 +1,5 @@
 import React from 'react';
-import { somasValores, numberFormat} from './useDeterministico';
+import { somasValores, numberFormat } from './useDeterministico';
 import { tabelac1 } from '../../CargaIncendio/TabelaDeterministico';
 import {
   materiaisDeterministicoReducer,
@@ -36,8 +36,10 @@ const MetodoDeterministico = () => {
       type: 'add',
       id: idModulos++,
       materiais: materiais,
-      area: (cleanNumber(area)/100).toString(),
-      resultado: Number((somasValores(materiais) / (cleanNumber(area)/100)).toFixed(2)),
+      area: (cleanNumber(area) / 100).toString(),
+      resultado: Number(
+        (somasValores(materiais) / (cleanNumber(area) / 100)).toFixed(2),
+      ),
     });
     dispatchMateriais({
       type: 'reset',
@@ -51,7 +53,7 @@ const MetodoDeterministico = () => {
       type: 'add',
       id: idMateriais++,
       tipo: tipo,
-      massa: (cleanNumber(massa)/100).toString(),
+      massa: (cleanNumber(massa) / 100).toString(),
     });
     setMassa('');
     setTipo('Escolha um material');
@@ -74,6 +76,10 @@ const MetodoDeterministico = () => {
   return (
     <>
       <div className="d-flex flex-column my-3">
+        <span className='text-center fw-bold fs-5 mb-3'>
+          Método determinístico para levantamento da carga de incêndio
+          específica
+        </span>
         <span>
           Os valores da carga de incêndio específica serão calculados através do
           método determinístico pela seguinte expressão:
@@ -114,7 +120,7 @@ const MetodoDeterministico = () => {
             </span>
             <span>
               {materiais.length > 0 && area !== ''
-                ? `= ${(somasValores(materiais) / +(cleanNumber(area)/100))
+                ? `= ${(somasValores(materiais) / +(cleanNumber(area) / 100))
                     .toFixed(2)
                     .replace('.', ',')} MJ/m²`
                 : null}
@@ -132,7 +138,7 @@ const MetodoDeterministico = () => {
               onChange={({ target }) => setTipo(target.value)}
               value={tipo}
             >
-              <option value='Escolha um material'>Escolha um material</option>
+              <option value="Escolha um material">Escolha um material</option>
               {tabelac1.map((item, index) => {
                 return (
                   <option value={index} key={index}>

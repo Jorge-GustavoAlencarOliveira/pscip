@@ -1,20 +1,43 @@
 import React from 'react';
 import Layout from '../../Components/layout';
-import canSSRAuth from './utils/canSSRAuth';
 import Meusprojetos from '../../Components/MeusProjetos/meusProjetos';
+import canSSRAuth
+ from './utils/canSSRAuth';
+ import { setupAPIClient } from '@/services/api';
+import { informacoesProps } from '../../Components/Hooks/useDados';
 
-export default function Home() {
+ interface ListProjectsProps {
+  id: string;
+  created_at: string;
+  status: boolean;
+  dados: informacoesProps;
+}
+
+export type MyprojectsProps = {
+  projects: ListProjectsProps[];
+  count: number
+}
+
+export default function Home({projects, count}: MyprojectsProps) {
   return (
     <>
       <Layout>
-        <Meusprojetos />
+        <Meusprojetos projects={projects} count={count}/>
       </Layout>
     </>
   );
 }
 
-export const getServerSideProps = canSSRAuth(async () => {
+
+export const getServerSideProps = canSSRAuth(async(ctx) => {
+  const api = setupAPIClient(ctx)
+  const request = await api.get('/projects?status=true');
+  const request1 = await api.get('/projects/count');
+
   return {
-    props: {},
-  };
-});
+    props: {
+      projects: request.data,
+      count: request1.data
+    }
+  }
+})

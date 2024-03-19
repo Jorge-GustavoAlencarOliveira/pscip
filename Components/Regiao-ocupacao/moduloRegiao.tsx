@@ -5,26 +5,33 @@ import ShowRegioes from './showRegioes';
 import { RegiaomoduloProps } from './regiaoReducer';
 import ModalCenter from '../Modal/Modal';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
+import { api } from '@/services/apiClient';
 
 type ModuloRegiaoProps = {
   onShow: () => void;
-  edificacao?: RegiaomoduloProps[];
 };
 
-let id = 1;
 
-const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
-  // const initialRegioes = edificacao || [];
+const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
   const [showModal, setShowModal] = React.useState(false);
-  const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes } =
-    useContextProjeto();
+  const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes, project_id } =
+  useContextProjeto();
 
-    console.log(regioes);
+  async function updateEdificacao(data: RegiaomoduloProps[]) {
+    try{
+      await api.put('/project/edificacao', {
+        id: project_id,
+        edificacao: data
+      })
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   function handleAddRegiao(dados: dadosProps, ocupacoes: number[][]) {
     dispatchRegioes({
       type: 'add',
-      id: id++,
+      id: Math.floor(Math.random() * 100),
       dados: [dados, ocupacoes],
     });
     setShowModal(false);
@@ -41,6 +48,7 @@ const ModuloRegiao = ({ onShow, edificacao }: ModuloRegiaoProps) => {
     valoresRegiao(regioes);
     addAllDataBuilding('regioes', regioes);
     onShow();
+    updateEdificacao(regioes)
   }
 
   return (

@@ -7,11 +7,9 @@ const Minhaconta = () => {
   return (
     <>
       <Layout>
-        <form>
            <div>
              
            </div>
-        </form>
       </Layout> 
     </>
     

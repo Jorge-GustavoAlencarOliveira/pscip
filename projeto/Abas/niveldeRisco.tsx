@@ -5,6 +5,7 @@ import ModalCenter from '../../Components/Modal/Modal';
 import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
 import { cleanNumberInteiro } from '../../Bases/formatarNumero';
+import { api } from '@/services/apiClient';
 
 interface pageProps {
   isActive: boolean;
@@ -12,23 +13,39 @@ interface pageProps {
 }
 
 const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
+  const { regioes, addAllDataBuilding, nivelRisco, project_id } =
+    useContextProjeto();
+  const newNiveldeRisco = { ...nivelRisco?.props };
   const {
     setInformation,
     niveldeRiscoChecked,
     niveldeRiscoDados,
     nivelderisco,
-  } = useNiveldeRisco();
+  } = useNiveldeRisco(newNiveldeRisco);
   const [showModal, setShowModal] = React.useState(false);
   const niveldeRisco = niveldeRiscoChecked(niveldeRiscoDados);
-  const { regioes, addAllDataBuilding } = useContextProjeto();
 
   React.useEffect(() => {
     if (regioes[0]?.dados[0]) {
       const { areaTotal, pavimentos, altura } = regioes[0].dados[0];
-      nivelderisco.area(cleanNumberInteiro(areaTotal.toString())); 
+      nivelderisco.area(cleanNumberInteiro(areaTotal.toString()));
       nivelderisco.alturaPavimento(+pavimentos, altura);
     }
   }, [, regioes]);
+
+  async function updateNiveldeRisco() {
+    try {
+      await api.put('/project/nivelrisco', {
+        id: project_id,
+        nivelRisco: {
+          nivel: niveldeRisco,
+          props: niveldeRiscoDados,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   if (isActive) {
     return (
@@ -198,11 +215,16 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <Cnae />
         </ModalCenter>
         <div className="mt-4">
-          <ButtonNext onclick={
-            () => { onshow(4)
-              addAllDataBuilding('niveldeRisco', {nivel: niveldeRisco, props: niveldeRiscoDados})
-            }
-            } />
+          <ButtonNext
+            onclick={() => {
+              addAllDataBuilding('niveldeRisco', {
+                nivel: niveldeRisco,
+                props: niveldeRiscoDados,
+              });
+              updateNiveldeRisco();
+              onshow(4);
+            }}
+          />
         </div>
       </>
     );

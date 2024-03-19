@@ -15,20 +15,19 @@ const ShowModuloProbabilistico = ({ modulos, onDelete }: showModuloProps) => {
   const cargaFinal = formatModulos(modulos);
   if (modulos.length > 0) {
     return (
-      <div className="d-flex flex-column">
+      <div className="d-flex flex-column bg-light px-2 py-3 rounded-3">
         {modulos.map(({ id, material, altura, resultado }, index) => {
           return (
             <div className="d-flex">
-              <Table bordered key={id} className='table-secondary'>
+              <Table bordered key={id} className='table table-success table-striped text-center'>
                 <thead>
                   <tr>
-                    <th>
-                      <span  style={{marginLeft: '50px'}}>Módulo {index + 1}</span>
+                    <th colSpan={2}>
+                      Módulo {index + 1}
                     </th>
-                    <th></th>
                   </tr>
                 </thead>
-                <tbody className="text-center">
+                <tbody >
                   <tr>
                     <td >Material</td>
                     <td>{material}</td>
@@ -44,14 +43,14 @@ const ShowModuloProbabilistico = ({ modulos, onDelete }: showModuloProps) => {
                 </tbody>
               </Table>
               <div>
-                <button className="btn" style={{marginLeft: '-50px'}} onClick={() => onDelete(id)}>
-                  <FaTrash size={16} />
+                <button className="btn btn-secondary ms-2" onClick={() => onDelete(id)}>
+                  Excluir
                 </button>
               </div>
             </div>
           );
         })}
-        <span className="fs-5 fw-bold text-center bg-primary text-light rounded-3">
+        <span className="fs-5 fw-bold text-center bg-success text-light rounded-3">
           Carga incêndio adotada: {numberFormat(cargaFinal?.resultado)} MJ/m2
         </span>
       </div>

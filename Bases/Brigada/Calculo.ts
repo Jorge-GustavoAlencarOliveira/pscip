@@ -1,6 +1,4 @@
-import TabelaBrigada from "./TabelaBrigada";
-
-const {tabelaBrigada} = TabelaBrigada()
+import {tabelaBrigada} from "./TabelaBrigada";
 
 export function calculoBrigada (ocupacao:number, populacao:number){
   const referencia = tabelaBrigada[ocupacao]

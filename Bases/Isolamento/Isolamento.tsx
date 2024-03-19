@@ -20,7 +20,6 @@ const Isolamento = () => {
   }
 
   function handleSubmitData(data: TIsolamentoSchema) {
-    console.log(data);
     if (data) {
       const { risco1, risco2, bombeiro, Dprojeto } = data;
       const calculoIsolamento1 = dist1({

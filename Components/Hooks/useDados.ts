@@ -62,7 +62,7 @@ const informationsSchema = z.object({
   }),
 });
 
-export const useInformation = () => {
+export const useInformation = (dados: informacoesProps) => {
   type TinformationsSchema = z.infer<typeof informationsSchema>;
 
   const {
@@ -71,18 +71,18 @@ export const useInformation = () => {
     handleSubmit,
   } = useForm<TinformationsSchema>({
     defaultValues: {
-      projeto: '',
-      proprietario: '',
-      cpf: '',
-      razaoSocial: '',
-      cnpj: '',
+      projeto: dados?.projeto || '',
+      proprietario: dados?.proprietario || '',
+      cpf: dados?.cpf || '',
+      razaoSocial: dados?.razaoSocial || '',
+      cnpj: dados?.cnpj || '',
       endereco: {
-        tipo: '',
-        logradouro: '',
-        numero: '',
-        bairro: '',
-        cidade: '',
-        estado: '',
+        tipo: dados?.endereco.tipo || '',
+        logradouro: dados?.endereco.logradouro || '' ,
+        numero: dados?.endereco.numero || '',
+        bairro: dados?.endereco.bairro || '',
+        cidade: dados?.endereco.cidade || '',
+        estado: dados?.endereco.estado || '',
       },
     },
     mode: 'onBlur',

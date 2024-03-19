@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FaSignInAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import styles from './home.module.css';
+import canSSRGuest from './utils/canSSRGuest';
 
 const index = () => {
   return (
@@ -127,3 +128,10 @@ const index = () => {
 };
 
 export default index;
+
+
+export const getServerSideProps = canSSRGuest(async() => {
+  return {
+    props: {}
+  }
+} )

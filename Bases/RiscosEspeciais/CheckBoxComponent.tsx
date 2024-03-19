@@ -23,7 +23,7 @@ const CheckBoxRiscoEspeciais = ({
         value={name}
         onChange={handleChange}
         disabled={disabled}
-        checked={list.includes(name)}
+        checked={list?.includes(name)}
         className={styles.checkboxComponent}
       />
     </div>

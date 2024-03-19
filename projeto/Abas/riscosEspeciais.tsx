@@ -5,6 +5,7 @@ import { listaRiscosEspeciais } from '../../Bases/RiscosEspeciais/listaRiscosEsp
 import ButtonNext from '../Navbar/buttonNext';
 import { useRiscosEspeciais } from '../../Bases/RiscosEspeciais/useRiscosEspeciais';
 import { useContextProjeto } from '../Context/contextProjeto';
+import { api } from '@/services/apiClient';
 
 interface pageProps {
   isActive: boolean;
@@ -12,13 +13,28 @@ interface pageProps {
 }
 
 const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
+
+  const {addAllDataBuilding, riscosEspeciais, project_id} = useContextProjeto()
   const {
     handleChange,
     listChecked,
     existemRiscosEspeciais,
     handleChageExisteRisco,
-  } = useRiscosEspeciais();
-  const {addAllDataBuilding} = useContextProjeto()
+  } = useRiscosEspeciais(riscosEspeciais);
+  console.log(riscosEspeciais);
+
+  async function updateRiscosEspeciais(list: string[]) {
+    try{
+      await api.put('/project/riscosespeciais', {
+         id: project_id,
+         riscosEspeciais: list,
+      })
+      console.log('requisitou');
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   if (isActive) {
     return (
       <>
@@ -56,6 +72,7 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
             <ButtonNext onclick={() => {
               onshow(3)
               addAllDataBuilding('riscosEspeciais', listChecked)
+              updateRiscosEspeciais(listChecked)
             }}/>
           </div>
         </div>

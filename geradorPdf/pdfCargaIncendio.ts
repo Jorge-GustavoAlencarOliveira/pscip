@@ -143,7 +143,6 @@ export const pdfMetodoDeterministico = (
     return [moduloShow[0], moduloShow[1], ...materiaisShow, resultadoShow[0], resultadoShow[1], resultadoShow[2]];
   });
 
-  console.log(modulo);
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   const details = [
@@ -262,6 +261,6 @@ export const pdfMetodoDeterministico = (
     },
   };
   setTimeout(() => {
-    pdfMake.createPdf(docDefinitions).download();
+    pdfMake.createPdf(docDefinitions, null, null, pdfFonts.pdfMake.vfs).download();
   }, 1000);
 };

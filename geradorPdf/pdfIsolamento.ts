@@ -695,8 +695,8 @@ const PdfIsolamento = (modulos: moduloProps) => {
       tabelaMenor: { margin: [0, 0, 0, 0] },
     },
   };
-  pdfMake.createPdf(docDefinitions).download();
-  pdfMake.createPdf(docDefinitions1).download();
+  pdfMake.createPdf(docDefinitions, null, null, pdfFonts.pdfMake.vfs).download();
+  pdfMake.createPdf(docDefinitions1, null, null, pdfFonts.pdfMake.vfs).download();
 };
 
 export default PdfIsolamento;

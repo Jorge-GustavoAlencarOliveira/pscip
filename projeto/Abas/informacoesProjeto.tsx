@@ -2,48 +2,41 @@ import React from 'react';
 import ButtonNext from '../Navbar/buttonNext';
 import { Form } from 'react-bootstrap';
 import {
-  dadosProps,
   informacoesProps,
   useInformation,
 } from '../../Components/Hooks/useDados';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { toast } from 'react-toastify';
-import { setupAPIClient } from '@/services/api';
+import { api } from '@/services/apiClient';
+import { useRouter } from 'next/router';
 
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
-  dados?: informacoesProps;
 }
 
-const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
+const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
   const { valoresInformacoes, addAllDataBuilding, informations } =
     useContextProjeto();
-  const { handleSubmit, errors, register } = useInformation();
+  const { handleSubmit, errors, register } = useInformation(informations);
+  const router = useRouter()
 
-  async function handleCreateProject(data: informacoesProps) {
+  async function handleUpdateProject(data: informacoesProps) {
     try {
-      const api = setupAPIClient();
-      await api.post('/project', {
+      await api.put('/project/informacoes', {
         dados: data,
+        id: router.query.id,
+        status: true
       });
-      toast.success('Projeto criado com sucesso');
     } catch (err) {
       console.log(err);
-      toast.error('Seja premium para salvar mais este projeto');
     }
   }
 
-  // React.useEffect(() => {
-  //   if (dados) {
-  //     setAllInformacoesEdificacao(dados);
-  //   }
-  // }, []);
-
   function handleInformations(data: informacoesProps) {
     addAllDataBuilding('informacoes', data);
-    valoresInformacoes(data), onshow(1);
-    handleCreateProject(data);
+    valoresInformacoes(data); 
+    onshow(1);
+    handleUpdateProject(data);
   }
 
   if (isActive) {
@@ -218,3 +211,5 @@ const InformacoesProjeto = ({ isActive, onshow, dados }: pageProps) => {
 };
 
 export default InformacoesProjeto;
+
+

@@ -1,11 +1,15 @@
 import React from 'react'
 import canSSRAuth from '../utils/canSSRAuth';
+import Brigada from '../../../Bases/Brigada/Brigada';
+import Layout from '../../../Components/layout';
 
 const BrigadaPage = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <Layout>
+        <Brigada />
+      </Layout>
+    </>
   )
 }
 

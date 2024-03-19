@@ -32,6 +32,7 @@ const CargaincendioPage = () => {
                 type="radio"
                 onChange={() => setMetodo('deterministico')}
                 checked={metodo === 'deterministico'}
+                className='pe-auto'
               />
               <label htmlFor="deterministico" className="fw-bold">
                 Determinístico

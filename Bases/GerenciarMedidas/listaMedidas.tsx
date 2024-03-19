@@ -4,6 +4,7 @@ import { useGerenciamentoMedidas } from './usegerenciamentoMedidas';
 import { Table } from 'react-bootstrap';
 import { TabelasQuadro } from '../../QuadroInformativo/MedidasTabela';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
+import { api } from '@/services/apiClient';
 
 type listaMedidasProps = {
   medidas: string[];
@@ -15,17 +16,32 @@ const ListaMedidas = ({ medidas }: listaMedidasProps) => {
   const [select, setSelect] = React.useState(0);
   const { medidas: listaMedidas } = TabelasQuadro();
   const [medidasSelecionaveis, setMedidasSelecionaveis] = React.useState([])
-  const {addAllDataBuilding} = useContextProjeto()
-
+  const {addAllDataBuilding, medidasSeguranca, project_id} = useContextProjeto()
+  
+  async function updateMedidasdeSeguranca(medidas: string[]) {
+    console.log(medidas);
+    try{
+      const project = await api.put('/project/medidasseguranca', {
+        id: project_id,
+        medidasSeguranca: medidas
+      })
+      console.log(project);  
+    }catch(err){
+      console.log(err);
+    }
+  }
+ 
   React.useEffect(() => {
     setMedidasSelecionaveis([])
     listaMedidas.map(item => {
       if(!modulos.includes(item[0])) setMedidasSelecionaveis(items => [...items, item[0]])
     })
     addAllDataBuilding('medidasSeguranca', modulos)
-
+    updateMedidasdeSeguranca(modulos)
   },[modulos])
    
+ 
+
   return (
     <div className='mb-4'>
       <Table striped>

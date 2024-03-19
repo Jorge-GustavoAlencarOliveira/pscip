@@ -1,6 +1,4 @@
-import { setupAPIClient } from '@/services/api';
 import React from 'react';
-import { toast } from 'react-toastify';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonDropdown, { useItemProject } from './useItemProject';
 import { informacoesProps } from '../Hooks/useDados';
@@ -14,23 +12,7 @@ interface ProjectProps {
 
 const ItemProject = ({ id, uptadeList, dados, created_at }: ProjectProps) => {
   const { handleDetailsProject, handleEditProject } = useItemProject();
-  console.log(created_at);
-  async function handleDeleteProject(idProject: string) {
-    try {
-      const api = setupAPIClient();
-      if (typeof id === 'string') {
-        await api.delete('/project', {
-          params: {
-            id: idProject,
-          },
-        });
-        toast.success('Projeto deletado com sucesso');
-        uptadeList();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
 
   const listMonths = {
     '01': 'Jan',
@@ -81,7 +63,7 @@ const ItemProject = ({ id, uptadeList, dados, created_at }: ProjectProps) => {
             <Dropdown.Divider />
             <Dropdown.Item
               className="text-danger"
-              onClick={() => handleDeleteProject(id)}
+              onClick={uptadeList}
             >
               Deletar
             </Dropdown.Item>

@@ -4,6 +4,7 @@ import {
   probabilisticoReducer,
 } from './useReducerProbabilistico';
 import { tabela1,tabela2 } from '../../CargaIncendio/TabelaProbabilistico';
+import { cleanNumber } from '../../formatarNumero';
 
 
 let id = 0
@@ -17,9 +18,9 @@ export const useProbabilistico = () => {
     dispatch({
       type: 'add',
       id: id++,
-      altura: altura,
+      altura: (cleanNumber(altura)/100).toString(),
       material: tabela1[+material],
-      resultado: (+altura * tabela2[+material])
+      resultado: (cleanNumber(altura)/100) * tabela2[+material]
     });
     setMaterial('Escolha um material')
     setAltura('')

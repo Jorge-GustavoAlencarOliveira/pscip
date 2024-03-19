@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const useRiscosEspeciais = () => {
-
-  const [listChecked, setListChecked] = React.useState<string[]>([]);
-  const [existemRiscosEspeciais, setExistemRiscoEspeciais] = React.useState(true);
+export const useRiscosEspeciais = (riscoEspeciais: string[]) => {
+  const initialRiscosEspeciais = riscoEspeciais || []
+  const [listChecked, setListChecked] = React.useState<string[]>(initialRiscosEspeciais);
+  const [existemRiscosEspeciais, setExistemRiscoEspeciais] = React.useState(!(!!riscoEspeciais?.length));
 
   function handleChageExisteRisco (){
     setExistemRiscoEspeciais(risco => !risco)

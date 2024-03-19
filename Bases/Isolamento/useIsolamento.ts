@@ -25,7 +25,7 @@ export const useIsolamento = () => {
           .transform(numberTratement),
         pavimentos: z.coerce
           .number({ invalid_type_error: 'Insira um número válido' })
-          .min(1, { message: 'O valor inserido deve ser maior que 1' })
+          .min(1, { message: 'O valor inserido deve ser maior ou igual a 1' })
           .int({ message: 'Insira um número inteiro' }),
         unidadeAutonoma: z
           .string()
@@ -42,9 +42,11 @@ export const useIsolamento = () => {
       })
       .refine(
         (value) =>
+          !value.maiorDimensao.includes(',') &&
+          !value.menorDimensao.includes(',') &&
           value.maiorDimensao !== '' &&
           value.menorDimensao !== '' &&
-          (+value?.abertura <= +value?.menorDimensao * +value?.maiorDimensao),
+          +value?.abertura <= +value?.menorDimensao * +value?.maiorDimensao,
         {
           path: ['abertura'],
           message:
@@ -71,8 +73,8 @@ export const useIsolamento = () => {
           .nonempty({ message: 'Esse campo é obrigatório.' })
           .transform(numberTratement),
         pavimentos: z.coerce
-          .number({ invalid_type_error: 'Insira um número válido' })
-          .min(1, { message: 'O valor inserido deve ser maior que 1' })
+          .number({ invalid_type_error: 'Insira um número inteiro' })
+          .min(1, { message: 'O valor inserido deve ser maior ou igual a 1' })
           .int({ message: 'Insira um número inteiro' }),
         unidadeAutonoma: z
           .string()
@@ -89,9 +91,11 @@ export const useIsolamento = () => {
       })
       .refine(
         (value) =>
+          !value.maiorDimensao.includes(',') &&
+          !value.menorDimensao.includes(',') &&
           value.maiorDimensao !== '' &&
           value.menorDimensao !== '' &&
-          (+value?.abertura <= +value?.menorDimensao * +value?.maiorDimensao),
+          +value?.abertura <= +value?.menorDimensao * +value?.maiorDimensao,
         {
           path: ['abertura'],
           message:

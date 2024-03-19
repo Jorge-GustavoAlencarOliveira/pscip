@@ -30,6 +30,21 @@ type allDataBuildingProps = {
   observacoes: string;
 };
 
+type ContextProjetoprops = {
+  children: React.ReactNode;
+  project: {
+    id: string,
+    dados: informacoesProps,
+    edificacao: RegiaomoduloProps[],
+    riscosEspeciais: string[];
+    niveldeRisco: {
+      nivel: string;
+      props: NiveldeRiscoProps;
+    };
+    medidasSeguranca: string[];
+  }
+}
+
 interface ContextProjetoProps {
   valoresOcupacao: RegiaomoduloProps[];
   valoresRegiao: (valorRegiao: RegiaomoduloProps[]) => void;
@@ -47,6 +62,13 @@ interface ContextProjetoProps {
   allDataBuilding: allDataBuildingProps;
   regioes: RegiaomoduloProps[];
   dispatchRegioes: React.Dispatch<RegiaoActionProps>;
+  project_id: string;
+  riscosEspeciais: string[];
+  nivelRisco: {
+    nivel: string;
+    props: NiveldeRiscoProps;
+  };
+  medidasSeguranca: string[];
 }
 
 export const ProjetoContext = React.createContext<ContextProjetoProps>(
@@ -61,13 +83,15 @@ export const useContextProjeto = () => {
   return context;
 };
 
-export const ContextProjeto = ({ children }: React.PropsWithChildren) => {
+export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
   const [valoresOcupacao, setValoresOcupacao] =
     React.useState<RegiaomoduloProps[]>();
-  const [informations, setInformations] = React.useState<informacoesProps>();
+  const initialInformations = project.dados
+  const [informations, setInformations] = React.useState<informacoesProps>(initialInformations);
   const [allDataBuilding, setAllDataBuilding] =
     React.useState<allDataBuildingProps>({} as allDataBuildingProps);
-  const [regioes, dispatchRegioes] = React.useReducer(RegiaoReducer, []);
+  const initialEdificacao = project.edificacao || []
+  const [regioes, dispatchRegioes] = React.useReducer(RegiaoReducer, initialEdificacao);
 
   function addAllDataBuilding(
     key: keyof allDataBuildingProps,
@@ -91,6 +115,8 @@ export const ContextProjeto = ({ children }: React.PropsWithChildren) => {
     setInformations(informacoes);
   }
 
+  console.log(project.medidasSeguranca);
+
   return (
     <ProjetoContext.Provider
       value={{
@@ -102,6 +128,10 @@ export const ContextProjeto = ({ children }: React.PropsWithChildren) => {
         allDataBuilding,
         regioes,
         dispatchRegioes,
+        project_id: project.id,
+        riscosEspeciais: project.riscosEspeciais,
+        nivelRisco: project.niveldeRisco,
+        medidasSeguranca: project.medidasSeguranca
       }}
     >
       {children}
