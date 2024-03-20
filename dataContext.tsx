@@ -75,12 +75,12 @@ export const Logout = () => {
     toast.error('Erro ao deslogar');
   }
 };
+
 export const DataStorage = React.createContext({} as ContextData);
 
 const DataContext = ({ children }: ProviderProps) => {
   const [user, setUser] = React.useState<UserProps>();
   const isAuthenticated = !!user;
-  // const [data, setData] = React.useState<User>();
   const [login, setLogin] = React.useState(false);
   const [valoresOcupacao, setValoresOcupacao] =
     React.useState<RegiaomoduloProps[]>();
@@ -126,6 +126,7 @@ const DataContext = ({ children }: ProviderProps) => {
         email,
         password,
       });
+      console.log(response.data);;
       const { id, name, token, subscriptions, endereco, cpf } = response.data;
       setCookie(undefined, '@pscip.token', token, {
         maxAge: 60 * 60 * 24 * 30,

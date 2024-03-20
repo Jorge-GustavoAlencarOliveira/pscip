@@ -22,11 +22,11 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
     handleChageExisteRisco,
   } = useRiscosEspeciais(riscosEspeciais);
 
-  async function updateRiscosEspeciais(list: string[]) {
+  async function updateRiscosEspeciais() {
     try{
       await api.put('/project/riscosespeciais', {
          id: project_id,
-         riscosEspeciais: list,
+         riscosEspeciais: listChecked,
       })
     }catch(err){
       console.log(err);
@@ -70,7 +70,7 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
             <ButtonNext onclick={() => {
               onshow(3)
               addAllDataBuilding('riscosEspeciais', listChecked)
-              updateRiscosEspeciais(listChecked)
+              updateRiscosEspeciais()
             }}/>
           </div>
         </div>
