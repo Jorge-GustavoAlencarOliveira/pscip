@@ -17,11 +17,11 @@ const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
   const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes, project_id } =
   useContextProjeto();
 
-  async function updateEdificacao(data: RegiaomoduloProps[]) {
+  async function updateEdificacao() {
     try{
       await api.put('/project/edificacao', {
         id: project_id,
-        edificacao: data
+        edificacao: regioes
       })
     }catch(err){
       console.log(err);
@@ -48,7 +48,7 @@ const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
     valoresRegiao(regioes);
     addAllDataBuilding('regioes', regioes);
     onShow();
-    updateEdificacao(regioes)
+    updateEdificacao()
   }
 
   return (

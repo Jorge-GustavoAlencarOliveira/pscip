@@ -5,7 +5,6 @@ import { MyprojectsProps } from '@/pages/dashboard';
 import { api } from '@/services/apiClient';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
   const router = useRouter();
@@ -22,15 +21,14 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
       toast.success('Projeto deletado com sucesso')
       router.reload();
     } catch (err) {
+      console.log(err);
       return toast.error('Não foi possível apagar o projeto');
     }
   }
 
   async function createProject() {
     try{
-      const user = await api.post('/project',{
-        data: {}
-      })
+      const user = await api.post('/project')
       router.push(`/projeto/${user.data.id}`)
       toast.success('Projeto criado com sucesso')
     }catch(err){

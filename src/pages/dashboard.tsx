@@ -33,7 +33,7 @@ export const getServerSideProps = canSSRAuth(async(ctx) => {
   const api = setupAPIClient(ctx)
   const request = await api.get('/projects?status=true');
   const request1 = await api.get('/projects/count');
-
+  console.log(request.data);
   return {
     props: {
       projects: request.data,
