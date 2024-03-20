@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { parseCookies } from 'nookies';
 import { AuthTokenError } from './errors/AuthTokenError';
-import {Logout } from '../../dataContext';
+import { Logout } from '../../dataContext';
 
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
@@ -18,6 +18,7 @@ export function setupAPIClient(ctx = undefined) {
     },
     (err: AxiosError) => {
       if (err.response?.status === 401) {
+        console.log(err.response.data);
         if (typeof window !== undefined) {
           Logout();
         }

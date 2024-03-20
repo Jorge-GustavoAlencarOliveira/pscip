@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import ModuloRegiao from '../../Components/Regiao-ocupacao/moduloRegiao';
-import { RegiaomoduloProps } from '../../Components/Regiao-ocupacao/regiaoReducer';
 
 interface pageProps {
   isActive: boolean;

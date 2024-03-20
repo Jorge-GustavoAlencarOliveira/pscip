@@ -43,16 +43,25 @@ export default Projeto;
 
 export const getServerSideProps: GetServerSideProps = canSSRAuth(async (ctx) => {
   const {id} = ctx.params
-  const api = setupAPIClient(ctx)
-  const project = await api.get('/project/details', {
-    params: {
-      id: id
+  try{
+    const api = setupAPIClient(ctx)
+    const project = await api.get('/project/details', {
+      params: {
+        id: id
+      }
+    }) 
+    console.log(project.data);
+    return {
+      props: {
+        project: project.data
+      },
+    };
+  }catch(error){
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false
+      }
     }
-  }) 
-  console.log(project.data);
-  return {
-    props: {
-      project: project.data
-    },
-  };
+  }
 });

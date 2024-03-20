@@ -21,7 +21,6 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
     existemRiscosEspeciais,
     handleChageExisteRisco,
   } = useRiscosEspeciais(riscosEspeciais);
-  console.log(riscosEspeciais);
 
   async function updateRiscosEspeciais(list: string[]) {
     try{
@@ -29,7 +28,6 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
          id: project_id,
          riscosEspeciais: list,
       })
-      console.log('requisitou');
     }catch(err){
       console.log(err);
     }

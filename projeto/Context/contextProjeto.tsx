@@ -86,11 +86,11 @@ export const useContextProjeto = () => {
 export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
   const [valoresOcupacao, setValoresOcupacao] =
     React.useState<RegiaomoduloProps[]>();
-  const initialInformations = project.dados
+  const initialInformations = project?.dados || {} as informacoesProps
   const [informations, setInformations] = React.useState<informacoesProps>(initialInformations);
   const [allDataBuilding, setAllDataBuilding] =
     React.useState<allDataBuildingProps>({} as allDataBuildingProps);
-  const initialEdificacao = project.edificacao || []
+  const initialEdificacao = project?.edificacao || []
   const [regioes, dispatchRegioes] = React.useReducer(RegiaoReducer, initialEdificacao);
 
   function addAllDataBuilding(
@@ -115,8 +115,6 @@ export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
     setInformations(informacoes);
   }
 
-  console.log(project.medidasSeguranca);
-
   return (
     <ProjetoContext.Provider
       value={{
@@ -128,10 +126,10 @@ export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
         allDataBuilding,
         regioes,
         dispatchRegioes,
-        project_id: project.id,
-        riscosEspeciais: project.riscosEspeciais,
-        nivelRisco: project.niveldeRisco,
-        medidasSeguranca: project.medidasSeguranca
+        project_id: project?.id,
+        riscosEspeciais: project?.riscosEspeciais,
+        nivelRisco: project?.niveldeRisco,
+        medidasSeguranca: project?.medidasSeguranca
       }}
     >
       {children}
