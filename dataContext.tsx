@@ -126,7 +126,6 @@ const DataContext = ({ children }: ProviderProps) => {
         email,
         password,
       });
-      console.log(response.data);;
       const { id, name, token, subscriptions, endereco, cpf } = response.data;
       setCookie(undefined, '@pscip.token', token, {
         maxAge: 60 * 60 * 24 * 30,

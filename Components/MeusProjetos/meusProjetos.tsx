@@ -11,21 +11,6 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
   const listProjects = projects;
   const count = projectsNumber;
 
-  async function deleteProject(id: string) {
-    try {
-      await api.delete('/project', {
-        params: {
-          id: id,
-        },
-      });
-      toast.success('Projeto deletado com sucesso')
-      router.reload();
-    } catch (err) {
-      console.log(err);
-      return toast.error('Não foi possível apagar o projeto');
-    }
-  }
-
   async function createProject() {
     try{
       const user = await api.post('/project')
@@ -76,7 +61,6 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
                     dados={item.dados}
                     id={item.id}
                     created_at={item.created_at}
-                    uptadeList={async () => await deleteProject(item.id)}
                   />
                 );
               })}

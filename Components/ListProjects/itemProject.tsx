@@ -2,17 +2,32 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonDropdown, { useItemProject } from './useItemProject';
 import { informacoesProps } from '../Hooks/useDados';
-
+import { api } from '@/services/apiClient'
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 interface ProjectProps {
   id: string;
   created_at: string;
   dados: informacoesProps;
-  uptadeList: () => void;
 }
 
-const ItemProject = ({ id, uptadeList, dados, created_at }: ProjectProps) => {
+const ItemProject = ({ id, dados, created_at }: ProjectProps) => {
   const { handleDetailsProject, handleEditProject } = useItemProject();
-
+  const router = useRouter()
+  async function deleteProject() {
+    try {
+      await api.delete('/project', {
+        params: {
+          id: id,
+        },
+      });
+      toast.success('Projeto deletado com sucesso')
+      router.reload();
+    } catch (err) {
+      console.log(err);
+      return toast.error('Não foi possível apagar o projeto');
+    }
+  }
 
   const listMonths = {
     '01': 'Jan',
@@ -63,7 +78,7 @@ const ItemProject = ({ id, uptadeList, dados, created_at }: ProjectProps) => {
             <Dropdown.Divider />
             <Dropdown.Item
               className="text-danger"
-              onClick={uptadeList}
+              onClick={deleteProject}
             >
               Deletar
             </Dropdown.Item>

@@ -12,15 +12,13 @@ const SignUp = () => {
   const { handleSubmit, errors, register, isSubmitting } = UseFormSignUp();
   const { userSignUp } = React.useContext(DataStorage);
 
-  async function handleSignUp({ name, email, password, cpf }) {
-    setTimeout(() => {
-      userSignUp({
-        name,
-        email,
-        password,
-        cpf,
-      });
-    }, 3000);
+  function handleSignUp({ name, email, password, cpf }) {
+    userSignUp({
+      name,
+      email,
+      password,
+      cpf,
+    });
   }
 
   return (
