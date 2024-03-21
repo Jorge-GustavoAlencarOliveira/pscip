@@ -4,13 +4,14 @@ import { useGerenciamentoMedidas } from './usegerenciamentoMedidas';
 import { Table } from 'react-bootstrap';
 import { TabelasQuadro } from '../../QuadroInformativo/MedidasTabela';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 
 type listaMedidasProps = {
   medidas: string[];
 };
 
 const ListaMedidas = ({ medidas }: listaMedidasProps) => {
+  
   const { handleAddMedida, handleDeleteMedida, modulos } =
     useGerenciamentoMedidas(medidas);
   const [select, setSelect] = React.useState(0);
@@ -21,6 +22,7 @@ const ListaMedidas = ({ medidas }: listaMedidasProps) => {
   async function updateMedidasdeSeguranca(medidas: string[]) {
     console.log(medidas);
     try{
+      const api = setupAPIClient()
       const project = await api.put('/project/medidasseguranca', {
         id: project_id,
         medidasSeguranca: medidas

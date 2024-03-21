@@ -5,7 +5,7 @@ export const useRiscosEspeciais = (riscoEspeciais: string[]) => {
   const [listChecked, setListChecked] = React.useState<string[]>(initialRiscosEspeciais);
   const [existemRiscosEspeciais, setExistemRiscoEspeciais] = React.useState(!(!!riscoEspeciais?.length));
 
-  function handleChageExisteRisco (){
+  function handleChangeExisteRisco (){
     setExistemRiscoEspeciais(risco => !risco)
     setListChecked([])
   }
@@ -18,5 +18,5 @@ export const useRiscosEspeciais = (riscoEspeciais: string[]) => {
     };
   }
 
-  return { listChecked, handleChange, existemRiscosEspeciais, handleChageExisteRisco};
+  return { listChecked, handleChange, existemRiscosEspeciais, handleChangeExisteRisco};
 };

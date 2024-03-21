@@ -19,8 +19,18 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
     handleChange,
     listChecked,
     existemRiscosEspeciais,
-    handleChageExisteRisco,
+    handleChangeExisteRisco,
   } = useRiscosEspeciais(riscosEspeciais);
+
+  const rend = React.useCallback(() => {
+    handleChangeExisteRisco()
+  }, [])
+
+  React.useEffect(() => {
+    // if(listChecked.length === 0) {
+    //   rend()
+    // }
+  },[handleChange])
 
   async function updateRiscosEspeciais() {
     try{
@@ -43,7 +53,7 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
             type="switch"
             id="custom-switch"
             label="Existem riscos especiais na edificação."
-            onChange={handleChageExisteRisco}
+            onChange={handleChangeExisteRisco}
             checked={!existemRiscosEspeciais}
           />
         </div>
