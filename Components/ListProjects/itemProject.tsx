@@ -2,7 +2,7 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonDropdown, { useItemProject } from './useItemProject';
 import { informacoesProps } from '../Hooks/useDados';
-import { api } from '@/services/apiClient'
+import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 interface ProjectProps {
@@ -16,6 +16,7 @@ const ItemProject = ({ id, dados, created_at }: ProjectProps) => {
   const router = useRouter()
   async function deleteProject() {
     try {
+      const api = setupAPIClient()
       await api.delete('/project', {
         params: {
           id: id,

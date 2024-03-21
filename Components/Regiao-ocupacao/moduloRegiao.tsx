@@ -5,7 +5,7 @@ import ShowRegioes from './showRegioes';
 import { RegiaomoduloProps } from './regiaoReducer';
 import ModalCenter from '../Modal/Modal';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 
 type ModuloRegiaoProps = {
   onShow: () => void;
@@ -19,6 +19,7 @@ const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
 
   async function updateEdificacao() {
     try{
+      const api = setupAPIClient()
       await api.put('/project/edificacao', {
         id: project_id,
         edificacao: regioes

@@ -6,7 +6,7 @@ import {
   useInformation,
 } from '../../Components/Hooks/useDados';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
 
 interface pageProps {
@@ -22,6 +22,7 @@ const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
 
   async function handleUpdateProject(data: informacoesProps) {
     try {
+      const api = setupAPIClient()
       await api.put('/project/informacoes', {
         dados: data,
         id: router.query.id,

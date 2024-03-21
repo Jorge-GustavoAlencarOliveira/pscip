@@ -5,7 +5,7 @@ import ModalCenter from '../../Components/Modal/Modal';
 import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
 import { cleanNumberInteiro } from '../../Bases/formatarNumero';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 
 interface pageProps {
   isActive: boolean;
@@ -35,6 +35,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
 
   async function updateNiveldeRisco() {
     try {
+      const api = setupAPIClient()
       await api.put('/project/nivelrisco', {
         id: project_id,
         nivelRisco: {

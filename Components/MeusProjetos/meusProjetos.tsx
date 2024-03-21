@@ -2,9 +2,9 @@ import React from 'react';
 import ItemProject from '../ListProjects/itemProject';
 import Table from 'react-bootstrap/Table';
 import { MyprojectsProps } from '@/pages/dashboard';
-import { api } from '@/services/apiClient';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { setupAPIClient } from '@/services/api';
 
 const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
   const router = useRouter();
@@ -13,6 +13,7 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
 
   async function createProject() {
     try{
+      const api = setupAPIClient()
       const user = await api.post('/project')
       router.push(`/projeto/${user.data.id}`)
       toast.success('Projeto criado com sucesso')

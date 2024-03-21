@@ -5,7 +5,7 @@ import { listaRiscosEspeciais } from '../../Bases/RiscosEspeciais/listaRiscosEsp
 import ButtonNext from '../Navbar/buttonNext';
 import { useRiscosEspeciais } from '../../Bases/RiscosEspeciais/useRiscosEspeciais';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { api } from '@/services/apiClient';
+import { setupAPIClient } from '@/services/api';
 
 interface pageProps {
   isActive: boolean;
@@ -24,6 +24,7 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
 
   async function updateRiscosEspeciais() {
     try{
+      const api = setupAPIClient()
       await api.put('/project/riscosespeciais', {
          id: project_id,
          riscosEspeciais: listChecked,
