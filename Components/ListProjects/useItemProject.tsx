@@ -6,7 +6,7 @@ import { LegacyRef } from 'react';
 export const useItemProject = () => {
   const router = useRouter()
   function handleDetailsProject(id: string) {
-    router.push(`/projeto/${id}`);
+    router.push(`/projeto/${id}?edit=true`);
   }
   function handleEditProject(id: string) {
     router.push(`/editproject/${id}`);

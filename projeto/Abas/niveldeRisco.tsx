@@ -4,8 +4,9 @@ import { useNiveldeRisco } from '../../Bases/NiveldeRisco/useNiveldeRisco';
 import ModalCenter from '../../Components/Modal/Modal';
 import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { cleanNumberInteiro } from '../../Bases/formatarNumero';
 import { setupAPIClient } from '@/services/api';
+import { ButtonUpdate } from '../../Components/UI/buttonUpdate';
+import { cleanNumber, cleanNumberInteiro } from '../../Bases/formatarNumero';
 
 interface pageProps {
   isActive: boolean;
@@ -13,29 +14,72 @@ interface pageProps {
 }
 
 const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
-  const { regioes, addAllDataBuilding, nivelRisco, project_id } =
+  const { addAllDataBuilding, allDataBuilding, project_id, action } =
     useContextProjeto();
-  const newNiveldeRisco = { ...nivelRisco?.props };
-  const {
-    setInformation,
-    niveldeRiscoChecked,
-    niveldeRiscoDados,
-    nivelderisco,
-  } = useNiveldeRisco({lista: newNiveldeRisco});
+  const { niveldeRiscoChecked } = useNiveldeRisco();
   const [showModal, setShowModal] = React.useState(false);
-  const niveldeRisco = niveldeRiscoChecked(niveldeRiscoDados);
+  console.log(allDataBuilding.niveldeRisco.props);
+  const niveldeRisco = niveldeRiscoChecked(allDataBuilding.niveldeRisco.props);
+
+  const [niveldeRiscoDados, setNiveldeRiscoDados] = React.useState({
+    area: '',
+    patrimonioHistorico:
+      allDataBuilding.niveldeRisco?.props?.patrimonioHistorico || false,
+    alturaPavimento: false,
+    maisdeCem: allDataBuilding.niveldeRisco?.props?.maisdeCem || false,
+    subsolo: allDataBuilding.niveldeRisco?.props?.subsolo || false,
+    liquidoCombustivel:
+      allDataBuilding.niveldeRisco?.props?.liquidoCombustivel || false,
+    gasGLP: allDataBuilding.niveldeRisco?.props?.gasGLP || false,
+    empresa: allDataBuilding.niveldeRisco?.props?.empresa || false,
+  });
+
+  function definedArea(area: number) {
+    if (area <= 200){
+      console.log('foi');
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        area: 'menos que 200',
+      }));}
+    else if (area > 200 && area <= 930){
+      console.log('foi');
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        area: 'entre 200 e 930',
+      }));}
+    else if (area > 930){
+      console.log('foi');
+      return setNiveldeRiscoDados((item) => ({ ...item, area: 'mais de 930' }))}
+  }
+
+  function defidedAlturaPavimento(pavimentos: number, altura: number) {
+    if (pavimentos > 3 || altura > 12) {
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        alturaPavimento: true,
+      }));
+    } else
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        alturaPavimento: false,
+      }));
+  }
 
   React.useEffect(() => {
-    if (regioes[0]?.dados[0]) {
-      const { areaTotal, pavimentos, altura } = regioes[0].dados[0];
-      nivelderisco.area(cleanNumberInteiro(areaTotal.toString()));
-      nivelderisco.alturaPavimento(+pavimentos, altura);
+    if (allDataBuilding.regioes[0]?.dados[0]) {
+      const { areaTotal, pavimentos, altura } =
+        allDataBuilding.regioes[0].dados[0];
+      defidedAlturaPavimento(
+        cleanNumberInteiro(pavimentos),
+        cleanNumberInteiro(altura),
+      );
+      definedArea(cleanNumber(areaTotal.toString()));
     }
-  }, [, regioes]);
+  }, [, addAllDataBuilding]);
 
   async function updateNiveldeRisco() {
     try {
-      const api = setupAPIClient()
+      const api = setupAPIClient();
       await api.put('/project/nivelrisco', {
         id: project_id,
         nivelRisco: {
@@ -63,7 +107,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
             type="checkbox"
             name="area"
             id="area1"
-            checked={niveldeRiscoDados.area === 'menos que 200'}
+            checked={niveldeRiscoDados?.area === 'menos que 200'}
             readOnly
           />
           <label htmlFor="area1">
@@ -75,7 +119,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="area2"
-            checked={niveldeRiscoDados.area === 'entre 200 e 930'}
+            checked={niveldeRiscoDados?.area === 'entre 200 e 930'}
             readOnly
           />
           <label htmlFor="area2">
@@ -87,7 +131,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="area3"
-            checked={niveldeRiscoDados.area === 'mais de 930'}
+            checked={niveldeRiscoDados?.area === 'mais de 930'}
             readOnly
           />
           <label htmlFor="area3">
@@ -99,9 +143,11 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="patrimonioHistorico"
-            checked={niveldeRiscoDados.patrimonioHistorico}
             onChange={({ target }) =>
-              setInformation('patrimonioHistorico', target.checked)
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                patrimonioHistorico: target.checked,
+              }))
             }
           />
           <label htmlFor="patrimonioHistorico">
@@ -113,7 +159,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="alturaPavimento"
-            checked={niveldeRiscoDados.alturaPavimento}
+            checked={niveldeRiscoDados?.alturaPavimento}
             readOnly
           />
           <label htmlFor="alturaPavimento">
@@ -125,10 +171,14 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="maisdeCem"
-            checked={niveldeRiscoDados.maisdeCem}
             onChange={({ target }) =>
-              setInformation('maisdeCem', target.checked)
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                maisdeCem: target.checked,
+              }))
             }
+            checked={niveldeRiscoDados?.maisdeCem}
+
           />
           <label htmlFor="maisdeCem">
             Edificação ou espaço destinado ao uso coletivo com lotação superior
@@ -139,8 +189,14 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="subsolo"
-            checked={niveldeRiscoDados.subsolo}
-            onChange={({ target }) => setInformation('subsolo', target.checked)}
+            onChange={({ target }) =>
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                subsolo: target.checked,
+              }))
+            }
+            checked={niveldeRiscoDados?.subsolo}
+
           />
           <label htmlFor="subsolo">
             Edificação em que o subsolo possua qualquer atividade ou uso
@@ -151,10 +207,13 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="liquidoCombustivel"
-            checked={niveldeRiscoDados.liquidoCombustivel}
             onChange={({ target }) =>
-              setInformation('liquidoCombustivel', target.checked)
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                liquidoCombustivel: target.checked,
+              }))
             }
+            checked={niveldeRiscoDados?.liquidoCombustivel}
           />
           <label htmlFor="liquidoCombustivel">
             Armazenamento de líquido combustível ou inflamável, ainda que
@@ -165,8 +224,14 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="gasGLP"
-            checked={niveldeRiscoDados.gasGLP}
-            onChange={({ target }) => setInformation('gasGLP', target.checked)}
+            onChange={({ target }) =>
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                gasGLP: target.checked,
+              }))
+            }
+            checked={niveldeRiscoDados?.gasGLP}
+
           />
           <label htmlFor="gasGLP">
             Armazenamento de gás liquefeito de petróleo (GLP) em quantidade
@@ -177,8 +242,13 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <input
             type="checkbox"
             id="empresa"
-            checked={niveldeRiscoDados.empresa}
-            onChange={({ target }) => setInformation('empresa', target.checked)}
+            onChange={({ target }) =>
+              setNiveldeRiscoDados((item) => ({
+                ...item,
+                empresa: target.checked,
+              }))
+            }
+            checked={niveldeRiscoDados?.empresa}
           />
           <label htmlFor="empresa">
             Empresa cuja atividade(s) econômica(s), principal ou secundária,
@@ -216,16 +286,22 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <Cnae />
         </ModalCenter>
         <div className="mt-4">
-          <ButtonNext
-            onclick={() => {
-              addAllDataBuilding('niveldeRisco', {
-                nivel: niveldeRisco,
-                props: niveldeRiscoDados,
-              });
-              updateNiveldeRisco();
-              onshow(4);
-            }}
-          />
+          {action === 'true' ? (
+            <ButtonUpdate handleClick={updateNiveldeRisco}>
+              Salvar alterações
+            </ButtonUpdate>
+          ) : (
+            <ButtonNext
+              onclick={() => {
+                addAllDataBuilding('niveldeRisco', {
+                  nivel: niveldeRisco,
+                  props: niveldeRiscoDados,
+                });
+                updateNiveldeRisco();
+                onshow(4);
+              }}
+            />
+          )}
         </div>
       </>
     );

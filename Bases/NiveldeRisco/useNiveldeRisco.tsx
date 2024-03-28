@@ -1,10 +1,4 @@
-import React from 'react';
 import { CNAE } from './cnaeTabela';
-import {
-  cleanNumber,
-  cleanNumberInteiro,
-  formatarNumero,
-} from '../formatarNumero';
 
 type NiveldeRiscoProps = {
   area: string;
@@ -17,12 +11,10 @@ type NiveldeRiscoProps = {
   empresa: boolean;
 };
 
-type listaprops = {
-  lista?: NiveldeRiscoProps
-}
 
-export function useNiveldeRisco({lista}: listaprops) {
+export function useNiveldeRisco() {
   function niveldeRiscoChecked(form: NiveldeRiscoProps) {
+    if(!form) return
     Object.values(form);
     if (
       Object.values(form).some(
@@ -35,38 +27,7 @@ export function useNiveldeRisco({lista}: listaprops) {
     else return 'Não encontrado';
   }
 
-  const [niveldeRiscoDados, setNiveldeRiscoDados] = React.useState(
-     {
-      area: '',
-      patrimonioHistorico: lista?.patrimonioHistorico || false,
-      alturaPavimento: false,
-      maisdeCem: lista.maisdeCem || false,
-      subsolo: lista?.subsolo || false,
-      liquidoCombustivel: lista?.liquidoCombustivel || false,
-      gasGLP: lista?.gasGLP || false,
-      empresa: lista?.empresa || false,
-    },
-  );
-
-  function setInformation(
-    key: keyof NiveldeRiscoProps,
-    value: string | boolean,
-  ) {
-    setNiveldeRiscoDados((prev) => ({ ...prev, [key]: value }));
-  }
-
-  const nivelderisco = {
-    area: (area: number) => {
-      if (area <= 200) return setInformation('area', 'menos que 200');
-      else if (area > 200 && area <= 930)
-        return setInformation('area', 'entre 200 e 930');
-      else if (area > 930) return setInformation('area', 'mais de 930');
-    },
-    alturaPavimento: (pavimentos: number, altura: string) => {
-      if (pavimentos > 3 || cleanNumberInteiro(altura) > 12)
-        setInformation('alturaPavimento', true);
-    },
-  };
+  
 
   const filterCNAE = (query: string) => {
     const result = CNAE.filter(
@@ -76,10 +37,8 @@ export function useNiveldeRisco({lista}: listaprops) {
   };
 
   return {
-    setInformation,
-    niveldeRiscoDados,
     niveldeRiscoChecked,
     filterCNAE,
-    nivelderisco,
   };
 }
+

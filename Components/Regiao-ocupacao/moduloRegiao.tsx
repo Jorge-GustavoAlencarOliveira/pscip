@@ -2,54 +2,60 @@ import React from 'react';
 import ModuloOcupacao from './moduloOcupacao';
 import { dadosProps } from '../Hooks/useDados';
 import ShowRegioes from './showRegioes';
-import { RegiaomoduloProps } from './regiaoReducer';
 import ModalCenter from '../Modal/Modal';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
 import { setupAPIClient } from '@/services/api';
+import { ButtonUpdate } from '../UI/buttonUpdate';
+import { medidasdeSegurancaMinimas } from '../../Bases/GerenciarMedidas/medidasMinimas';
+import { useRegiao } from './useRegiao';
 
 type ModuloRegiaoProps = {
   onShow: () => void;
 };
 
-
-const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
+const ModuloRegiao = ({ onShow }: ModuloRegiaoProps) => {
   const [showModal, setShowModal] = React.useState(false);
-  const { valoresRegiao, addAllDataBuilding, regioes, dispatchRegioes, project_id } =
-  useContextProjeto();
+  const {
+    addAllDataBuilding,
+    project_id,
+    action,
+    allDataBuilding
+  } = useContextProjeto();
+  const {regioes, handleAddRegiao, handleDeleteRegiao} = useRegiao(allDataBuilding.regioes)
 
   async function updateEdificacao() {
-    try{
-      const api = setupAPIClient()
+    try {
+      const api = setupAPIClient();
       await api.put('/project/edificacao', {
         id: project_id,
-        edificacao: regioes
-      })
-    }catch(err){
+        edificacao: regioes,
+      });
+    } catch (err) {
       console.log(err);
     }
   }
 
-  function handleAddRegiao(dados: dadosProps, ocupacoes: number[][]) {
-    dispatchRegioes({
-      type: 'add',
-      id: Math.floor(Math.random() * 100),
-      dados: [dados, ocupacoes],
-    });
-    setShowModal(false);
+  async function updateMedidasdeSeguranca() {
+    const medidas = medidasdeSegurancaMinimas(regioes);
+    try {
+      const api = setupAPIClient();
+      await api.put('/project/medidasseguranca', {
+        id: project_id,
+        medidasSeguranca: medidas[0],
+      });
+      addAllDataBuilding('medidasSeguranca', medidas[0])
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function handleDeleteRegiao(id: number) {
-    dispatchRegioes({
-      type: 'delete',
-      id: id,
-    });
-  }
+  
 
   function handleNext() {
-    valoresRegiao(regioes);
+    // valoresRegiao(regioes);
     addAllDataBuilding('regioes', regioes);
     onShow();
-    updateEdificacao()
+    updateEdificacao();
   }
 
   return (
@@ -83,21 +89,33 @@ const ModuloRegiao = ({ onShow}: ModuloRegiaoProps) => {
         size="xl"
         header="Insira as regiões e ocupações desejadas"
       >
-        <ModuloOcupacao addRegiao={handleAddRegiao} />
+        <ModuloOcupacao addRegiao={handleAddRegiao} closeModal={() => setShowModal(false)} />
       </ModalCenter>
       <div className="flex-grow-1">
         <ShowRegioes regioes={regioes} OnDelete={handleDeleteRegiao} />
       </div>
       <div>
-        <button
-          className="btn btn-primary float-end"
-          disabled={regioes.length === 0 ? true : false}
-          onClick={() => {
-            handleNext(), addAllDataBuilding('regioes', regioes);
-          }}
-        >
-          Proximo
-        </button>
+        {action === 'true' ? (
+          <ButtonUpdate
+            handleClick={() => {
+              updateEdificacao();
+              updateMedidasdeSeguranca()
+              addAllDataBuilding('regioes', regioes);
+            }}
+          >
+            Salvar alterações
+          </ButtonUpdate>
+        ) : (
+          <button
+            className="btn btn-primary float-end"
+            disabled={regioes.length === 0 ? true : false}
+            onClick={() => {
+              handleNext(), addAllDataBuilding('regioes', regioes);
+            }}
+          >
+            Proximo
+          </button>
+        )}
       </div>
     </div>
   );

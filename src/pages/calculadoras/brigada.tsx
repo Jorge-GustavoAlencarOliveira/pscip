@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import canSSRAuth from '../utils/canSSRAuth';
 import Brigada from '../../../Bases/Brigada/Brigada';
-import Layout from '../../../Components/layout';
+import Layout from '../../../Components/UI/layout';
 
 const BrigadaPage = () => {
   return (
@@ -10,10 +10,10 @@ const BrigadaPage = () => {
         <Brigada />
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default BrigadaPage
+export default BrigadaPage;
 
 export const getServerSideProps = canSSRAuth(async () => {
   return {

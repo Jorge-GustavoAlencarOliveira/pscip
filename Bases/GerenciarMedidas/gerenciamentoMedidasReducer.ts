@@ -1,6 +1,7 @@
 type actionProps = {
-  type: 'add' | 'delete';
+  type: 'add' | 'delete' | 'update';
   medida?: string;
+  updateMedidas?: string[]
 };
 
 export const gerenciamentoMedidasReducer = (
@@ -16,6 +17,9 @@ export const gerenciamentoMedidasReducer = (
     }
     case 'delete': {
       return modulos.filter((item) => item !== action.medida);
+    }
+    case 'update': {
+      return [...action.updateMedidas]
     }
     default: {
       throw Error('Ação desconhecida');

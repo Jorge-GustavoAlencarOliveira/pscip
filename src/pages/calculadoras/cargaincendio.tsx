@@ -1,7 +1,7 @@
 import React from 'react';
 import canSSRAuth from '../utils/canSSRAuth';
 import MetodoDeterministico from '../../../Bases/Carga/Deterministico/metodoDeterministico';
-import Layout from '../../../Components/layout';
+import Layout from '../../../Components/UI/layout';
 import MetodoProbabilistico from '../../../Bases/Carga/Probabilistico/metodoProbabilistico';
 
 type MetodoProps = 'deterministico' | 'probabilistico';
@@ -32,7 +32,7 @@ const CargaincendioPage = () => {
                 type="radio"
                 onChange={() => setMetodo('deterministico')}
                 checked={metodo === 'deterministico'}
-                className='pe-auto'
+                className="pe-auto"
               />
               <label htmlFor="deterministico" className="fw-bold">
                 Determinístico

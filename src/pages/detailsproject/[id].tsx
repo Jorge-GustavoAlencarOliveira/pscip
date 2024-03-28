@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../../Components/layout';
+import Layout from '../../../Components/UI/layout';
 import useRouter from 'next/router';
 import canSSRAuth from '../utils/canSSRAuth';
 import { setupAPIClient } from '@/services/api';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../../Components/layout';
+import Layout from '../../../Components/UI/layout';
 import Link from 'next/link';
 import canSSRAuth from '../utils/canSSRAuth';
 

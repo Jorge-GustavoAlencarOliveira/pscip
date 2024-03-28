@@ -6,6 +6,7 @@ import ButtonNext from '../Navbar/buttonNext';
 import { useRiscosEspeciais } from '../../Bases/RiscosEspeciais/useRiscosEspeciais';
 import { useContextProjeto } from '../Context/contextProjeto';
 import { setupAPIClient } from '@/services/api';
+import { ButtonUpdate } from '../../Components/UI/buttonUpdate';
 
 interface pageProps {
   isActive: boolean;
@@ -13,33 +14,23 @@ interface pageProps {
 }
 
 const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
-
-  const {addAllDataBuilding, riscosEspeciais, project_id} = useContextProjeto()
+  const { addAllDataBuilding, allDataBuilding, project_id, action } =
+    useContextProjeto();
   const {
     handleChange,
     listChecked,
     existemRiscosEspeciais,
     handleChangeExisteRisco,
-  } = useRiscosEspeciais(riscosEspeciais);
-
-  const rend = React.useCallback(() => {
-    handleChangeExisteRisco()
-  }, [])
-
-  React.useEffect(() => {
-    // if(listChecked.length === 0) {
-    //   rend()
-    // }
-  },[handleChange])
+  } = useRiscosEspeciais(allDataBuilding.riscosEspeciais);
 
   async function updateRiscosEspeciais() {
-    try{
-      const api = setupAPIClient()
+    try {
+      const api = setupAPIClient();
       await api.put('/project/riscosespeciais', {
-         id: project_id,
-         riscosEspeciais: listChecked,
-      })
-    }catch(err){
+        id: project_id,
+        riscosEspeciais: listChecked,
+      });
+    } catch (err) {
       console.log(err);
     }
   }
@@ -78,11 +69,17 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
             })}
           </Form>
           <div className="mt-4">
-            <ButtonNext onclick={() => {
-              onshow(3)
-              addAllDataBuilding('riscosEspeciais', listChecked)
-              updateRiscosEspeciais()
-            }}/>
+            {action === 'true' ? (
+              <ButtonUpdate handleClick={updateRiscosEspeciais}>Salvar alterações</ButtonUpdate>
+            ) : (
+              <ButtonNext
+                onclick={() => {
+                  onshow(3);
+                  addAllDataBuilding('riscosEspeciais', listChecked);
+                  updateRiscosEspeciais();
+                }}
+              />
+            )}
           </div>
         </div>
       </>

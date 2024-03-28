@@ -14,6 +14,7 @@ interface ProjectProps {
 const ItemProject = ({ id, dados, created_at }: ProjectProps) => {
   const { handleDetailsProject, handleEditProject } = useItemProject();
   const router = useRouter()
+  
   async function deleteProject() {
     try {
       const api = setupAPIClient()

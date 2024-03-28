@@ -10,9 +10,10 @@ let id = 0;
 
 type addRegiaoProps = {
   addRegiao: (dados: dadosProps, ocupacoes: number[][]) => void;
+  closeModal: () => void;
 };
 
-const ModuloOcupacao = ({ addRegiao }: addRegiaoProps) => {
+const ModuloOcupacao = ({ addRegiao, closeModal }: addRegiaoProps) => {
   const [ocupacoes, dispatchOcupacao] = React.useReducer(OcupacaoReducer, []);
   const { dados, setDadosEdificação, resetDadosEdificação } =
     UseDadosEdificação();
@@ -64,7 +65,10 @@ const ModuloOcupacao = ({ addRegiao }: addRegiaoProps) => {
         <div className="border-top pt-3 my-3">
           <button
             className="btn btn-success float-end"
-            onClick={joinOcupacaoes}
+            onClick={() => {
+              joinOcupacaoes();
+              closeModal();
+            }}
           >
             Finalizar Região
           </button>

@@ -5,6 +5,8 @@ import {
   RegiaoReducer,
   RegiaoActionProps,
 } from '../../Components/Regiao-ocupacao/regiaoReducer';
+import { useNiveldeRisco } from '../../Bases/NiveldeRisco/useNiveldeRisco';
+import { cleanNumber } from '../../Bases/formatarNumero';
 
 export type NiveldeRiscoProps = {
   area: string;
@@ -33,46 +35,37 @@ type allDataBuildingProps = {
 type ContextProjetoprops = {
   children: React.ReactNode;
   project: {
-    id: string,
-    dados: informacoesProps,
-    edificacao: RegiaomoduloProps[],
+    id: string;
+    dados: informacoesProps;
+    edificacao: RegiaomoduloProps[];
     riscosEspeciais: string[];
     niveldeRisco: {
       nivel: string;
       props: NiveldeRiscoProps;
     };
     medidasSeguranca: string[];
-  }
-}
+  };
+  action: string | string[] | undefined;
+};
 
 interface ContextProjetoProps {
-  valoresOcupacao: RegiaomoduloProps[];
-  valoresRegiao: (valorRegiao: RegiaomoduloProps[]) => void;
-  informations: informacoesProps;
-  valoresInformacoes: (credentials: informacoesProps) => void;
   addAllDataBuilding: (
-    key: keyof allDataBuildingProps,
+    key: string,
     value:
       | informacoesProps
       | { nivel: string; props: NiveldeRiscoProps }
       | RegiaomoduloProps[]
       | string[]
-      | string,
+      | string
+      | boolean,
   ) => void;
   allDataBuilding: allDataBuildingProps;
-  regioes: RegiaomoduloProps[];
-  dispatchRegioes: React.Dispatch<RegiaoActionProps>;
   project_id: string;
-  riscosEspeciais: string[];
-  nivelRisco: {
-    nivel: string;
-    props: NiveldeRiscoProps;
-  };
-  medidasSeguranca: string[];
+  action: string | string[] | undefined;
 }
 
-export const ProjetoContext = React.createContext<ContextProjetoProps>(
-  {} as ContextProjetoProps,
+export const ProjetoContext = React.createContext<ContextProjetoProps | null>(
+  null,
 );
 
 export const useContextProjeto = () => {
@@ -83,24 +76,42 @@ export const useContextProjeto = () => {
   return context;
 };
 
-export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
-  const [valoresOcupacao, setValoresOcupacao] =
-    React.useState<RegiaomoduloProps[]>();
-  const initialInformations = project?.dados || {} as informacoesProps
-  const [informations, setInformations] = React.useState<informacoesProps>(initialInformations);
+export const ContextProjeto = ({
+  children,
+  project,
+  action,
+}: ContextProjetoprops) => {
   const [allDataBuilding, setAllDataBuilding] =
-    React.useState<allDataBuildingProps>({} as allDataBuildingProps);
-  const initialEdificacao = project?.edificacao || []
-  const [regioes, dispatchRegioes] = React.useReducer(RegiaoReducer, initialEdificacao);
+    React.useState<allDataBuildingProps>({
+      informacoes: project?.dados || ({} as informacoesProps),
+      regioes: project?.edificacao || ([] as RegiaomoduloProps[]),
+      riscosEspeciais: project?.riscosEspeciais || ([] as string[]),
+      niveldeRisco: project?.niveldeRisco || ({nivel: '',
+      props: {
+        area: '',
+        patrimonioHistorico: false,
+        alturaPavimento: false,
+        maisdeCem: false,
+        subsolo: false,
+        liquidoCombustivel: false,
+        gasGLP:  false,
+        empresa: false,
+      }}),
+      medidasSeguranca: project?.medidasSeguranca || ([] as string[]),
+      status: '',
+      observacoes: '',
+    });
+ 
 
   function addAllDataBuilding(
-    key: keyof allDataBuildingProps,
+    key: string,
     value:
       | informacoesProps
       | { nivel: string; props: NiveldeRiscoProps }
       | RegiaomoduloProps[]
       | string[]
-      | string,
+      | string
+      | boolean,
   ) {
     setAllDataBuilding((item) => ({
       ...item,
@@ -108,28 +119,13 @@ export const ContextProjeto = ({ children, project }: ContextProjetoprops) => {
     }));
   }
 
-  function valoresRegiao(valorRegiao: RegiaomoduloProps[]) {
-    setValoresOcupacao(valorRegiao);
-  }
-  function valoresInformacoes(informacoes: informacoesProps) {
-    setInformations(informacoes);
-  }
-
   return (
     <ProjetoContext.Provider
       value={{
-        valoresInformacoes,
-        informations,
-        valoresRegiao,
-        valoresOcupacao,
         addAllDataBuilding,
         allDataBuilding,
-        regioes,
-        dispatchRegioes,
         project_id: project?.id,
-        riscosEspeciais: project?.riscosEspeciais,
-        nivelRisco: project?.niveldeRisco,
-        medidasSeguranca: project?.medidasSeguranca
+        action,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ import {
 import { useContextProjeto } from '../Context/contextProjeto';
 import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 interface pageProps {
   isActive: boolean;
@@ -15,9 +16,9 @@ interface pageProps {
 }
 
 const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
-  const { valoresInformacoes, addAllDataBuilding, informations } =
+  const {addAllDataBuilding, allDataBuilding, action } =
     useContextProjeto();
-  const { handleSubmit, errors, register } = useInformation(informations);
+  const { handleSubmit, errors, register } = useInformation(allDataBuilding.informacoes);
   const router = useRouter()
 
   async function handleUpdateProject(data: informacoesProps) {
@@ -34,8 +35,14 @@ const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
   }
 
   function handleInformations(data: informacoesProps) {
+    if(action === 'true') {
+      handleUpdateProject(data)
+      toast.success('Alterações salvas')
+      router.replace(router.asPath);
+      addAllDataBuilding('informacoes', data);
+      return 
+    }
     addAllDataBuilding('informacoes', data);
-    valoresInformacoes(data); 
     onshow(1);
     handleUpdateProject(data);
   }
@@ -204,7 +211,7 @@ const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
               )}
             </div>
           </div>
-          <ButtonNext type="submit" />
+          {action === 'true' ? <button className="btn btn-success float-end mt-4" type='submit'>Salvar alterações</button> : <ButtonNext type="submit" />}
         </Form>
       </div>
     );
@@ -212,5 +219,4 @@ const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
 };
 
 export default InformacoesProjeto;
-
 

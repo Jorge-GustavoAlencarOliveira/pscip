@@ -41,7 +41,6 @@ const ShowRegioes = ({ regioes, OnDelete }: regiaoProps) => {
                       onClick={() => {
                         OnDelete(selectId);
                         setShowModalDeleteRegiao(false);
-                        console.log(selectId);
                       }}
                       className="btn btn-success"
                     >

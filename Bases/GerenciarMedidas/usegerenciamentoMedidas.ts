@@ -16,6 +16,12 @@ export const useGerenciamentoMedidas = (medidas: string[]) => {
       medida
     })
   }
-  return {modulos, handleAddMedida, handleDeleteMedida}
+  function handleUpdate (medidas: string[]){
+    dispatch({
+      type: 'update',
+      updateMedidas: medidas
+    })
+  }
+  return {modulos, handleAddMedida, handleDeleteMedida, handleUpdate}
 } 
 
