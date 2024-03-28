@@ -4,7 +4,7 @@ import { InputGroup, Table } from 'react-bootstrap';
 
 const Cnae = () => {
   const [query, setQuery] = React.useState('');
-  const { filterCNAE } = useNiveldeRisco({});
+  const { filterCNAE } = useNiveldeRisco();
 
   const [dados, setDados] = React.useState([]);
   const result = filterCNAE(query);
