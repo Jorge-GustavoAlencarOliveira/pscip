@@ -26,7 +26,7 @@ const navLinkActive = {
 }
 
 const ButtonNav = ({ children, onshow, activeIndex, index }: buttonProps) => {
-  const {regioes, addAllDataBuilding, action} = useContextProjeto()
+  const {allDataBuilding, addAllDataBuilding, action} = useContextProjeto()
   const [active, setActive] = React.useState(true)
  
   React.useEffect(() => {
@@ -38,7 +38,7 @@ const ButtonNav = ({ children, onshow, activeIndex, index }: buttonProps) => {
      setActive(true)
      addAllDataBuilding('riscosEspeciais', [])
      addAllDataBuilding('niveldeRisco', {} as {nivel: '', props: NiveldeRiscoProps})     
-  }, [regioes])
+  }, [allDataBuilding.regioes])
   
   return (
     <button
