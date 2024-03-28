@@ -16,7 +16,9 @@ type listaMedidasProps = {
 const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
   const { addAllDataBuilding, project_id, action, allDataBuilding } =
     useContextProjeto();
-  const initialMedidas = !!allDataBuilding.medidasSeguranca.length ? allDataBuilding.medidasSeguranca : medidas;
+  const initialMedidas = !!allDataBuilding.medidasSeguranca.length
+    ? allDataBuilding.medidasSeguranca
+    : medidas;
   const { handleAddMedida, handleDeleteMedida, modulos, handleUpdate } =
     useGerenciamentoMedidas(initialMedidas);
   const [select, setSelect] = React.useState(0);
@@ -26,12 +28,10 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
   async function updateMedidasdeSeguranca() {
     try {
       const api = setupAPIClient();
-      const newMedidas = await api.put('/project/medidasseguranca', {
+      await api.put('/project/medidasseguranca', {
         id: project_id,
         medidasSeguranca: modulos,
       });
-      // handleUpdate(newMedidas.data.medidasSeguranca);
-      // console.log(modulos);
     } catch (err) {
       console.log(err);
     }
@@ -57,18 +57,17 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
         <tbody>
           {modulos.map((item) => {
             return (
-              <tr>
-                <MedidaItem
-                  key={item}
-                  name={item}
-                  onDelete={() => handleDeleteMedida(item)}
-                />
+              <tr key={item}>
+                  <MedidaItem
+                    name={item}
+                    onDelete={() => handleDeleteMedida(item)}
+                  />
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <div>
+      <div className='mt-4'>
         <span className="fw-bold">
           Deseja adicionar alguma medida de segurança?{' '}
         </span>
@@ -93,19 +92,21 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
           </button>
         </div>
       </div>
-      <div className='mt-4'>
+      <div className="mt-4">
         {action === 'true' ? (
-          <ButtonUpdate handleClick={() => {
-            updateMedidasdeSeguranca()
-            addAllDataBuilding('medidasSeguranca', modulos)
-            }}>
+          <ButtonUpdate
+            handleClick={() => {
+              updateMedidasdeSeguranca();
+              addAllDataBuilding('medidasSeguranca', modulos);
+            }}
+          >
             Salvar alterações
           </ButtonUpdate>
         ) : (
           <ButtonNext
             onclick={() => {
               onshow();
-              addAllDataBuilding('medidasSeguranca', modulos)
+              addAllDataBuilding('medidasSeguranca', modulos);
               updateMedidasdeSeguranca();
             }}
           />

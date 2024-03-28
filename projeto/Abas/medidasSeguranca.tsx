@@ -9,8 +9,8 @@ interface pageProps {
 
 const MedidasSeguranca = ({ isActive, onshow }: pageProps) => {
 
-  const { allDataBuilding } = useContextProjeto();
-  const medidas = medidasdeSegurancaMinimas(allDataBuilding.regioes);
+  const { allDataBuilding: {regioes} } = useContextProjeto();
+  const medidas = medidasdeSegurancaMinimas(regioes);
   
   if (isActive)
     return (

@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes } from 'react';
 import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
 import { cleanNumberInteiro } from '../../Bases/formatarNumero';
@@ -11,31 +11,40 @@ interface pageProps {
 }
 
 const DimensionamentoMedidasDeSeguranca = ({ isActive, onshow }: pageProps) => {
-  const {allDataBuilding: {regioes}} = useContextProjeto()
-  if(isActive && regioes){
-    const altura = cleanNumberInteiro(regioes[0].dados[0].altura) 
-    const areaTotal = regioes[0].dados[0].areaTotal
-  return (
-    <div>
+  const {
+    allDataBuilding: { regioes, medidasSeguranca },
+  } = useContextProjeto();
+  if (isActive && regioes && medidasSeguranca) {
+    const altura = cleanNumberInteiro(regioes[0].dados[0].altura);
+    const areaTotal = regioes[0].dados[0].areaTotal;
+    return (
       <div>
-        <h4 className='text-primary'>Dimensionamento das medidas segurança</h4>
-         <span>Dimensione cada medida de segurança individualmente.</span>
+        <div>
+          <h4 className="text-primary">
+            Dimensionamento das medidas segurança
+          </h4>
+          <span>Dimensione cada medida de segurança individualmente.</span>
+        </div>
+        <div className="my-4">
+          {medidasSeguranca?.map((item, index) => {
+            return (
+              <Accordion key={index} title={item}>
+                {DimensionarMedida({
+                  medida: item,
+                  altura,
+                  divisao: regioes[0].dados[1][0],
+                  areaTotal,
+                  ocupacoes: regioes[0].dados[1],
+                })}
+              </Accordion>
+            );
+          })}
+        </div>
+        <ButtonNext onclick={() => onshow(6)} />
       </div>
-      <div className="my-4">
-      
-      </div>
-      <ButtonNext onclick={() => onshow(6)}/>
-    </div>
-  )}
-  return null
-}
+    );
+  }
+  return null;
+};
 
-export default DimensionamentoMedidasDeSeguranca
-
-// {medidasSeguranca?.map((item, index) => {
-//   return (
-//     <Accordion key={index} title={item}>
-//       {/* {DimensionarMedida({ medida: item, altura, divisao: regioes[0].dados[1][0], areaTotal, ocupacoes: regioes[0].dados[1] })} */}
-//     </Accordion>
-//   );
-// })}
+export default DimensionamentoMedidasDeSeguranca;

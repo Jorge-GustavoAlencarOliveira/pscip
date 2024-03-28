@@ -6,7 +6,7 @@ import ButtonNext from '../Navbar/buttonNext';
 import { useContextProjeto } from '../Context/contextProjeto';
 import { setupAPIClient } from '@/services/api';
 import { ButtonUpdate } from '../../Components/UI/buttonUpdate';
-import { cleanNumber, cleanNumberInteiro } from '../../Bases/formatarNumero';
+import {cleanNumberInteiro } from '../../Bases/formatarNumero';
 
 interface pageProps {
   isActive: boolean;
@@ -14,45 +14,44 @@ interface pageProps {
 }
 
 const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
-  const { addAllDataBuilding, allDataBuilding, project_id, action } =
+  const { addAllDataBuilding, allDataBuilding: {niveldeRisco, regioes}, project_id, action } =
     useContextProjeto();
   const { niveldeRiscoChecked } = useNiveldeRisco();
   const [showModal, setShowModal] = React.useState(false);
-  console.log(allDataBuilding.niveldeRisco.props);
-  const niveldeRisco = niveldeRiscoChecked(allDataBuilding.niveldeRisco.props);
 
   const [niveldeRiscoDados, setNiveldeRiscoDados] = React.useState({
     area: '',
     patrimonioHistorico:
-      allDataBuilding.niveldeRisco?.props?.patrimonioHistorico || false,
+      niveldeRisco?.props?.patrimonioHistorico || false,
     alturaPavimento: false,
-    maisdeCem: allDataBuilding.niveldeRisco?.props?.maisdeCem || false,
-    subsolo: allDataBuilding.niveldeRisco?.props?.subsolo || false,
+    maisdeCem: niveldeRisco?.props?.maisdeCem || false,
+    subsolo: niveldeRisco?.props?.subsolo || false,
     liquidoCombustivel:
-      allDataBuilding.niveldeRisco?.props?.liquidoCombustivel || false,
-    gasGLP: allDataBuilding.niveldeRisco?.props?.gasGLP || false,
-    empresa: allDataBuilding.niveldeRisco?.props?.empresa || false,
+      niveldeRisco?.props?.liquidoCombustivel || false,
+    gasGLP: niveldeRisco?.props?.gasGLP || false,
+    empresa: niveldeRisco?.props?.empresa || false,
   });
 
   function definedArea(area: number) {
-    if (area <= 200){
-      console.log('foi');
+    if (area <= 200) {
       return setNiveldeRiscoDados((item) => ({
         ...item,
         area: 'menos que 200',
-      }));}
-    else if (area > 200 && area <= 930){
-      console.log('foi');
+      }));
+    } 
+    if ((area > 200) && (area <= 930)) {
       return setNiveldeRiscoDados((item) => ({
         ...item,
         area: 'entre 200 e 930',
-      }));}
-    else if (area > 930){
-      console.log('foi');
-      return setNiveldeRiscoDados((item) => ({ ...item, area: 'mais de 930' }))}
+      }));
+    } 
+    if (area > 930) {
+      return setNiveldeRiscoDados((item) => ({ ...item, area: 'mais de 930' }));
+    }
+    else return console.log('dado incorreto');
   }
 
-  function defidedAlturaPavimento(pavimentos: number, altura: number) {
+  function definedAlturaPavimento(pavimentos: number, altura: number) {
     if (pavimentos > 3 || altura > 12) {
       return setNiveldeRiscoDados((item) => ({
         ...item,
@@ -66,14 +65,14 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
   }
 
   React.useEffect(() => {
-    if (allDataBuilding.regioes[0]?.dados[0]) {
+    if (regioes[0]?.dados[0]) {
       const { areaTotal, pavimentos, altura } =
-        allDataBuilding.regioes[0].dados[0];
-      defidedAlturaPavimento(
+        regioes[0].dados[0];
+      definedAlturaPavimento(
         cleanNumberInteiro(pavimentos),
         cleanNumberInteiro(altura),
       );
-      definedArea(cleanNumber(areaTotal.toString()));
+      definedArea(cleanNumberInteiro(areaTotal.toString()));
     }
   }, [, addAllDataBuilding]);
 
@@ -83,7 +82,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
       await api.put('/project/nivelrisco', {
         id: project_id,
         nivelRisco: {
-          nivel: niveldeRisco,
+          nivel: niveldeRiscoChecked(niveldeRiscoDados),
           props: niveldeRiscoDados,
         },
       });
@@ -178,7 +177,6 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
               }))
             }
             checked={niveldeRiscoDados?.maisdeCem}
-
           />
           <label htmlFor="maisdeCem">
             Edificação ou espaço destinado ao uso coletivo com lotação superior
@@ -196,7 +194,6 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
               }))
             }
             checked={niveldeRiscoDados?.subsolo}
-
           />
           <label htmlFor="subsolo">
             Edificação em que o subsolo possua qualquer atividade ou uso
@@ -231,7 +228,6 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
               }))
             }
             checked={niveldeRiscoDados?.gasGLP}
-
           />
           <label htmlFor="gasGLP">
             Armazenamento de gás liquefeito de petróleo (GLP) em quantidade
@@ -266,15 +262,16 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
           <span
             style={{
               color: `${
-                niveldeRisco === 'Nível de Risco I'
+                niveldeRiscoChecked(niveldeRiscoDados) === 'Nível de Risco I'
                   ? '#65ad45'
-                  : niveldeRisco === 'Nível de Risco II'
+                  : niveldeRiscoChecked(niveldeRiscoDados) ===
+                    'Nível de Risco II'
                   ? '#c9a916'
                   : '#b02712'
               }`,
             }}
           >
-            {niveldeRisco}
+            {niveldeRiscoChecked(niveldeRiscoDados)}
           </span>
         </div>
         <ModalCenter
@@ -294,7 +291,7 @@ const NivelDeRisco = ({ isActive, onshow }: pageProps) => {
             <ButtonNext
               onclick={() => {
                 addAllDataBuilding('niveldeRisco', {
-                  nivel: niveldeRisco,
+                  nivel: niveldeRiscoChecked(niveldeRiscoDados),
                   props: niveldeRiscoDados,
                 });
                 updateNiveldeRisco();

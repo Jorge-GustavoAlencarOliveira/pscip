@@ -16,7 +16,6 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
       const api = setupAPIClient()
       const user = await api.post('/project')
       router.push(`/projeto/${user.data.id}`)
-      toast.success('Projeto criado com sucesso')
     }catch(err){
       console.log(err);
     }

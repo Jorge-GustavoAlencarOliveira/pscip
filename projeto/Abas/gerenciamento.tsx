@@ -10,14 +10,12 @@ interface pageProps {
 const GerenciamentoProjeto = ({ isActive }: pageProps) => {
   const { status, setStatusSelect, statusSelect, observation, setObservation } =
     useGerenciamento();
-  const { addAllDataBuilding } = useContextProjeto();
+  const { addAllDataBuilding, allDataBuilding } = useContextProjeto();
   const [showModal, setShowModal] = React.useState(false);
 
   React.useEffect(() => {
-    if (addAllDataBuilding) {
       addAllDataBuilding('status', status[statusSelect]);
       addAllDataBuilding('observacoes', observation);
-    }
   }, [statusSelect, observation]);
 
   if (isActive)
