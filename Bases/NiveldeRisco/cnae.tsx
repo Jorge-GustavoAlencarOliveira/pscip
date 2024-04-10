@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNiveldeRisco } from './useNiveldeRisco';
 import { InputGroup, Table } from 'react-bootstrap';
+import { NiveldeRiscoProps } from '../../projeto/Context/contextProjeto';
 
 const Cnae = () => {
   const [query, setQuery] = React.useState('');
-  const { filterCNAE } = useNiveldeRisco();
+  const { filterCNAE } = useNiveldeRisco({} as NiveldeRiscoProps);
 
   const [dados, setDados] = React.useState([]);
   const result = filterCNAE(query);
