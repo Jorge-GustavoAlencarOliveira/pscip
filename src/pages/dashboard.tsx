@@ -3,22 +3,21 @@ import Meusprojetos from '../../Components/MeusProjetos/meusProjetos';
 import canSSRAuth from './utils/canSSRAuth';
 import { setupAPIClient } from '@/services/api';
 import { informacoesProps } from '../../Components/Hooks/useDados';
+import { allDataBuildingProps } from '../../projeto/Context/contextProjeto';
 
-interface ListProjectsProps {
-  id: string;
+type ListProjectsProps = {
   created_at: string;
-  status: boolean;
   dados: informacoesProps;
-}
+  id: string
+} & allDataBuildingProps
 
 export type MyprojectsProps = {
   projects: ListProjectsProps[];
   count: number;
 };
 
-
-
 export default function Home({ projects, count }: MyprojectsProps) {
+  console.log(projects);
   return (
     <>
       <Layout>
@@ -44,11 +43,5 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     };
   } catch (err) {
     console.log(err);
-    return {
-      redirect: {
-        destination: '/login/signin',
-        permanent: false,
-      },
-    };
   }
 });

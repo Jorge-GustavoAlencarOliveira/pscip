@@ -4,9 +4,9 @@ import { useGerenciamentoMedidas } from './usegerenciamentoMedidas';
 import { Table } from 'react-bootstrap';
 import { TabelasQuadro } from '../../QuadroInformativo/MedidasTabela';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
-import { setupAPIClient } from '@/services/api';
 import ButtonNext from '../../projeto/Navbar/buttonNext';
 import { ButtonUpdate } from '../../Components/UI/buttonUpdate';
+import { updateMedidasdeSeguranca } from '../../actions/actions';
 
 type listaMedidasProps = {
   medidas: string[];
@@ -17,26 +17,16 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
   const { addAllDataBuilding, project_id, action, allDataBuilding } =
     useContextProjeto();
   const initialMedidas = !!allDataBuilding.medidasSeguranca.length
-    ? allDataBuilding.medidasSeguranca
-    : medidas;
+  ? allDataBuilding.medidasSeguranca
+  : medidas;
+  console.log(initialMedidas);
   const { handleAddMedida, handleDeleteMedida, modulos, handleUpdate } =
     useGerenciamentoMedidas(initialMedidas);
   const [select, setSelect] = React.useState(0);
   const { medidas: listaMedidas } = TabelasQuadro();
   const [medidasSelecionaveis, setMedidasSelecionaveis] = React.useState([]);
 
-  async function updateMedidasdeSeguranca() {
-    try {
-      const api = setupAPIClient();
-      await api.put('/project/medidasseguranca', {
-        id: project_id,
-        medidasSeguranca: modulos,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
+  console.log(modulos);
   React.useEffect(() => {
     setMedidasSelecionaveis([]);
     listaMedidas.map((item) => {
@@ -55,7 +45,7 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
           </tr>
         </thead>
         <tbody>
-          {modulos.map((item) => {
+          {modulos?.map((item) => {
             return (
               <tr key={item}>
                   <MedidaItem
@@ -96,7 +86,7 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
         {action === 'true' ? (
           <ButtonUpdate
             handleClick={() => {
-              updateMedidasdeSeguranca();
+              updateMedidasdeSeguranca(project_id, modulos);
               addAllDataBuilding('medidasSeguranca', modulos);
             }}
           >
@@ -107,7 +97,7 @@ const ListaMedidas = ({ medidas, onshow }: listaMedidasProps) => {
             onclick={() => {
               onshow();
               addAllDataBuilding('medidasSeguranca', modulos);
-              updateMedidasdeSeguranca();
+              updateMedidasdeSeguranca(project_id, modulos);
             }}
           />
         )}

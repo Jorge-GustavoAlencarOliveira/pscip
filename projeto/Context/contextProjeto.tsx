@@ -2,11 +2,8 @@ import React from 'react';
 import { informacoesProps } from '../../Components/Hooks/useDados';
 import {
   RegiaomoduloProps,
-  RegiaoReducer,
-  RegiaoActionProps,
 } from '../../Components/Regiao-ocupacao/regiaoReducer';
-import { useNiveldeRisco } from '../../Bases/NiveldeRisco/useNiveldeRisco';
-import { cleanNumber } from '../../Bases/formatarNumero';
+import { moduloPropsGerenciamento } from '../../Components/Hooks/useGerenciamento';
 
 export type NiveldeRiscoProps = {
   area: string;
@@ -19,7 +16,7 @@ export type NiveldeRiscoProps = {
   empresa: boolean;
 };
 
-type allDataBuildingProps = {
+export type allDataBuildingProps = {
   informacoes: informacoesProps;
   regioes: RegiaomoduloProps[];
   riscosEspeciais: string[];
@@ -28,8 +25,10 @@ type allDataBuildingProps = {
     props: NiveldeRiscoProps;
   };
   medidasSeguranca: string[];
-  status: string;
-  observacoes: string;
+  gerenciamento: {
+    status: number;
+    observacoes: moduloPropsGerenciamento[];
+  };
 };
 
 type ContextProjetoprops = {
@@ -44,6 +43,10 @@ type ContextProjetoprops = {
       props: NiveldeRiscoProps;
     };
     medidasSeguranca: string[];
+    gerenciamento: {
+      status: number;
+      observacoes: moduloPropsGerenciamento[];
+    };
   };
   action: string | string[] | undefined;
 };
@@ -57,7 +60,8 @@ interface ContextProjetoProps {
       | RegiaomoduloProps[]
       | string[]
       | string
-      | boolean,
+      | boolean
+      | { status: number; observacoes: moduloPropsGerenciamento[] }
   ) => void;
   allDataBuilding: allDataBuildingProps;
   project_id: string;
@@ -86,22 +90,27 @@ export const ContextProjeto = ({
       informacoes: project?.dados || ({} as informacoesProps),
       regioes: project?.edificacao || ([] as RegiaomoduloProps[]),
       riscosEspeciais: project?.riscosEspeciais || ([] as string[]),
-      niveldeRisco: project?.niveldeRisco || ({nivel: '',
-      props: {
-        area: '',
-        patrimonioHistorico: false,
-        alturaPavimento: false,
-        maisdeCem: false,
-        subsolo: false,
-        liquidoCombustivel: false,
-        gasGLP:  false,
-        empresa: false,
-      }}),
+      niveldeRisco: project?.niveldeRisco || {
+        nivel: '',
+        props: {
+          area: '',
+          patrimonioHistorico: false,
+          alturaPavimento: false,
+          maisdeCem: false,
+          subsolo: false,
+          liquidoCombustivel: false,
+          gasGLP: false,
+          empresa: false,
+        },
+      },
       medidasSeguranca: project?.medidasSeguranca || ([] as string[]),
-      status: '',
-      observacoes: '',
+      gerenciamento: {
+        status: project?.gerenciamento?.status || 0,
+        observacoes: project?.gerenciamento?.observacoes || [] as moduloPropsGerenciamento[],
+      },
     });
- 
+
+  console.log(allDataBuilding);
 
   function addAllDataBuilding(
     key: string,
@@ -111,7 +120,8 @@ export const ContextProjeto = ({
       | RegiaomoduloProps[]
       | string[]
       | string
-      | boolean,
+      | boolean
+      | { status: number; observacoes: moduloPropsGerenciamento[] },
   ) {
     setAllDataBuilding((item) => ({
       ...item,

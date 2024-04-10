@@ -6,37 +6,23 @@ import {
   useInformation,
 } from '../../Components/Hooks/useDados';
 import { useContextProjeto } from '../Context/contextProjeto';
-import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-
+import { handleUpdateProject } from '../../actions/actions';
 interface pageProps {
   isActive: boolean;
   onshow: (index: number) => void;
 }
 
 const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
-  const {addAllDataBuilding, allDataBuilding, action } =
+  const {addAllDataBuilding, allDataBuilding: {informacoes}, action } =
     useContextProjeto();
-  const { handleSubmit, errors, register } = useInformation(allDataBuilding.informacoes);
+  const { handleSubmit, errors, register } = useInformation(informacoes);
   const router = useRouter()
-
-  async function handleUpdateProject(data: informacoesProps) {
-    try {
-      const api = setupAPIClient()
-      await api.put('/project/informacoes', {
-        dados: data,
-        id: router.query.id,
-        status: true
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   function handleInformations(data: informacoesProps) {
     if(action === 'true') {
-      handleUpdateProject(data)
+      handleUpdateProject(data, router.query.id as string)
       toast.success('Alterações salvas')
       router.replace(router.asPath);
       addAllDataBuilding('informacoes', data);
@@ -44,7 +30,7 @@ const InformacoesProjeto = ({ isActive, onshow}: pageProps) => {
     }
     addAllDataBuilding('informacoes', data);
     onshow(1);
-    handleUpdateProject(data);
+    handleUpdateProject(data, router.query.id as string);
   }
 
   if (isActive) {

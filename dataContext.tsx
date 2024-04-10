@@ -14,7 +14,6 @@ import { destroyCookie, parseCookies, setCookie } from 'nookies';
 import { setupAPIClient } from '@/services/api';
 import { informacoesProps } from './Components/Hooks/useDados';
 import { RegiaomoduloProps } from './Components/Regiao-ocupacao/regiaoReducer';
-import { api } from '@/services/apiClient';
 // const provider = new GoogleAuthProvider();
 
 // const auth = getAuth(app);
@@ -96,6 +95,7 @@ const DataContext = ({ children }: ProviderProps) => {
   React.useEffect(() => {
     async function checkLogin() {
       const { '@pscip.token': token } = parseCookies();
+      const api = setupAPIClient()
       if (token) {
         await api
           .get('/me')
@@ -122,6 +122,7 @@ const DataContext = ({ children }: ProviderProps) => {
 
   const userLogin = async ({ email, password }: LoginProps) => {
     try {
+      const api = setupAPIClient()
       const response = await api.post('/session', {
         email,
         password,

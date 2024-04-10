@@ -5,13 +5,16 @@ import { informacoesProps } from '../Hooks/useDados';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { statusList } from '../Hooks/useGerenciamento';
+
 interface ProjectProps {
   id: string;
   created_at: string;
   dados: informacoesProps;
+  status: number
 }
 
-const ItemProject = ({ id, dados, created_at }: ProjectProps) => {
+const ItemProject = ({ id, dados, created_at, status }: ProjectProps) => {
   const { handleDetailsProject, handleEditProject } = useItemProject();
   const router = useRouter()
   
@@ -65,7 +68,7 @@ const ItemProject = ({ id, dados, created_at }: ProjectProps) => {
         <span>{dateTreament(created_at)}</span>
       </td>
       <td className="text-center" style={{ width: '25%' }}>
-        <span>Aprovado em análise</span>
+        <span>{statusList[status]}</span>
       </td>
       <td style={{ width: '5%' }}>
         <Dropdown drop="start">

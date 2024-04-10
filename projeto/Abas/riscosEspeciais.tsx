@@ -7,6 +7,7 @@ import { useRiscosEspeciais } from '../../Bases/RiscosEspeciais/useRiscosEspecia
 import { useContextProjeto } from '../Context/contextProjeto';
 import { setupAPIClient } from '@/services/api';
 import { ButtonUpdate } from '../../Components/UI/buttonUpdate';
+import { updateRiscosEspeciais } from '../../actions/actions';
 
 interface pageProps {
   isActive: boolean;
@@ -22,18 +23,6 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
     existemRiscosEspeciais,
     handleChangeExisteRisco,
   } = useRiscosEspeciais(allDataBuilding.riscosEspeciais);
-
-  async function updateRiscosEspeciais() {
-    try {
-      const api = setupAPIClient();
-      await api.put('/project/riscosespeciais', {
-        id: project_id,
-        riscosEspeciais: listChecked,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   if (isActive) {
     return (
@@ -70,13 +59,13 @@ const RiscosEspeciais = ({ isActive, onshow }: pageProps) => {
           </Form>
           <div className="mt-4">
             {action === 'true' ? (
-              <ButtonUpdate handleClick={updateRiscosEspeciais}>Salvar alterações</ButtonUpdate>
+              <ButtonUpdate handleClick={() => updateRiscosEspeciais(project_id, listChecked)}>Salvar alterações</ButtonUpdate>
             ) : (
               <ButtonNext
                 onclick={() => {
                   onshow(3);
                   addAllDataBuilding('riscosEspeciais', listChecked);
-                  updateRiscosEspeciais();
+                  updateRiscosEspeciais(project_id, listChecked);
                 }}
               />
             )}

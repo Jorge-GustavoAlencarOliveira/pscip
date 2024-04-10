@@ -1,14 +1,13 @@
 import React from 'react';
 import ModuloOcupacao from './moduloOcupacao';
-import { dadosProps } from '../Hooks/useDados';
 import ShowRegioes from './showRegioes';
 import ModalCenter from '../Modal/Modal';
 import { useContextProjeto } from '../../projeto/Context/contextProjeto';
-import { setupAPIClient } from '@/services/api';
 import { ButtonUpdate } from '../UI/buttonUpdate';
 import { medidasdeSegurancaMinimas } from '../../Bases/GerenciarMedidas/medidasMinimas';
 import { useRegiao } from './useRegiao';
-
+import { updateEdificacao } from '../../actions/actions';
+import { updateMedidasdeSeguranca } from '../../actions/actions';
 type ModuloRegiaoProps = {
   onShow: () => void;
 };
@@ -22,40 +21,12 @@ const ModuloRegiao = ({ onShow }: ModuloRegiaoProps) => {
     allDataBuilding
   } = useContextProjeto();
   const {regioes, handleAddRegiao, handleDeleteRegiao} = useRegiao(allDataBuilding.regioes)
-
-  async function updateEdificacao() {
-    try {
-      const api = setupAPIClient();
-      await api.put('/project/edificacao', {
-        id: project_id,
-        edificacao: regioes,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function updateMedidasdeSeguranca() {
-    const medidas = medidasdeSegurancaMinimas(regioes);
-    try {
-      const api = setupAPIClient();
-      await api.put('/project/medidasseguranca', {
-        id: project_id,
-        medidasSeguranca: medidas[0],
-      });
-      addAllDataBuilding('medidasSeguranca', medidas[0])
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  
+  const medidas = medidasdeSegurancaMinimas(regioes);
 
   function handleNext() {
-    // valoresRegiao(regioes);
     addAllDataBuilding('regioes', regioes);
     onShow();
-    updateEdificacao();
+    updateEdificacao(project_id, regioes);
   }
 
   return (
@@ -98,9 +69,10 @@ const ModuloRegiao = ({ onShow }: ModuloRegiaoProps) => {
         {action === 'true' ? (
           <ButtonUpdate
             handleClick={() => {
-              updateEdificacao();
-              updateMedidasdeSeguranca()
+              updateEdificacao(project_id, regioes);
               addAllDataBuilding('regioes', regioes);
+              addAllDataBuilding('medidasSeguranca', medidas[0])
+              updateMedidasdeSeguranca(project_id, medidas[0])
             }}
           >
             Salvar alterações
@@ -110,7 +82,7 @@ const ModuloRegiao = ({ onShow }: ModuloRegiaoProps) => {
             className="btn btn-primary float-end"
             disabled={regioes.length === 0 ? true : false}
             onClick={() => {
-              handleNext(), addAllDataBuilding('regioes', regioes);
+              handleNext();
             }}
           >
             Proximo

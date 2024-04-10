@@ -61,6 +61,7 @@ const Meusprojetos = ({ projects, count: projectsNumber }: MyprojectsProps) => {
                     dados={item.dados}
                     id={item.id}
                     created_at={item.created_at}
+                    status={item.gerenciamento?.status}
                   />
                 );
               })}

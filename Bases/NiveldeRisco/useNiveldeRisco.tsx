@@ -1,4 +1,5 @@
 import { CNAE } from './cnaeTabela';
+import React from 'react';
 
 type NiveldeRiscoProps = {
   area: string;
@@ -12,7 +13,7 @@ type NiveldeRiscoProps = {
 };
 
 
-export function useNiveldeRisco() {
+export function useNiveldeRisco(list: NiveldeRiscoProps) {
   function niveldeRiscoChecked(form: NiveldeRiscoProps) {
     if(!form) return
     Object.values(form);
@@ -27,6 +28,49 @@ export function useNiveldeRisco() {
     else return 'Não encontrado';
   }
 
+
+  const [niveldeRiscoDados, setNiveldeRiscoDados] = React.useState({
+    area: '',
+    patrimonioHistorico: list?.patrimonioHistorico || false,
+    alturaPavimento: false,
+    maisdeCem: list?.maisdeCem || false,
+    subsolo: list?.subsolo || false,
+    liquidoCombustivel: list?.liquidoCombustivel || false,
+    gasGLP: list?.gasGLP || false,
+    empresa: list?.empresa || false,
+  });
+
+  function definedArea(area: number) {
+    if (area <= 200) {
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        area: 'menos que 200',
+      }));
+    }
+    if (area > 200 && area <= 930) {
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        area: 'entre 200 e 930',
+      }));
+    }
+    if (area > 930) {
+      return setNiveldeRiscoDados((item) => ({ ...item, area: 'mais de 930' }));
+    } else return console.log('dado incorreto');
+  }
+
+  function definedAlturaPavimento(pavimentos: number, altura: number) {
+    if (pavimentos > 3 || altura > 12) {
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        alturaPavimento: true,
+      }));
+    } else
+      return setNiveldeRiscoDados((item) => ({
+        ...item,
+        alturaPavimento: false,
+      }));
+  }
+
   
 
   const filterCNAE = (query: string) => {
@@ -39,6 +83,10 @@ export function useNiveldeRisco() {
   return {
     niveldeRiscoChecked,
     filterCNAE,
+    definedAlturaPavimento,
+    definedArea,
+    niveldeRiscoDados,
+    setNiveldeRiscoDados
   };
 }
 
